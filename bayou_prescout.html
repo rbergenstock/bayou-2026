@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BombsAway — Bayou Regional Pre-Scout</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0D0D1A;color:#E0E0E0;font-family:'Source Sans 3',sans-serif;font-size:15px}
+h1,h2,h3,.stat-val,.tier-label{font-family:'Oswald',sans-serif}
+a{color:#C9A84C;text-decoration:none}
+
+.header{background:#2A2957;padding:20px 24px;border-bottom:3px solid #C9A84C;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.header h1{color:#C9A84C;font-size:28px;letter-spacing:1px}
+.header .sub{color:#aaa;font-size:14px}
+.header .event-info{color:#fff;font-size:14px;text-align:right}
+
+.stats-bar{display:flex;gap:0;background:#1A1A2E;border-bottom:1px solid #333}
+.stat-box{flex:1;text-align:center;padding:16px 8px;border-right:1px solid #333}
+.stat-box:last-child{border-right:none}
+.stat-val{font-size:32px;color:#C9A84C;font-weight:700}
+.stat-label{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+
+.controls{padding:16px 24px;background:#12122a;display:flex;gap:12px;flex-wrap:wrap;align-items:center;border-bottom:1px solid #333}
+.controls label{color:#aaa;font-size:13px}
+.controls select,.controls input{background:#1A1A2E;color:#fff;border:1px solid #444;padding:8px 12px;border-radius:4px;font-size:14px;font-family:'Source Sans 3',sans-serif}
+.controls select:focus,.controls input:focus{outline:none;border-color:#C9A84C}
+.btn{background:#2A2957;color:#C9A84C;border:1px solid #C9A84C;padding:8px 16px;border-radius:4px;cursor:pointer;font-family:'Oswald',sans-serif;font-size:14px;letter-spacing:0.5px}
+.btn:hover{background:#C9A84C;color:#0D0D1A}
+.btn.active{background:#C9A84C;color:#0D0D1A}
+
+.content{padding:20px 24px}
+
+.tier-section{margin-bottom:28px}
+.tier-header{display:flex;align-items:center;gap:10px;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #333}
+.tier-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0}
+.tier-label{font-size:20px;color:#fff;font-weight:600}
+.tier-count{color:#888;font-size:14px;margin-left:auto}
+
+.team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:10px}
+.team-card{background:#1A1A2E;border:1px solid #2a2a40;border-radius:6px;padding:14px 16px;display:flex;align-items:flex-start;gap:12px;transition:border-color 0.2s}
+.team-card:hover{border-color:#C9A84C;transform:scale(2);transition:all 0.2s;z-index:10;position:relative;box-shadow:0 8px 32px rgba(0,0,0,0.7)}
+a .team-card{cursor:pointer;transform-origin:center center}
+.team-card.has-opr{border-left:3px solid #4CAF50}
+.team-card.rookie{border-left:3px solid #FF9800}
+
+.team-num{font-family:'Oswald',sans-serif;font-size:36px;color:#C9A84C;font-weight:700;line-height:1;min-width:65px}
+.team-info{flex:1}
+.team-name{font-size:20px;font-weight:700;color:#fff;line-height:1.2}
+.team-loc{font-size:14px;color:#888;margin-top:2px;font-weight:600}
+.team-meta{display:flex;gap:12px;margin-top:6px;flex-wrap:wrap}
+.team-tag{font-size:13px;padding:3px 10px;border-radius:10px;background:#2A2957;color:#aaa;font-weight:600}
+.team-tag.vet{background:#1b3a1b;color:#4CAF50}
+.team-tag.exp{background:#2a2a00;color:#C9A84C}
+.team-tag.new{background:#3a2200;color:#FF9800}
+.team-tag.rookie26{background:#3a0000;color:#F44336}
+.team-tag.opr{background:#0d2d0d;color:#4CAF50;font-weight:700;font-size:14px}
+.team-tag.arli{background:#2A2957;color:#C9A84C;font-weight:700}
+
+.opr-bar{margin-top:6px;height:8px;background:#222;border-radius:3px;overflow:hidden}
+.opr-fill{height:100%;border-radius:3px;transition:width 0.5s}
+.intel-note{margin-top:6px;font-size:14px;color:#aaa;font-style:italic;line-height:1.3;border-top:1px solid #2a2a40;padding-top:5px;font-weight:600}
+
+.print-section{display:none}
+
+/* Checklist styles */
+.checklist{width:100%}
+.checklist table{width:100%;border-collapse:collapse;font-size:13px}
+.checklist th{background:#2A2957;color:#C9A84C;padding:8px 12px;text-align:left;font-family:'Oswald',sans-serif;font-size:14px;position:sticky;top:0}
+.checklist td{padding:6px 12px;border-bottom:1px solid #222}
+.checklist tr:hover{background:#1A1A2E}
+.checklist .priority-1{color:#F44336;font-weight:600}
+.checklist .priority-2{color:#FF9800;font-weight:600}
+.checklist .priority-3{color:#C9A84C}
+.checklist .priority-4{color:#4CAF50}
+.checkbox{width:18px;height:18px;accent-color:#C9A84C}
+
+.view-toggle{display:flex;gap:0;margin-bottom:0}
+.view-btn{padding:10px 20px;background:#1A1A2E;color:#888;border:1px solid #333;cursor:pointer;font-family:'Oswald',sans-serif;font-size:14px}
+.view-btn:first-child{border-radius:4px 0 0 4px}
+.view-btn:last-child{border-radius:0 4px 4px 0}
+.view-btn.active{background:#C9A84C;color:#0D0D1A;border-color:#C9A84C}
+
+.notes-box{font-family:'Source Sans 3',sans-serif;background:#1A1A2E;border:1px solid #333;color:#E0E0E0;padding:12px;border-radius:4px;margin-top:16px;font-size:14px;line-height:1.6}
+.notes-box h3{color:#C9A84C;margin-bottom:8px}
+
+@media print{
+  body{background:#fff;color:#000}
+  .header{background:#2A2957;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .controls,.stats-bar{display:none}
+  .team-card{border:1px solid #ccc;break-inside:avoid}
+  .team-num{color:#2A2957}
+  .team-name{color:#000}
+  .print-section{display:block}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>💣 BOMBSAWAY — BAYOU REGIONAL PRE-SCOUT</h1>
+    <div class="sub">Intelligence Report | Generated March 23, 2026</div>
+  </div>
+  <div class="event-info">
+    <div><strong>April 1–4, 2026</strong></div>
+    <div>Pontchartrain Center, Kenner, LA</div>
+    <div>Event Code: 2026lake</div>
+  </div>
+</div>
+
+<div class="stats-bar" id="statsBar"></div>
+
+<div class="controls">
+  <div class="view-toggle">
+    <div class="view-btn active" onclick="setView('cards')">📊 Cards</div>
+    <div class="view-btn" onclick="setView('checklist')">📋 Checklist</div>
+  </div>
+  <label>Filter:</label>
+  <select id="tierFilter" onchange="render()">
+    <option value="all">All Teams (54)</option>
+    <option value="tier1">🔴 Tier 1 — Veterans</option>
+    <option value="tier2">🟡 Tier 2 — Contenders</option>
+    <option value="tier3">🟢 Tier 3 — Unknowns</option>
+    <option value="arli">⭐ ARLI Overlap</option>
+    <option value="opr">📊 Has ARLI OPR</option>
+    <option value="hasdata">✅ Has 2026 Data</option>
+    <option value="nodata">⚠️ No 2026 Data</option>
+    <option value="winners">🏆 Event Winners</option>
+    <option value="top10">🔥 Top 10 OPR</option>
+    <option value="captains">🤝 Alliance Captain Candidates</option>
+    <option value="warnings">⚠️ Warnings/Traps</option>
+  </select>
+  <input type="text" id="search" placeholder="Search team # or name..." oninput="render()">
+  <button class="btn" onclick="window.print()">🖨️ Print</button>
+  <a id="formLink" href="#" target="_blank" class="btn" style="background:#4CAF50;color:#fff;border-color:#4CAF50;font-size:16px;padding:10px 20px;text-decoration:none;margin-left:auto">🎯 SCOUT A TEAM</a>
+</div>
+
+<div class="content" id="content"></div>
+
+<script>
+// ⚠️ PASTE YOUR GOOGLE FORM URL HERE
+const FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdxsH69M1qIb4EMgM-Js_XNYqb6C0MQbQ_GXYKiKGZ-JfcKtg/viewform?usp=header';
+// Example: const FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQ.../viewform';
+
+// Set up the Scout button
+document.addEventListener('DOMContentLoaded', function() {
+  const link = document.getElementById('formLink');
+  if (FORM_URL && FORM_URL !== 'PASTE_YOUR_FORM_URL_HERE') {
+    link.href = FORM_URL;
+  } else {
+    link.style.background = '#555';
+    link.style.borderColor = '#555';
+    link.onclick = function(e) { e.preventDefault(); alert('Set FORM_URL at the top of the script in this HTML file.'); };
+  }
+});
+
+const TEAMS = [
+  {n:16,name:"Bomb Squad",city:"Mountain Home",state:"Arkansas",country:"USA",rookie:1996},
+  {n:364,name:"Team Fusion 364",city:"Gulfport",state:"Mississippi",country:"USA",rookie:2000},
+  {n:456,name:"Siege Robotics",city:"Vicksburg",state:"Mississippi",country:"USA",rookie:2000},
+  {n:1421,name:"Team CHAOS",city:"Picayune",state:"Mississippi",country:"USA",rookie:2004},
+  {n:1818,name:"Team Talos",city:"Shreveport",state:"Louisiana",country:"USA",rookie:2006},
+  {n:1902,name:"Exploding Bacon",city:"Orlando",state:"Florida",country:"USA",rookie:2006},
+  {n:2080,name:"Torbotics",city:"Hammond",state:"Louisiana",country:"USA",rookie:2007},
+  {n:2183,name:"Tigerbots",city:"Boutte",state:"Louisiana",country:"USA",rookie:2007},
+  {n:2221,name:"FHS Robodawgs",city:"Mandeville",state:"Louisiana",country:"USA",rookie:2007},
+  {n:2992,name:"The S.S. Prometheus",city:"Mandeville",state:"Louisiana",country:"USA",rookie:2009},
+  {n:3039,name:"Wildcat Robotics",city:"Destrehan",state:"Louisiana",country:"USA",rookie:2009},
+  {n:3284,name:"Camdenton LASER 3284",city:"Camdenton",state:"Missouri",country:"USA",rookie:2010},
+  {n:3468,name:"MAGNAtech",city:"West Monroe",state:"Louisiana",country:"USA",rookie:2011},
+  {n:3478,name:"PrepaTec - LamBot",city:"San Luis Potosí",state:"SLP",country:"Mexico",rookie:2011},
+  {n:3616,name:"Team Phenomena",city:"Lafayette",state:"Louisiana",country:"USA",rookie:2011},
+  {n:3753,name:"BulahBots!",city:"Baton Rouge",state:"Louisiana",country:"USA",rookie:2011},
+  {n:3824,name:"HVA RoHAWKtics",city:"Knoxville",state:"Tennessee",country:"USA",rookie:2011},
+  {n:3937,name:"Breakaway",city:"Searcy",state:"Arkansas",country:"USA",rookie:2012},
+  {n:4087,name:"Voodoo Voltage",city:"New Orleans",state:"Louisiana",country:"USA",rookie:2012},
+  {n:4336,name:"Ramageddon Robotics",city:"Lafayette",state:"Louisiana",country:"USA",rookie:2012},
+  {n:4635,name:"PrepaTec - Botbusters",city:"Monterrey",state:"NL",country:"Mexico",rookie:2013},
+  {n:5705,name:"DESERT EAGLES",city:"Torreón",state:"Coahuila",country:"Mexico",rookie:2015},
+  {n:5863,name:"Hypercubed",city:"Brusly",state:"Louisiana",country:"USA",rookie:2016},
+  {n:5887,name:"PrepaTec IMPERATOR",city:"Monterrey",state:"NL",country:"Mexico",rookie:2016},
+  {n:5965,name:"Power Struck Girls",city:"Marrero",state:"Louisiana",country:"USA",rookie:2016},
+  {n:6068,name:"Delta Overload",city:"Indianola",state:"Mississippi",country:"USA",rookie:2016},
+  {n:6489,name:"Bronco Bolts",city:"Zachary",state:"Louisiana",country:"USA",rookie:2017},
+  {n:7072,name:"O.G.R.E.",city:"Opelika",state:"Alabama",country:"USA",rookie:2018},
+  {n:7094,name:"Alpha Omega",city:"Bay Saint Louis",state:"Mississippi",country:"USA",rookie:2018},
+  {n:7288,name:"NOMMA D3V1LB0TS",city:"New Orleans",state:"Louisiana",country:"USA",rookie:2018},
+  {n:8044,name:"Denham Venom",city:"Denham Springs",state:"Louisiana",country:"USA",rookie:2020},
+  {n:8808,name:"SWLA Tech Pirates",city:"Lake Charles",state:"Louisiana",country:"USA",rookie:2022},
+  {n:9309,name:"Metal Mages",city:"New Orleans",state:"Louisiana",country:"USA",rookie:2023},
+  {n:9313,name:"ROBOhana",city:"Rosemary Beach",state:"Florida",country:"USA",rookie:2023},
+  {n:9405,name:"RouxBots",city:"New Orleans",state:"Louisiana",country:"USA",rookie:2024},
+  {n:9456,name:"Nunez Robotics",city:"Chalmette",state:"Louisiana",country:"USA",rookie:2024},
+  {n:9660,name:"Delgado Dolphinbots",city:"New Orleans",state:"Louisiana",country:"USA",rookie:2024},
+  {n:9699,name:"Bayou Crusaders",city:"Schriever",state:"Louisiana",country:"USA",rookie:2024},
+  {n:9708,name:"Supersonic Circuit Breakers",city:"Bossier City",state:"Louisiana",country:"USA",rookie:2024},
+  {n:9717,name:"Poultronix",city:"Forest",state:"Mississippi",country:"USA",rookie:2024},
+  {n:9761,name:"LSMSA Robotics",city:"Natchitoches",state:"Louisiana",country:"USA",rookie:2024},
+  {n:9768,name:"ROBOKNIGHTS",city:"Plaquemine",state:"Louisiana",country:"USA",rookie:2024},
+  {n:9787,name:"Fathom Robotics",city:"Baker",state:"Florida",country:"USA",rookie:2024},
+  {n:10101,name:"Critical Hit",city:"Huntsville",state:"Alabama",country:"USA",rookie:2025},
+  {n:10217,name:"Catahoula Blue Dogs",city:"Port Allen",state:"Louisiana",country:"USA",rookie:2025},
+  {n:10446,name:"Circuitron",city:"Bogalusa",state:"Louisiana",country:"USA",rookie:2025},
+  {n:10497,name:"Bayou Bots",city:"Centerville",state:"Louisiana",country:"USA",rookie:2025},
+  {n:10550,name:"35 Soaring Roneagles",city:"New Orleans",state:"Louisiana",country:"USA",rookie:2025},
+  {n:10929,name:"Tarpon Robotics",city:"Cut Off",state:"Louisiana",country:"USA",rookie:2026},
+  {n:11221,name:"Edna Karr Robotics",city:"New Orleans",state:"Louisiana",country:"USA",rookie:2026},
+  {n:11260,name:"Ursuline Robotics",city:"New Orleans",state:"Louisiana",country:"USA",rookie:2026},
+  {n:11276,name:"Kenner BruhBots",city:"Kenner",state:"Louisiana",country:"USA",rookie:2026},
+  {n:11321,name:"Purple Knight Robotics",city:"New Orleans",state:"Louisiana",country:"USA",rookie:2026},
+  {n:11342,name:"StingVille Robotics",city:"Baton Rouge",state:"Louisiana",country:"USA",rookie:2026}
+];
+
+const PRIOR={"16": {"events": [{"code": "2026arli", "rank": 5, "w": 8, "l": 4, "won": false}], "tw": 8, "tl": 4, "best": 5, "won": false, "ne": 1}, "364": {"events": [{"code": "2026mslr", "rank": 4, "w": 7, "l": 2, "won": false}], "tw": 7, "tl": 2, "best": 4, "won": false, "ne": 1}, "456": {"events": [{"code": "2026mslr", "rank": 16, "w": 4, "l": 5, "won": false}], "tw": 4, "tl": 5, "best": 16, "won": false, "ne": 1}, "1421": {"events": [{"code": "2026mslr", "rank": 36, "w": 3, "l": 6, "won": false}], "tw": 3, "tl": 6, "best": 36, "won": false, "ne": 1}, "1902": {"events": [{"code": "2026flor", "rank": 9, "w": 6, "l": 2, "won": false}], "tw": 6, "tl": 2, "best": 9, "won": false, "ne": 1}, "2080": {"events": [{"code": "2026azfg", "rank": 36, "w": 4, "l": 5, "won": false}], "tw": 4, "tl": 5, "best": 36, "won": false, "ne": 1}, "2183": {"events": [{"code": "2026mslr", "rank": 5, "w": 7, "l": 2, "won": false}, {"code": "2026okok", "rank": 30, "w": 4, "l": 6, "won": false}], "tw": 11, "tl": 8, "best": 5, "won": false, "ne": 2}, "2221": {"events": [{"code": "2026mslr", "rank": 25, "w": 4, "l": 5, "won": false}], "tw": 4, "tl": 5, "best": 25, "won": false, "ne": 1}, "2992": {"events": [{"code": "2026mslr", "rank": 8, "w": 6, "l": 3, "won": false}], "tw": 6, "tl": 3, "best": 8, "won": false, "ne": 1}, "3039": {"events": [{"code": "2026mslr", "rank": 9, "w": 6, "l": 3, "won": false}], "tw": 6, "tl": 3, "best": 9, "won": false, "ne": 1}, "3284": {"events": [{"code": "2026ilpe", "rank": 19, "w": 5, "l": 7, "won": false}, {"code": "2026mnwi", "rank": 31, "w": 4, "l": 7, "won": false}], "tw": 9, "tl": 14, "best": 19, "won": false, "ne": 2}, "3468": {"events": [{"code": "2026arli", "rank": 15, "w": 5, "l": 7, "won": false}], "tw": 5, "tl": 7, "best": 15, "won": false, "ne": 1}, "3478": {"events": [{"code": "2026mxmo", "rank": 2, "w": 10, "l": 0, "won": true}], "tw": 10, "tl": 0, "best": 2, "won": true, "ne": 1}, "3616": {"events": [{"code": "2026mslr", "rank": 34, "w": 3, "l": 6, "won": false}], "tw": 3, "tl": 6, "best": 34, "won": false, "ne": 1}, "3753": {"events": [{"code": "2026mslr", "rank": 7, "w": 7, "l": 2, "won": false}], "tw": 7, "tl": 2, "best": 7, "won": false, "ne": 1}, "3824": {"events": [{"code": "2026tnkn", "rank": 15, "w": 6, "l": 4, "won": false}], "tw": 6, "tl": 4, "best": 15, "won": false, "ne": 1}, "3937": {"events": [{"code": "2026arli", "rank": 3, "w": 10, "l": 2, "won": false}], "tw": 10, "tl": 2, "best": 3, "won": false, "ne": 1}, "4087": {"events": [{"code": "2026mslr", "rank": 3, "w": 7, "l": 2, "won": false}], "tw": 7, "tl": 2, "best": 3, "won": false, "ne": 1}, "4336": {"events": [{"code": "2026mslr", "rank": 15, "w": 5, "l": 4, "won": false}], "tw": 5, "tl": 4, "best": 15, "won": false, "ne": 1}, "4635": {"events": [{"code": "2026mxmo", "rank": 1, "w": 10, "l": 0, "won": true}, {"code": "2026okok", "rank": 2, "w": 10, "l": 0, "won": true}], "tw": 20, "tl": 0, "best": 1, "won": true, "ne": 2}, "5863": {"events": [{"code": "2026mslr", "rank": 40, "w": 3, "l": 6, "won": false}], "tw": 3, "tl": 6, "best": 40, "won": false, "ne": 1}, "5887": {"events": [{"code": "2026mxmo", "rank": 13, "w": 6, "l": 4, "won": false}], "tw": 6, "tl": 4, "best": 13, "won": false, "ne": 1}, "7072": {"events": [{"code": "2026flor", "rank": 22, "w": 4, "l": 4, "won": false}], "tw": 4, "tl": 4, "best": 22, "won": false, "ne": 1}, "7094": {"events": [{"code": "2026mslr", "rank": 24, "w": 4, "l": 5, "won": false}], "tw": 4, "tl": 5, "best": 24, "won": false, "ne": 1}, "8044": {"events": [{"code": "2026cosp", "rank": 5, "w": 9, "l": 3, "won": true}, {"code": "2026mslr", "rank": 2, "w": 9, "l": 0, "won": true}], "tw": 18, "tl": 3, "best": 2, "won": true, "ne": 2}, "8808": {"events": [{"code": "2026mslr", "rank": 19, "w": 4, "l": 5, "won": false}], "tw": 4, "tl": 5, "best": 19, "won": false, "ne": 1}, "9309": {"events": [{"code": "2026mslr", "rank": 13, "w": 7, "l": 2, "won": false}], "tw": 7, "tl": 2, "best": 13, "won": false, "ne": 1}, "9405": {"events": [{"code": "2026mslr", "rank": 41, "w": 2, "l": 7, "won": true}], "tw": 2, "tl": 7, "best": 41, "won": true, "ne": 1}, "9717": {"events": [{"code": "2026mslr", "rank": 33, "w": 4, "l": 5, "won": false}], "tw": 4, "tl": 5, "best": 33, "won": false, "ne": 1}, "10101": {"events": [{"code": "2026mslr", "rank": 18, "w": 5, "l": 4, "won": false}], "tw": 5, "tl": 4, "best": 18, "won": false, "ne": 1}, "10217": {"events": [{"code": "2026mslr", "rank": 21, "w": 4, "l": 5, "won": false}], "tw": 4, "tl": 5, "best": 21, "won": false, "ne": 1}, "10929": {"events": [{"code": "2026mslr", "rank": 27, "w": 4, "l": 5, "won": false}], "tw": 4, "tl": 5, "best": 27, "won": false, "ne": 1}};
+const ARLI_OPR = {16:94.0,3468:29.1,3937:142.5};
+const ARLI_CCWM = {16:84.7,3468:-52.1,3937:143.3};
+const ARLI_RANK = {16:6,3468:13,3937:3};
+const OPR_DATA = {"3284": {"best": 26.6, "avg": 17.1, "events": [{"code": "2026mnwi", "name": "MN Bluff", "opr": 7.5}, {"code": "2026ilpe", "name": "Central IL", "opr": 26.6}]}, "16": {"best": 94.0, "avg": 94.0, "events": [{"code": "2026arli", "name": "Arkansas", "opr": 94.0}]}, "3468": {"best": 29.1, "avg": 29.1, "events": [{"code": "2026arli", "name": "Arkansas", "opr": 29.1}]}, "3937": {"best": 142.5, "avg": 142.5, "events": [{"code": "2026arli", "name": "Arkansas", "opr": 142.5}]}, "2183": {"best": 90.1, "avg": 74.5, "events": [{"code": "2026okok", "name": "Oklahoma", "opr": 59.0}, {"code": "2026mslr", "name": "Magnolia", "opr": 90.1}]}, "4635": {"best": 204.5, "avg": 192.9, "events": [{"code": "2026okok", "name": "Oklahoma", "opr": 204.5}, {"code": "2026mxmo", "name": "Mexico", "opr": 181.4}]}, "3824": {"best": 24.0, "avg": 24.0, "events": [{"code": "2026tnkn", "name": "Smoky Mtns", "opr": 24.0}]}, "10101": {"best": 5.6, "avg": 5.6, "events": [{"code": "2026mslr", "name": "Magnolia", "opr": 5.6}]}, "10217": {"best": 17.7, "avg": 17.7, "events": [{"code": "2026mslr", "name": "Magnolia", "opr": 17.7}]}, "10929": {"best": 13.5, "avg": 13.5, "events": [{"code": "2026mslr", "name": "Magnolia", "opr": 13.5}]}, "1421": {"best": 19.5, "avg": 19.5, "events": [{"code": "2026mslr", "name": "Magnolia", "opr": 19.5}]}, "2221": {"best": 22.9, "avg": 22.9, "events": [{"code": "2026mslr", "name": "Magnolia", "opr": 22.9}]}, "2992": {"best": 87.1, "avg": 87.1, "events": [{"code": "2026mslr", "name": "Magnolia", "opr": 87.1}]}, "3039": {"best": 85.1, "avg": 85.1, "events": [{"code": "2026mslr", "name": "Magnolia", "opr": 85.1}]}, "3616": {"best": 52.3, "avg": 52.3, "events": [{"code": "2026mslr", "name": "Magnolia", "opr": 52.3}]}, "364": {"best": 57.8, "avg": 57.8, "events": [{"code": "2026mslr", "name": "Magnolia", "opr": 57.8}]}, "3753": {"best": 60.6, "avg": 60.6, "events": [{"code": "2026mslr", "name": "Magnolia", "opr": 60.6}]}, "4087": {"best": 124.6, "avg": 124.6, "events": [{"code": "2026mslr", "name": "Magnolia", "opr": 124.6}]}, "4336": {"best": 42.7, "avg": 42.7, "events": [{"code": "2026mslr", "name": "Magnolia", "opr": 42.7}]}, "456": {"best": 57.2, "avg": 57.2, "events": [{"code": "2026mslr", "name": "Magnolia", "opr": 57.2}]}, "5863": {"best": 0.6, "avg": 0.6, "events": [{"code": "2026mslr", "name": "Magnolia", "opr": 0.6}]}, "7094": {"best": 26.6, "avg": 26.6, "events": [{"code": "2026mslr", "name": "Magnolia", "opr": 26.6}]}, "8044": {"best": 191.7, "avg": 178.8, "events": [{"code": "2026mslr", "name": "Magnolia", "opr": 165.9}, {"code": "2026cosp", "name": "Pikes Peak", "opr": 191.7}]}, "8808": {"best": 68.1, "avg": 68.1, "events": [{"code": "2026mslr", "name": "Magnolia", "opr": 68.1}]}, "9309": {"best": -3.7, "avg": -3.7, "events": [{"code": "2026mslr", "name": "Magnolia", "opr": -3.7}]}, "9405": {"best": 38.9, "avg": 38.9, "events": [{"code": "2026mslr", "name": "Magnolia", "opr": 38.9}]}, "9717": {"best": -0.4, "avg": -0.4, "events": [{"code": "2026mslr", "name": "Magnolia", "opr": -0.4}]}, "1902": {"best": 44.7, "avg": 44.7, "events": [{"code": "2026flor", "name": "Orlando", "opr": 44.7}]}, "7072": {"best": 37.0, "avg": 37.0, "events": [{"code": "2026flor", "name": "Orlando", "opr": 37.0}]}, "2080": {"best": -18.6, "avg": -18.6, "events": [{"code": "2026azfg", "name": "Arizona", "opr": -18.6}]}, "3478": {"best": 185.0, "avg": 185.0, "events": [{"code": "2026mxmo", "name": "Mexico", "opr": 185.0}]}, "5887": {"best": 65.7, "avg": 65.7, "events": [{"code": "2026mxmo", "name": "Mexico", "opr": 65.7}]}};
+
+const EPA_DATA = {4635:{total:185.2,auto:42.1,teleop:118.4,endgame:24.7},8044:{total:172.8,auto:38.5,teleop:110.2,endgame:24.1},3478:{total:168.0,auto:40.2,teleop:105.3,endgame:22.5},3937:{total:128.4,auto:30.1,teleop:78.2,endgame:20.1},4087:{total:112.3,auto:26.4,teleop:68.7,endgame:17.2},16:{total:84.7,auto:20.5,teleop:48.2,endgame:16.0},2183:{total:81.2,auto:18.3,teleop:49.6,endgame:13.3},3753:{total:78.5,auto:17.0,teleop:48.0,endgame:13.5},2992:{total:78.1,auto:18.1,teleop:46.5,endgame:13.5},3039:{total:76.4,auto:17.8,teleop:45.1,endgame:13.5},364:{total:72.0,auto:16.5,teleop:42.0,endgame:13.5},8808:{total:61.2,auto:14.0,teleop:36.1,endgame:11.1},1902:{total:40.2,auto:10.5,teleop:22.5,endgame:7.2},3468:{total:26.2,auto:6.0,teleop:15.0,endgame:5.2},9309:{total:-3.3,auto:-1.0,teleop:-1.5,endgame:-0.8},3824:{total:55.0,auto:12.0,teleop:33.0,endgame:10.0},2221:{total:45.0,auto:10.0,teleop:27.0,endgame:8.0},4336:{total:50.0,auto:11.0,teleop:30.0,endgame:9.0},5887:{total:58.0,auto:13.0,teleop:35.0,endgame:10.0},3284:{total:35.0,auto:8.0,teleop:21.0,endgame:6.0},10101:{total:42.0,auto:9.5,teleop:25.0,endgame:7.5},2080:{total:15.0,auto:3.0,teleop:9.0,endgame:3.0},10217:{total:30.0,auto:7.0,teleop:18.0,endgame:5.0},10929:{total:12.0,auto:3.0,teleop:7.0,endgame:2.0}};
+
+const INTEL = {
+  4635:"🚨 #1 THREAT — Undefeated 20-0, WON 2 events. Best OPR in the field by far.",
+  8044:"🚨 SLEEPER POWERHOUSE — 2020 rookie who WON 2 events. 9-0 at Magnolia. Nobody outside LA knows them.",
+  3478:"🚨 PrepaTec powerhouse — Undefeated 10-0, WON event. OPR 185.",
+  3937:"⭐ Our partner team. #3 at ARLI. Made finals. Tod's crew. OPR 142.5.",
+  4087:"💪 Rank 3 at Magnolia. New Orleans local. Strong alliance captain candidate.",
+  16:"⭐ That's us! Corsair. #5 rank at ARLI, semis. OPR 94.",
+  2183:"💪 2 events experience. Rank 5 at Magnolia. OPR improving (59→90).",
+  2992:"💪 Rank 8 at Magnolia. Solid Mandeville team. Alliance pick candidate.",
+  3039:"💪 Rank 9 at Magnolia. Destrehan. Consistent performer.",
+  8808:"👍 Rank 19 but decent 68 OPR. Better than record suggests.",
+  5887:"👍 3rd PrepaTec team. Rank 13 at Mexico event.",
+  3753:"👍 Rank 7 at Magnolia, 7-2. Baton Rouge. Solid.",
+  364:"👍 26yr veteran. Rank 4 at Magnolia, 7-2. Gulfport.",
+  456:"👍 26yr veteran. OPR 57 despite 4-5 record. Unlucky schedule?",
+  3616:"📊 Rank 34 but OPR 52 — better robot than record shows.",
+  1902:"❓ 20yr vet, 30-11 in 2025 — but only 44.7 OPR at Orlando. Underperforming? Watch in practice.",
+  9309:"⚠️ TRAP — 7-2 record but NEGATIVE OPR (-3.7). Won on alliance partners, not own scoring.",
+  9405:"⚠️ WON event with 2-7 quals record. Got picked into winning alliance. Not strong individually.",
+  2080:"⚠️ 19yr veteran but -18.6 OPR at Arizona. Bad event or bad season?",
+  3468:"📎 Rank 15 at ARLI, 5-7. Inconsistent. We have full scouting data on them.",
+  3284:"📎 2 events, 9-14 overall. Struggling this season.",
+  5863:"📎 Rank 40 at Magnolia. Near-zero OPR.",
+  9717:"📎 Negative OPR. Hurting their alliance.",
+  1818:"👀 20yr veteran with NO 2026 data — pit scout early. What happened?",
+  5705:"👀 Mexican team, 11yr veteran. No 2026 data. Unknown quantity.",
+  5965:"👀 All-girls team, 10yr. No 2026 data.",
+  10929:"🆕 2026 ROOKIE but competed at Magnolia (Rank 27, OPR 13.5). Has some data.",
+  11276:"🆕 ROOKIE — local to venue (Kenner). Home crowd advantage?"
+};
+
+function getTier(t){
+  if(t.rookie<=2015) return {id:'tier1',label:'Tier 1 — Veteran',color:'#F44336',css:'vet'};
+  if(t.rookie<=2023) return {id:'tier2',label:'Tier 2 — Contender',color:'#FF9800',css:'exp'};
+  if(t.rookie<=2025) return {id:'tier3',label:'Tier 3 — Newer',color:'#FF9800',css:'new'};
+  return {id:'tier3',label:'Tier 3 — Rookie 2026',color:'#FF9800',css:'rookie26'};
+}
+
+function getPitPriority(t){
+  if(t.rookie===2026) return {num:1,label:'P1',css:'priority-1'};
+  if(t.rookie>=2024) return {num:2,label:'P2',css:'priority-2'};
+  if(t.rookie>=2020) return {num:3,label:'P3',css:'priority-3'};
+  return {num:4,label:'P4',css:'priority-4'};
+}
+
+let currentView = 'cards';
+
+function setView(v){
+  currentView = v;
+  document.querySelectorAll('.view-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  render();
+}
+
+function getFiltered(){
+  const filter = document.getElementById('tierFilter').value;
+  const search = document.getElementById('search').value.toLowerCase();
+  let list = TEAMS;
+  if(filter==='tier1') list = list.filter(t=>t.rookie<=2015);
+  else if(filter==='tier2') list = list.filter(t=>t.rookie>=2016&&t.rookie<=2023);
+  else if(filter==='tier3') list = list.filter(t=>t.rookie>=2024);
+  else if(filter==='arli') list = list.filter(t=>ARLI_OPR[t.n]!==undefined);
+  else if(filter==='opr') list = list.filter(t=>ARLI_OPR[t.n]!==undefined);
+  else if(filter==='hasdata') list = list.filter(t=>PRIOR[t.n]!==undefined);
+  else if(filter==='nodata') list = list.filter(t=>!PRIOR[t.n]);
+  else if(filter==='winners') list = list.filter(t=>PRIOR[t.n]&&PRIOR[t.n].won);
+  else if(filter==='top10'){ list = list.filter(t=>OPR_DATA[t.n]); list.sort((a,b)=>(OPR_DATA[b.n]?.best||0)-(OPR_DATA[a.n]?.best||0)); list = list.slice(0,10); }
+  else if(filter==='captains'){ const caps = [4635,8044,3478,3937,4087,16,2183,2992]; list = list.filter(t=>caps.includes(t.n)); list.sort((a,b)=>caps.indexOf(a.n)-caps.indexOf(b.n)); }
+  else if(filter==='warnings'){ const warns = [9309,9405,2080,1902]; list = list.filter(t=>warns.includes(t.n)); }
+  if(search) list = list.filter(t=>String(t.n).includes(search)||t.name.toLowerCase().includes(search));
+  return list;
+}
+
+function renderCards(teams){
+  const tiers = [
+    {id:'tier1',label:'TIER 1 — VETERANS (≤2015)',color:'#F44336',teams:teams.filter(t=>t.rookie<=2015)},
+    {id:'tier2',label:'TIER 2 — SOLID CONTENDERS (2016–2023)',color:'#FF9800',teams:teams.filter(t=>t.rookie>=2016&&t.rookie<=2023)},
+    {id:'tier3',label:'TIER 3 — UNKNOWNS (2024–2026)',color:'#4CAF50',teams:teams.filter(t=>t.rookie>=2024)}
+  ];
+  let html = '';
+  for(const tier of tiers){
+    if(!tier.teams.length) continue;
+    html += `<div class="tier-section">
+      <div class="tier-header">
+        <div class="tier-dot" style="background:${tier.color}"></div>
+        <div class="tier-label">${tier.label}</div>
+        <div class="tier-count">${tier.teams.length} teams</div>
+      </div>
+      <div class="team-grid">`;
+    for(const t of tier.teams){
+      const yrs = 2026-t.rookie;
+      const opr = ARLI_OPR[t.n];
+      const ccwm = ARLI_CCWM[t.n];
+      const rank = ARLI_RANK[t.n];
+      const hasOpr = opr!==undefined;
+      const isRookie = t.rookie===2026;
+      let cls = 'team-card';
+      if(hasOpr) cls += ' has-opr';
+      if(isRookie) cls += ' rookie';
+      
+      let tags = '';
+      if(isRookie) tags += '<span class="team-tag rookie26">🆕 ROOKIE 2026</span>';
+      else tags += `<span class="team-tag ${getTier(t).css}">${yrs} years</span>`;
+      
+      const oprD = OPR_DATA[t.n];
+      if(oprD){
+        const color = oprD.best>150?'#FFD700':oprD.best>100?'#4CAF50':oprD.best>50?'#C9A84C':oprD.best>25?'#FF9800':'#888';
+        tags += '<span class="team-tag" style="background:#0d2d0d;color:'+color+';font-weight:700;font-size:14px">OPR: '+oprD.best+'</span>';
+        oprD.events.forEach(ev=>{
+          tags += '<span class="team-tag" style="background:#0d1d2d;color:#64B5F6">'+ev.name+': '+ev.opr+'</span>';
+        });
+      } else if(hasOpr){
+        tags += '<span class="team-tag opr">ARLI OPR: '+opr+'</span>';
+      }
+      if(t.country==='Mexico') tags += '<span class="team-tag" style="background:#1a2a1a;color:#4fc3f7">🇲🇽 Mexico</span>';
+      const epaD = EPA_DATA[t.n];
+      if(epaD){
+        const eColor = epaD.total>150?'#FFD700':epaD.total>100?'#4CAF50':epaD.total>50?'#C9A84C':epaD.total>25?'#FF9800':'#888';
+        tags += '<span class="team-tag" style="background:#1a1a2d;color:'+eColor+';font-weight:700;font-size:14px">EPA: '+epaD.total.toFixed(1)+'</span>';
+      }
+      
+      const pd = PRIOR[t.n];
+      if(pd){
+        tags += '<span class="team-tag" style="background:#0d2d0d;color:#4CAF50;font-weight:600">'+pd.tw+'W-'+pd.tl+'L</span>';
+        if(pd.won) tags += '<span class="team-tag" style="background:#3a2200;color:#FFD700;font-weight:700">🏆 EVENT WINNER</span>';
+        pd.events.forEach(ev=>{
+          const code = ev.code.replace('2026','').toUpperCase();
+          tags += '<span class="team-tag" style="background:#1a1a30;color:#aaa">'+code+' #'+ev.rank+' ('+ev.w+'-'+ev.l+')'+(ev.won?' 🏆':'')+'</span>';
+        });
+      } else {
+        tags += '<span class="team-tag" style="background:#2a0000;color:#888">⚠️ NO 2026 DATA</span>';
+      }
+      
+      let oprBar = '';
+      const oprVal = OPR_DATA[t.n] ? OPR_DATA[t.n].best : (hasOpr ? opr : null);
+      if(oprVal !== null && oprVal > 0){
+        const pct = Math.min(100, (oprVal/210)*100);
+        const barColor = oprVal>150?'#FFD700':oprVal>100?'#4CAF50':oprVal>50?'#C9A84C':oprVal>25?'#FF9800':'#666';
+        oprBar += '<div style="display:flex;align-items:center;gap:5px;margin-top:6px"><span style="font-size:13px;color:#aaa;min-width:30px;font-family:Oswald,sans-serif;font-weight:700">OPR</span><div class="opr-bar" style="flex:1"><div class="opr-fill" style="width:'+pct+'%;background:'+barColor+'"></div></div><span style="font-size:14px;color:#ccc;font-weight:700;min-width:38px;text-align:right;font-family:Oswald,sans-serif">'+oprVal.toFixed(1)+'</span></div>';
+      }
+      const epaVal2 = EPA_DATA[t.n] ? EPA_DATA[t.n].total : null;
+      if(epaVal2 !== null && epaVal2 > 0){
+        const pct = Math.min(100, (epaVal2/190)*100);
+        const barColor = epaVal2>150?'#FFD700':epaVal2>100?'#4CAF50':epaVal2>50?'#C9A84C':epaVal2>25?'#FF9800':'#666';
+        oprBar += '<div style="display:flex;align-items:center;gap:5px;margin-top:4px"><span style="font-size:13px;color:#aaa;min-width:30px;font-family:Oswald,sans-serif;font-weight:700">EPA</span><div class="opr-bar" style="flex:1"><div class="opr-fill" style="width:'+pct+'%;background:'+barColor+'"></div></div><span style="font-size:14px;color:#ccc;font-weight:700;min-width:38px;text-align:right;font-family:Oswald,sans-serif">'+epaVal2.toFixed(1)+'</span></div>';
+      }
+      
+      const intelNote = INTEL[t.n] ? '<div class="intel-note">'+INTEL[t.n]+'</div>' : '';
+      
+      html += `<a href="https://www.thebluealliance.com/team/${t.n}/2026" target="_blank" style="text-decoration:none;color:inherit"><div class="${cls}">
+        <div class="team-num">${t.n}</div>
+        <div class="team-info">
+          <div class="team-name">${t.name}</div>
+          <div class="team-loc">${t.city}, ${t.state}</div>
+          <div class="team-meta">${tags}</div>
+          ${oprBar}
+          ${intelNote}
+        </div>
+      </div></a>`;
+    }
+    html += '</div></div>';
+  }
+  
+  html += `<div class="notes-box">
+    <h3>📋 PRE-SCOUT NOTES</h3>
+    <strong>🔥 OPR POWER RANKINGS (Top 10 at Bayou):</strong><br>
+    #1 4635 Botbusters (204.5) | #2 8044 Denham Venom (191.7) | #3 3478 LamBot (185.0) | #4 3937 Breakaway (142.5) | #5 4087 Voodoo Voltage (124.6) | #6 16 Bomb Squad (94.0) | #7 2183 Tigerbots (90.1) | #8 2992 S.S. Prometheus (87.1) | #9 3039 Wildcat Robotics (85.1) | #10 8808 SWLA Tech Pirates (68.1)<br><br>
+    <strong>🏆 Event Winners:</strong> 4635 Botbusters (WON 2 events, 20-0), 8044 Denham Venom (WON 2 events, 18-3), 3478 LamBot (WON event, 10-0), 9405 RouxBots (WON event via alliance pick).<br><br>
+    <strong>🤝 Alliance Captain Candidates (Top 8 Picks):</strong> 4635 Botbusters, 8044 Denham Venom, 3478 LamBot, 3937 Breakaway, 4087 Voodoo Voltage, 16 Bomb Squad, 2183 Tigerbots, 2992 S.S. Prometheus<br><br>
+    <strong>⚡ Surprise of the Field:</strong> 8044 Denham Venom — a 2020 rookie from Denham Springs who WON TWO EVENTS and went 9-0 at Magnolia. Nobody outside Louisiana knows this team. They are for real.<br><br>
+    <strong>⚠️ TRAP WARNING:</strong> 9309 Metal Mages went 7-2 at Magnolia but have a NEGATIVE OPR (-3.7). They won because of strong alliance partners, not their own scoring. Don't be fooled by the record.<br><br>
+    <strong>❓ 1902 Exploding Bacon Underperforming?</strong> Only 44.7 OPR at Orlando despite 20yr pedigree and 30-11 record last year. Could be slow start or different game meta — watch closely in practice.<br><br>
+    <strong>👀 Unknown Veteran:</strong> 1818 Team Talos (Shreveport, 20yr veteran) has NO 2026 data. What happened? Pit scout early.<br><br>
+    <strong>📋 Pit Scout Priority:</strong> Hit the 5 rookies with no data first (11221, 11260, 11276, 11321, 11342), then 1818 Team Talos and other no-data veterans. 10929 Tarpon Robotics is a 2026 rookie but DID compete at Magnolia (Rank 27, OPR 13.5).<br><br>
+    <strong>📊 Field Breakdown:</strong> 32 of 54 teams have 2026 competition data. 22 unknowns. 4 event winners. Magnolia Regional was the biggest feeder (21 Bayou teams competed there).<br><br>
+    <strong>🔄 Next Steps:</strong> Re-pull OPR data Monday 3/30 using TBA API curl commands. By then, more Bayou teams will have Week 4 results and numbers will be fresher.
+  </div>`;
+  return html;
+}
+
+function renderChecklist(teams){
+  teams.sort((a,b)=>{
+    const pa = getPitPriority(a).num, pb = getPitPriority(b).num;
+    if(pa!==pb) return pa-pb;
+    return a.n-b.n;
+  });
+  let html = `<div class="checklist"><table>
+    <tr>
+      <th style="width:40px">✓</th>
+      <th style="width:60px">PRI</th>
+      <th style="width:70px">#</th>
+      <th>Team Name</th>
+      <th>Location</th>
+      <th style="width:70px">Rookie</th>
+      <th style="width:80px">ARLI OPR</th>
+      <th style="width:70px">EPA</th>
+      <th>Record</th><th>Prior Events</th><th>Scouting Notes</th>
+    </tr>`;
+  for(const t of teams){
+    const p = getPitPriority(t);
+    const opr = ARLI_OPR[t.n];
+    const oprD2 = OPR_DATA[t.n];
+    const oprStr = oprD2 ? oprD2.best.toFixed(1) : (opr!==undefined ? opr.toFixed(1) : '—');
+    const pd2 = PRIOR[t.n];
+    const recordStr = pd2 ? pd2.tw+'-'+pd2.tl : '—';
+    const eventsStr = pd2 ? pd2.events.map(e=>e.code.replace('2026','').toUpperCase()).join(', ') : '—';
+    const wonStr = pd2 && pd2.won ? '🏆' : '';
+    html += `<tr>
+      <td><input type="checkbox" class="checkbox"></td>
+      <td class="${p.css}">${p.label}</td>
+      <td style="font-family:Oswald;font-size:18px;font-weight:700"><a href="https://www.thebluealliance.com/team/${t.n}/2026" target="_blank" style="color:#C9A84C">${t.n}</a></td>
+      <td style="font-weight:600;color:#fff">${t.name}</td>
+      <td style="color:#888">${t.city}, ${t.state}</td>
+      <td style="color:${t.rookie===2026?'#F44336':t.rookie>=2024?'#FF9800':'#888'}">${t.rookie}</td>
+      <td style="color:${oprD2?oprD2.best>150?'#FFD700':oprD2.best>100?'#4CAF50':oprD2.best>50?'#C9A84C':oprD2.best>0?'#FF9800':'#666':opr!==undefined?'#C9A84C':'#444'};font-weight:600">${oprStr}</td>
+      <td style="color:${EPA_DATA[t.n]?EPA_DATA[t.n].total>150?'#FFD700':EPA_DATA[t.n].total>100?'#4CAF50':EPA_DATA[t.n].total>50?'#C9A84C':EPA_DATA[t.n].total>0?'#FF9800':'#F44336':'#444'};font-weight:600">${EPA_DATA[t.n]?EPA_DATA[t.n].total.toFixed(1):'—'}</td>
+      <td style="color:${pd2?pd2.won?'#FFD700':'#4CAF50':'#444'};font-weight:${pd2?'600':'400'}">${wonStr}${recordStr}</td>
+      <td style="color:#888;font-size:11px">${eventsStr}</td>
+      <td style="color:#555;font-style:italic;font-size:11px">${INTEL[t.n]||'________'}</td>
+    </tr>`;
+  }
+  html += '</table></div>';
+  
+  html += `<div class="notes-box" style="margin-top:20px">
+    <h3>🎯 PRIORITY KEY</h3>
+    <span class="priority-1">P1</span> = 2026 Rookies (6 teams) — complete unknowns, pit scout FIRST<br>
+    <span class="priority-2">P2</span> = 2024–2025 teams (14 teams) — limited history, high value pit intel<br>
+    <span class="priority-3">P3</span> = 2020–2023 teams (4 teams) — some experience, still worth a visit<br>
+    <span class="priority-4">P4</span> = Veterans ≤2019 (30 teams) — match scouting tells the story
+  </div>`;
+  return html;
+}
+
+function render(){
+  const teams = getFiltered();
+  const el = document.getElementById('content');
+  el.innerHTML = currentView==='cards' ? renderCards(teams) : renderChecklist(teams);
+  
+  // Stats bar
+  const all = TEAMS;
+  document.getElementById('statsBar').innerHTML = [
+    {v:all.length,l:'TEAMS'},
+    {v:all.filter(t=>t.rookie<=2015).length,l:'VETERANS'},
+    {v:all.filter(t=>t.rookie>=2016&&t.rookie<=2023).length,l:'CONTENDERS'},
+    {v:all.filter(t=>t.rookie>=2024).length,l:'UNKNOWNS'},
+    {v:Object.keys(PRIOR).length,l:'HAVE DATA'},
+    {v:Object.values(PRIOR).filter(p=>p.won).length,l:'EVENT WINNERS'},
+    {v:Object.keys(EPA_DATA).length,l:'HAVE EPA'},
+    {v:all.filter(t=>t.rookie===2026).length,l:'ROOKIES'}
+  ].map(s=>`<div class="stat-box"><div class="stat-val">${s.v}</div><div class="stat-label">${s.l}</div></div>`).join('');
+}
+
+render();
+
+document.addEventListener('mouseenter', function(e) {
+  const card = e.target.closest('.team-card');
+  if (!card) return;
+  const rect = card.getBoundingClientRect();
+  const vw = window.innerWidth;
+  let ox = 'center';
+  if (rect.left < 200) ox = 'left';
+  else if (rect.right > vw - 200) ox = 'right';
+  card.style.transformOrigin = ox + ' center';
+}, true);
+</script>
+</body>
+</html>

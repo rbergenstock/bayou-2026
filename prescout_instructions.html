@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BombsAway — Bayou Pre-Scout Instructions</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Source+Sans+3:wght@400;600;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0D0D1A;color:#E0E0E0;font-family:'Source Sans 3',sans-serif;font-size:16px;line-height:1.7}
+h1,h2,h3{font-family:'Oswald',sans-serif}
+a{color:#C9A84C}
+
+.header{background:#2A2957;padding:24px 32px;border-bottom:3px solid #C9A84C;text-align:center}
+.header h1{color:#C9A84C;font-size:36px;letter-spacing:2px;transform:skewX(-16deg);display:inline-block;text-shadow:2px 2px 4px rgba(0,0,0,0.5)}
+.header h1 span{color:#fff}
+.header p{color:#aaa;font-size:14px;margin-top:6px}
+
+.content{max-width:850px;margin:0 auto;padding:24px 32px}
+
+.section{margin-bottom:32px}
+.section h2{color:#C9A84C;font-size:24px;margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid #333}
+
+.step{background:#1A1A2E;border:1px solid #2a2a40;border-radius:8px;padding:18px 20px;margin:12px 0;display:flex;gap:16px;align-items:flex-start}
+.step-num{background:#C9A84C;color:#0D0D1A;font-family:'Oswald',sans-serif;font-size:20px;font-weight:700;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-text{flex:1}
+.step-text strong{color:#fff}
+
+.callout{background:#12122a;border-left:4px solid #C9A84C;padding:14px 18px;margin:16px 0;border-radius:0 6px 6px 0}
+.callout.green{border-left-color:#4CAF50}
+.callout.red{border-left-color:#F44336}
+.callout.orange{border-left-color:#FF9800}
+
+.tag-example{display:inline-block;font-size:12px;padding:3px 10px;border-radius:10px;margin:2px 4px;font-weight:600}
+
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px}
+th{background:#2A2957;color:#C9A84C;padding:10px 14px;text-align:left;font-family:'Oswald',sans-serif;font-size:13px;text-transform:uppercase}
+td{padding:8px 14px;border-bottom:1px solid #222;color:#ccc}
+td:first-child{color:#C9A84C;font-weight:700;white-space:nowrap}
+
+.bar-example{display:flex;align-items:center;gap:6px;margin:4px 0}
+.bar-label{font-size:11px;color:#888;min-width:28px;font-family:'Oswald',sans-serif;font-weight:700}
+.bar-track{flex:1;height:8px;background:#222;border-radius:3px;overflow:hidden;max-width:200px}
+.bar-fill{height:100%;border-radius:3px}
+.bar-val{font-size:12px;color:#ccc;font-weight:700;font-family:'Oswald',sans-serif}
+
+.footer{text-align:center;color:#555;font-size:13px;padding:24px;border-top:1px solid #222;margin-top:32px}
+
+@media print{
+  body{background:#fff;color:#000;font-size:14px}
+  .header{background:#2A2957;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .step{border:1px solid #ccc;break-inside:avoid}
+  .callout{border-left-width:3px}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>BOMBS<span>AWAY</span></h1>
+  <p style="font-family:'Oswald',sans-serif;font-size:20px;color:#fff;margin-top:8px;">BAYOU REGIONAL PRE-SCOUT — HOW TO USE</p>
+  <p>Bayou Regional · April 1–4, 2026 · Pontchartrain Center, Kenner, LA · 54 Teams</p>
+</div>
+
+<div class="content">
+
+<!-- WHAT IS THIS -->
+<div class="section">
+  <h2>📋 WHAT IS THIS?</h2>
+  <p>The <strong style="color:#fff;">Bayou Pre-Scout Viewer</strong> is an intelligence report on all 54 teams attending the Bayou Regional. It pulls data from The Blue Alliance and Statbotics to show you OPR ratings, EPA ratings, prior event results, win/loss records, and scouting intel — all in one place.</p>
+  <p style="margin-top:8px;">Your job: <strong style="color:#C9A84C;">learn the field before we get there.</strong></p>
+</div>
+
+<!-- HOW TO OPEN -->
+<div class="section">
+  <h2>🚀 GETTING STARTED</h2>
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-text">Download <strong>bayou_prescout_v2.html</strong> from the Slack scouting channel</div>
+  </div>
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-text">Open it in <strong>Chrome, Edge, or any browser</strong> — works on phone, Chromebook, laptop, or tablet. No internet needed after download.</div>
+  </div>
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-text">You'll see all 54 teams organized by tier with color-coded cards</div>
+  </div>
+</div>
+
+<!-- READING A CARD -->
+<div class="section">
+  <h2>🃏 READING A TEAM CARD</h2>
+  <p>Each card tells you everything we know about a team at a glance:</p>
+  
+  <table>
+    <tr><td>Gold Number</td><td>Team number (click the card to go to their TBA page with match videos)</td></tr>
+    <tr><td>Team Name</td><td>Their nickname</td></tr>
+    <tr><td>City, State</td><td>Where they're from</td></tr>
+    <tr><td style="color:#4CAF50">Green left border</td><td>This team has OPR data from a prior event</td></tr>
+    <tr><td style="color:#FF9800">Orange left border</td><td>2026 rookie team</td></tr>
+  </table>
+
+  <h3 style="color:#fff;margin-top:16px;font-size:16px;">Tags on each card:</h3>
+  <table>
+    <tr><td><span class="tag-example" style="background:#1b3a1b;color:#4CAF50;">26 years</span></td><td>Veteran team — years of experience</td></tr>
+    <tr><td><span class="tag-example" style="background:#3a0000;color:#F44336;">🆕 ROOKIE 2026</span></td><td>Brand new team this year</td></tr>
+    <tr><td><span class="tag-example" style="background:#0d2d0d;color:#FFD700;">OPR: 204.5</span></td><td>Best OPR from prior events (higher = better scorer)</td></tr>
+    <tr><td><span class="tag-example" style="background:#1a1a2d;color:#4CAF50;">EPA: 185.2</span></td><td>Expected Points Added from Statbotics (higher = better)</td></tr>
+    <tr><td><span class="tag-example" style="background:#0d2d0d;color:#4CAF50;">7W-2L</span></td><td>Win-loss record from prior events</td></tr>
+    <tr><td><span class="tag-example" style="background:#3a2200;color:#FFD700;">🏆 EVENT WINNER</span></td><td>Won a regional this season</td></tr>
+    <tr><td><span class="tag-example" style="background:#1a1a30;color:#aaa;">MSLR #5 (7-2)</span></td><td>Rank and record at a specific prior event</td></tr>
+    <tr><td><span class="tag-example" style="background:#2a0000;color:#888;">⚠️ NO 2026 DATA</span></td><td>No competition results yet — unknown quantity</td></tr>
+  </table>
+
+  <h3 style="color:#fff;margin-top:16px;font-size:16px;">OPR and EPA bars:</h3>
+  <p>Below the tags you'll see two horizontal bars:</p>
+  <div style="background:#1A1A2E;padding:12px 16px;border-radius:6px;margin:8px 0;">
+    <div class="bar-example">
+      <span class="bar-label">OPR</span>
+      <div class="bar-track"><div class="bar-fill" style="width:65%;background:#4CAF50;"></div></div>
+      <span class="bar-val">124.6</span>
+    </div>
+    <div class="bar-example">
+      <span class="bar-label">EPA</span>
+      <div class="bar-track"><div class="bar-fill" style="width:59%;background:#C9A84C;"></div></div>
+      <span class="bar-val">112.3</span>
+    </div>
+  </div>
+  <p style="font-size:14px;color:#888;margin-top:6px;"><strong style="color:#ccc;">OPR</strong> = Offensive Power Rating from TBA (how many points they contribute per match). <strong style="color:#ccc;">EPA</strong> = Expected Points Added from Statbotics (similar but uses Elo history across events). When both numbers agree, you can be confident. When they disagree, dig deeper.</p>
+
+  <h3 style="color:#fff;margin-top:16px;font-size:16px;">Color scale for OPR/EPA:</h3>
+  <table>
+    <tr><td style="color:#FFD700;">Gold (150+)</td><td>Elite — top of the field, likely alliance captain</td></tr>
+    <tr><td style="color:#4CAF50;">Green (100-150)</td><td>Strong — first-round pick material</td></tr>
+    <tr><td style="color:#C9A84C;">Amber (50-100)</td><td>Solid — competitive, could be a good alliance partner</td></tr>
+    <tr><td style="color:#FF9800;">Orange (25-50)</td><td>Developing — watch in practice</td></tr>
+    <tr><td style="color:#666;">Gray (0-25)</td><td>Low scorer — may play defense or feeder role</td></tr>
+  </table>
+</div>
+
+<!-- INTEL NOTES -->
+<div class="section">
+  <h2>🕵️ INTEL NOTES</h2>
+  <p>Some cards have italic notes at the bottom. These are hand-written scouting intelligence from Mr. B. Pay attention to these — they flag threats, traps, and surprises:</p>
+  <div class="callout red">🚨 = Major threat. Study this team's matches closely.</div>
+  <div class="callout" style="border-left-color:#C9A84C;">⭐ = Our team or our allies. Know them inside and out.</div>
+  <div class="callout green">💪👍 = Strong team worth watching and learning from.</div>
+  <div class="callout orange">⚠️❓ = Warning or question mark. Something doesn't add up — needs more investigation.</div>
+</div>
+
+<!-- CONTROLS -->
+<div class="section">
+  <h2>🎛️ CONTROLS</h2>
+  
+  <table>
+    <tr><td>📊 Cards / 📋 Checklist</td><td>Switch between card view and a sortable table view (checklist is great for pit scouting day)</td></tr>
+    <tr><td>Filter dropdown</td><td>Narrow the view — show only veterans, unknowns, event winners, teams with warnings, top 10 OPR, etc.</td></tr>
+    <tr><td>Search box</td><td>Type a team number or name to find them instantly</td></tr>
+    <tr><td>🖨️ Print</td><td>Print the current view for a paper reference in the pits</td></tr>
+    <tr><td style="color:#4CAF50;">🎯 SCOUT A TEAM</td><td>Opens the Google Form — claim a team and submit your pre-scout report</td></tr>
+  </table>
+
+  <div class="callout green">
+    <strong>Useful filters:</strong><br>
+    <strong style="color:#fff;">⚠️ No 2026 Data</strong> — these are the mystery teams, prioritize for pit scouting<br>
+    <strong style="color:#fff;">🏆 Event Winners</strong> — the 4 teams who already won a regional<br>
+    <strong style="color:#fff;">⚠️ Warnings/Traps</strong> — teams where record and OPR don't match (could fool you)<br>
+    <strong style="color:#fff;">⭐ ARLI Overlap</strong> — teams 16, 3468, 3937 — we already have full scouting data on them
+  </div>
+</div>
+
+<!-- YOUR ASSIGNMENT -->
+<div class="section">
+  <h2>🎯 YOUR PRE-SCOUT ASSIGNMENT</h2>
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-text"><strong>Browse the cards</strong> and pick a team you want to scout. Look for teams that interest you or that nobody else has claimed yet.</div>
+  </div>
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-text"><strong>Click the card</strong> to go to that team's page on The Blue Alliance. Look for their 2026 matches with video (📺 icons).</div>
+  </div>
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-text"><strong>Watch 2-3 qualification matches.</strong> Focus on: What do they score? How do they move? Do they play defense? Can they climb? Do they break down?</div>
+  </div>
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-text"><strong>Click the green 🎯 SCOUT A TEAM button</strong> to open the Google Form. Select the team from the dropdown, fill in what you observed, and submit.</div>
+  </div>
+  <div class="step">
+    <div class="step-num">5</div>
+    <div class="step-text"><strong>You're done.</strong> That team is now claimed — it will disappear from the dropdown so nobody else doubles up on it.</div>
+  </div>
+
+  <div class="callout">
+    <strong style="color:#C9A84C;">⏱️ Time estimate:</strong> 15-20 minutes per team. Watch the matches, fill the form, done. We have 54 teams to cover — if everyone grabs 2-3 teams, we'll know the entire field before we get to Kenner.
+  </div>
+</div>
+
+<!-- WHAT TO LOOK FOR -->
+<div class="section">
+  <h2>👀 WHAT TO LOOK FOR IN MATCH VIDEOS</h2>
+  <table>
+    <tr><td>Drivetrain</td><td>Swerve? Tank? Mecanum? Watch how they turn and strafe.</td></tr>
+    <tr><td>Scoring</td><td>Where do they score? High? Mid? Low? How fast are their cycles?</td></tr>
+    <tr><td>Auto</td><td>Do they move in auto? Score? Leave the zone? Auto climb?</td></tr>
+    <tr><td>Climb</td><td>What level do they climb to? How fast? Do they ever fail?</td></tr>
+    <tr><td>Defense</td><td>Do they play defense? Are they effective at it? Do they get penalized?</td></tr>
+    <tr><td>Reliability</td><td>Do they break down? Lose connection? Tip over? Dead on field?</td></tr>
+    <tr><td>Role</td><td>Are they a scorer, feeder, defender, or hybrid?</td></tr>
+    <tr><td>Notes</td><td>What stood out? What's their best move? Would you want them on your alliance?</td></tr>
+  </table>
+</div>
+
+<!-- KEY TEAMS -->
+<div class="section">
+  <h2>🔥 TEAMS TO KNOW</h2>
+  <div class="callout red">
+    <strong style="color:#F44336;">Top 5 threats at Bayou:</strong><br>
+    <strong style="color:#FFD700;">4635 Botbusters</strong> — OPR 204.5, undefeated 20-0, won 2 events. #1 in the field.<br>
+    <strong style="color:#FFD700;">8044 Denham Venom</strong> — OPR 191.7, won 2 events, 9-0 at Magnolia. Sleeper powerhouse.<br>
+    <strong style="color:#FFD700;">3478 LamBot</strong> — OPR 185.0, undefeated 10-0, won event. PrepaTec program.<br>
+    <strong style="color:#fff;">3937 Breakaway</strong> — OPR 142.5, our partner team. #3 at ARLI. Tod's crew.<br>
+    <strong style="color:#fff;">4087 Voodoo Voltage</strong> — OPR 124.6, rank 3 at Magnolia. New Orleans local.
+  </div>
+  <div class="callout orange">
+    <strong style="color:#FF9800;">Watch out for:</strong><br>
+    <strong>9309 Metal Mages</strong> — 7-2 record but NEGATIVE OPR (-3.7). They won on alliance partners, not their own scoring. Don't be fooled.<br>
+    <strong>9405 RouxBots</strong> — Won event with 2-7 quals record. Got picked into winning alliance. Not strong individually.
+  </div>
+  <div class="callout">
+    <strong style="color:#C9A84C;">That's us:</strong><br>
+    <strong>16 Bomb Squad</strong> — Corsair. OPR 94. #5 rank at ARLI, made semis. We know what we can do. Time to learn what everyone else can do.
+  </div>
+</div>
+
+<!-- QUESTIONS -->
+<div class="section">
+  <h2>❓ QUESTIONS?</h2>
+  <p>Post in the <strong style="color:#fff;">#scouting</strong> channel on Slack. Mr. B will answer.</p>
+  <p style="margin-top:8px;">If a team's card doesn't have much data, that's expected — 22 of the 54 teams have no 2026 competition data yet. We'll learn about them during pit scouting on Thursday morning and practice matches Thursday afternoon.</p>
+</div>
+
+</div>
+
+<div class="footer">
+  💣 BombsAway Scouting System · Team 16 Bomb Squad × Team 3937 Breakaway<br>
+  Bayou Regional 2026 · Gracious Professionalism
+</div>
+
+</body>
+</html>
