@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bomb Squad – Bayou Regional 2026</title>
+<meta name="description" content="Trip guide for FRC Team 16 Bomb Squad – Bayou Regional, Kenner LA, April 1–4, 2026">
+<meta property="og:title" content="Bomb Squad – Bayou Regional 2026">
+<meta property="og:description" content="Schedule, weather, budget, addresses, packing list & contacts for the Bayou trip.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#2A2957">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💣</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue: #2A2957;
+    --blue-dark: #1a1a3e;
+    --blue-light: #3d3d75;
+    --gold: #C9A84C;
+    --gold-light: #e0c775;
+    --gold-dim: rgba(201,168,76,0.15);
+    --bg: #0f0f1e;
+    --card: #1a1a30;
+    --card-hover: #222244;
+    --text: #e8e6f0;
+    --text-dim: #9a97b0;
+    --red: #e04040;
+    --green: #4caf50;
+    --orange: #ff9800;
+    --rain-blue: #5ca0d3;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── HEADER ─── */
+  .hero {
+    background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue) 50%, var(--blue-light) 100%);
+    padding: 2rem 1.25rem 1.5rem;
+    text-align: center;
+    border-bottom: 3px solid var(--gold);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -40%; left: -20%;
+    width: 140%; height: 180%;
+    background: radial-gradient(ellipse at 30% 50%, rgba(201,168,76,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--blue-dark);
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.75rem;
+    border-radius: 2px;
+    margin-bottom: 0.75rem;
+  }
+  .hero h1 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 2rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #fff;
+    transform: skewX(-4deg);
+    margin-bottom: 0.25rem;
+  }
+  .hero h1 span { color: var(--gold); }
+  .hero .subtitle {
+    font-size: 1rem;
+    color: var(--gold-light);
+    font-weight: 400;
+    margin-bottom: 0.15rem;
+  }
+  .hero .dates {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+  }
+
+  /* ─── NAV TABS ─── */
+  .tab-bar {
+    display: flex;
+    overflow-x: auto;
+    background: var(--blue-dark);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .tab-bar::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    flex: 0 0 auto;
+    padding: 0.7rem 1rem;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    background: none;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .tab-btn.active {
+    color: var(--gold);
+    border-bottom-color: var(--gold);
+  }
+
+  /* ─── SECTIONS ─── */
+  .section { display: none; padding: 1rem 1rem 3rem; }
+  .section.active { display: block; }
+
+  /* ─── DAY CARDS ─── */
+  .day-header {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 1.35rem;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 1.25rem 0 0.5rem;
+    padding-bottom: 0.35rem;
+    border-bottom: 1px solid rgba(201,168,76,0.25);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .day-header .day-icon {
+    font-size: 1.1rem;
+  }
+  .weather-strip {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: linear-gradient(135deg, rgba(92,160,211,0.12), rgba(201,168,76,0.08));
+    border: 1px solid rgba(92,160,211,0.2);
+    border-radius: 8px;
+    padding: 0.6rem 0.85rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.85rem;
+  }
+  .weather-strip .temp {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #fff;
+  }
+  .weather-strip .temp small {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    font-weight: 400;
+  }
+  .weather-strip .rain {
+    color: var(--rain-blue);
+    font-weight: 500;
+  }
+
+  .timeline {
+    position: relative;
+    padding-left: 1.25rem;
+    margin-left: 0.35rem;
+    border-left: 2px solid rgba(201,168,76,0.2);
+  }
+  .event {
+    position: relative;
+    margin-bottom: 0.85rem;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .event:last-child { border-bottom: none; margin-bottom: 0; }
+  .event::before {
+    content: '';
+    position: absolute;
+    left: -1.55rem;
+    top: 0.35rem;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 2px solid var(--bg);
+  }
+  .event.meal::before { background: var(--orange); }
+  .event.competition::before { background: var(--green); }
+  .event.travel::before { background: var(--rain-blue); }
+  .event-time {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--gold-light);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .event-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-top: 0.1rem;
+  }
+  .event-detail {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    margin-top: 0.2rem;
+  }
+  .event-detail a {
+    color: var(--rain-blue);
+    text-decoration: none;
+  }
+  .event-detail a:hover { text-decoration: underline; }
+
+  /* food note */
+  .food-note {
+    background: var(--gold-dim);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 6px 6px 0;
+    padding: 0.65rem 0.85rem;
+    margin-top: 0.75rem;
+    font-size: 0.82rem;
+    color: var(--gold-light);
+  }
+  .food-note strong { color: var(--gold); }
+
+  /* ─── INFO CARDS ─── */
+  .info-card {
+    background: var(--card);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 0.85rem;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .info-card h3 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.5rem;
+  }
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0.35rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 0.85rem;
+  }
+  .info-row:last-child { border-bottom: none; }
+  .info-row .label { color: var(--text-dim); }
+  .info-row .value { font-weight: 600; text-align: right; }
+  .info-row .value.gold { color: var(--gold); }
+
+  /* ─── ADDRESS BLOCK ─── */
+  .address-link {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    background: rgba(92,160,211,0.08);
+    border: 1px solid rgba(92,160,211,0.15);
+    border-radius: 8px;
+    padding: 0.6rem 0.75rem;
+    margin: 0.4rem 0;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.82rem;
+    transition: background 0.2s;
+  }
+  .address-link:active { background: rgba(92,160,211,0.18); }
+  .address-link .pin { font-size: 1.1rem; flex-shrink: 0; margin-top: 0.05rem; }
+  .address-link .addr-name { font-weight: 600; color: #fff; display: block; }
+  .address-link .addr-line { color: var(--text-dim); }
+
+  /* ─── PACKING ─── */
+  .pack-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+  .pack-item {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 6px;
+    padding: 0.5rem 0.6rem;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .pack-item .pi { font-size: 0.9rem; }
+
+  /* ─── CONTACTS ─── */
+  .contact-card {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--card);
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+    margin-bottom: 0.6rem;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .contact-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--blue-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--gold);
+    flex-shrink: 0;
+  }
+  .contact-info .cname {
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  .contact-info .cphone a {
+    color: var(--rain-blue);
+    text-decoration: none;
+    font-size: 0.85rem;
+  }
+
+  /* ─── SECTION TITLES ─── */
+  .section-title {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.85rem;
+  }
+
+  /* ─── RULES ─── */
+  .rule-item {
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 0.85rem;
+  }
+  .rule-item:last-child { border-bottom: none; }
+  .rule-item strong { color: var(--gold); }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    text-align: center;
+    padding: 1.5rem 1rem;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (min-width: 600px) {
+    .hero h1 { font-size: 2.6rem; }
+    .section { padding: 1.5rem 2rem 3rem; }
+    .pack-grid { grid-template-columns: 1fr 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════ HERO ═══════ -->
+<header class="hero">
+  <div class="hero-badge">FRC Team 16</div>
+  <h1><span>Bomb Squad</span> × Bayou</h1>
+  <div class="subtitle">2026 Bayou Regional – Kenner, LA</div>
+  <div class="dates">Wednesday, April 1 – Saturday, April 4</div>
+</header>
+
+<!-- ═══════ TAB BAR ═══════ -->
+<nav class="tab-bar" id="tabBar">
+  <button class="tab-btn active" data-tab="overview">Overview</button>
+  <button class="tab-btn" data-tab="day1">Wed 4/1</button>
+  <button class="tab-btn" data-tab="day2">Thu 4/2</button>
+  <button class="tab-btn" data-tab="day3">Fri 4/3</button>
+  <button class="tab-btn" data-tab="day4">Sat 4/4</button>
+  <button class="tab-btn" data-tab="budget">Budget</button>
+  <button class="tab-btn" data-tab="packing">Packing</button>
+  <button class="tab-btn" data-tab="contacts">Contacts</button>
+</nav>
+
+<!-- ════════════════════════════════════════ -->
+<!-- OVERVIEW -->
+<!-- ════════════════════════════════════════ -->
+<div class="section active" id="overview">
+  <div class="section-title">Trip at a Glance</div>
+
+  <div class="info-card">
+    <h3>Key Locations</h3>
+    <a class="address-link" href="https://maps.google.com/?q=1439+College+Street+Mountain+Home+AR+72653" target="_blank">
+      <span class="pin">📍</span>
+      <div><span class="addr-name">Bomb Shelter (Departure / Return)</span><span class="addr-line">1439 College Street, Mountain Home, AR 72653</span></div>
+    </a>
+    <a class="address-link" href="https://maps.google.com/?q=Holiday+Inn+Express+1801+32nd+Street+Kenner+LA+70062" target="_blank">
+      <span class="pin">🏨</span>
+      <div><span class="addr-name">Holiday Inn Express – New Orleans Airport</span><span class="addr-line">1801 32nd Street, Kenner, LA 70062 · (504) 443-9800</span></div>
+    </a>
+    <a class="address-link" href="https://maps.google.com/?q=Pontchartrain+Convention+Civic+Center+4545+Williams+Blvd+Kenner+LA+70065" target="_blank">
+      <span class="pin">🏟️</span>
+      <div><span class="addr-name">Pontchartrain Convention & Civic Center</span><span class="addr-line">4545 Williams Blvd, Kenner, LA 70065 · (504) 465-9985</span></div>
+    </a>
+  </div>
+
+  <div class="info-card">
+    <h3>Weather Outlook – Kenner, LA</h3>
+    <div class="info-row"><span class="label">Wed 4/1</span><span class="value">79°/68° · 40% storms</span></div>
+    <div class="info-row"><span class="label">Thu 4/2</span><span class="value">79°/68° · 40% storms</span></div>
+    <div class="info-row"><span class="label">Fri 4/3</span><span class="value">79°/67° · 60% rain</span></div>
+    <div class="info-row"><span class="label">Sat 4/4</span><span class="value">78°/66° · 60% rain</span></div>
+    <p style="font-size:0.78rem;color:var(--text-dim);margin-top:0.5rem;">Hot and humid. Expect afternoon showers, especially Fri–Sat. Pack light layers, rain gear, and a water bottle. Sunscreen is a must for outdoor lunches.</p>
+  </div>
+
+  <div class="info-card">
+    <h3>Quick Budget Summary</h3>
+    <div class="info-row"><span class="label">Prepay (Soda/Ice + Chick-Fil-A)</span><span class="value gold">$45</span></div>
+    <div class="info-row"><span class="label">On-Your-Own Food Expenses</span><span class="value gold">$110</span></div>
+    <div class="info-row" style="border-top:1px solid rgba(201,168,76,0.2);padding-top:0.5rem;"><span class="label" style="font-weight:600;color:#fff;">Total Food Costs</span><span class="value gold" style="font-size:1.05rem;">$155</span></div>
+  </div>
+
+  <div class="info-card">
+    <h3>Transportation</h3>
+    <p style="font-size:0.85rem;color:var(--text-dim);">Charter bus via <strong style="color:#fff;">Village Travel</strong>. Driver exchange at the Love's Truck Stop in West Memphis on the way down. Return trip is overnight Saturday–Sunday.</p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- WEDNESDAY APRIL 1 – TRAVEL DAY -->
+<!-- ════════════════════════════════════════ -->
+<div class="section" id="day1">
+  <div class="day-header"><span class="day-icon">🚌</span> Wednesday, April 1 – Travel Day</div>
+  <div class="weather-strip">
+    <span class="temp">79° <small>/ 68°</small></span>
+    <span class="rain">⛈ 40% afternoon storms</span>
+  </div>
+
+  <div class="timeline">
+    <div class="event travel">
+      <div class="event-time">3:00 AM</div>
+      <div class="event-title">Meet at Bomb Shelter & Load Bus</div>
+      <a class="address-link" href="https://maps.google.com/?q=1439+College+Street+Mountain+Home+AR+72653" target="_blank">
+        <span class="pin">📍</span>
+        <div><span class="addr-name">Bomb Shelter</span><span class="addr-line">1439 College St, Mountain Home, AR 72653</span></div>
+      </a>
+    </div>
+    <div class="event travel">
+      <div class="event-time">3:30 AM</div>
+      <div class="event-title">Depart for Kenner</div>
+    </div>
+    <div class="event meal">
+      <div class="event-time">7:00 – 7:30 AM</div>
+      <div class="event-title">Stop: West Memphis Love's – Driver Exchange</div>
+      <div class="event-detail">Budget: $15 on your own</div>
+      <a class="address-link" href="https://maps.google.com/?q=800+Martin+Luther+King+Jr+Drive+West+Memphis+AR+72301" target="_blank">
+        <span class="pin">⛽</span>
+        <div><span class="addr-name">Love's Truck Stop</span><span class="addr-line">800 Martin Luther King Jr Dr, West Memphis, AR 72301</span></div>
+      </a>
+    </div>
+    <div class="event meal">
+      <div class="event-time">11:30 AM – 12:00 PM</div>
+      <div class="event-title">Stop: Jackson Love's – Lunch</div>
+      <div class="event-detail">Budget: $15 on your own</div>
+      <a class="address-link" href="https://maps.google.com/?q=725+Hwy+35+N+Batesville+MS+38606" target="_blank">
+        <span class="pin">⛽</span>
+        <div><span class="addr-name">Love's Truck Stop</span><span class="addr-line">725 Hwy 35 N, Batesville, MS 38606</span></div>
+      </a>
+    </div>
+    <div class="event travel">
+      <div class="event-time">~3:30 PM</div>
+      <div class="event-title">Louisiana Welcome Center</div>
+      <a class="address-link" href="https://maps.google.com/?q=77479+I-55+Kentwood+LA+70444" target="_blank">
+        <span class="pin">🛣️</span>
+        <div><span class="addr-name">Louisiana Welcome Center</span><span class="addr-line">77479 I-55, Kentwood, LA 70444</span></div>
+      </a>
+    </div>
+    <div class="event">
+      <div class="event-time">~4:30 PM</div>
+      <div class="event-title">Arrive at Hotel</div>
+      <a class="address-link" href="https://maps.google.com/?q=Holiday+Inn+Express+1801+32nd+Street+Kenner+LA+70062" target="_blank">
+        <span class="pin">🏨</span>
+        <div><span class="addr-name">Holiday Inn Express</span><span class="addr-line">1801 32nd St, Kenner, LA 70062 · (504) 443-9800</span></div>
+      </a>
+    </div>
+    <div class="event meal">
+      <div class="event-time">4:30 PM</div>
+      <div class="event-title">Shrimp Boil in the Parking Lot</div>
+      <div class="event-detail">Dinner with Breakaway. Thompson is cooking!</div>
+    </div>
+    <div class="event competition">
+      <div class="event-time">6:00 – 8:00 PM</div>
+      <div class="event-title">Pit Load-In & Setup</div>
+      <div class="event-detail">5 students + 1 mentor head to the venue to load in and set up pits.</div>
+    </div>
+    <div class="event">
+      <div class="event-time">8:00 – 9:00 PM</div>
+      <div class="event-title">BombsAway Scouting System Presentation</div>
+    </div>
+    <div class="event">
+      <div class="event-time">10:00 PM</div>
+      <div class="event-title">Lights Out</div>
+    </div>
+  </div>
+
+  <div class="food-note">
+    <strong>$30 Food Budget</strong> — We stop at truck stops throughout the day. Bring as much cash as you'll need at the stops. Dinner is the shrimp boil in the parking lot with Breakaway.
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- THURSDAY APRIL 2 – PRACTICE DAY -->
+<!-- ════════════════════════════════════════ -->
+<div class="section" id="day2">
+  <div class="day-header"><span class="day-icon">🔧</span> Thursday, April 2 – Practice Day</div>
+  <div class="weather-strip">
+    <span class="temp">79° <small>/ 68°</small></span>
+    <span class="rain">⛈ 40% afternoon storms</span>
+  </div>
+
+  <div class="timeline">
+    <div class="event">
+      <div class="event-time">6:00 AM</div>
+      <div class="event-title">Room Check & Breakfast at Hotel</div>
+    </div>
+    <div class="event travel">
+      <div class="event-time">7:15 AM</div>
+      <div class="event-title">Head to Venue</div>
+      <a class="address-link" href="https://maps.google.com/?q=Pontchartrain+Convention+Civic+Center+4545+Williams+Blvd+Kenner+LA+70065" target="_blank">
+        <span class="pin">🏟️</span>
+        <div><span class="addr-name">Pontchartrain Convention & Civic Center</span><span class="addr-line">4545 Williams Blvd, Kenner, LA 70065</span></div>
+      </a>
+    </div>
+    <div class="event competition">
+      <div class="event-time">8:30 AM</div>
+      <div class="event-title">Pits, Machine Shop, Registration & Inspection Open</div>
+    </div>
+    <div class="event competition">
+      <div class="event-time">9:00 – 11:00 AM</div>
+      <div class="event-title">Driver's Meeting, Field Open for Measurement & Calibration</div>
+    </div>
+    <div class="event meal">
+      <div class="event-time">11:00 AM – 12:00 PM</div>
+      <div class="event-title">Lunch Outside – Pastalya with Denham Venom</div>
+      <div class="event-detail">At the trailer with Breakaway. Use your water bottles. Ice and 2-liters provided. Folding chairs and pop-up top by the trailer.</div>
+    </div>
+    <div class="event competition">
+      <div class="event-time">12:00 – 6:00 PM</div>
+      <div class="event-title">Practice Matches</div>
+    </div>
+    <div class="event competition">
+      <div class="event-time">6:00 PM</div>
+      <div class="event-title">Pits & Machine Shop Close</div>
+    </div>
+    <div class="event meal">
+      <div class="event-time">6:10 PM</div>
+      <div class="event-title">Dinner: Smitty's Seafood – Crawfish Boil</div>
+      <div class="event-detail">Bring money for a tip — at least $5.00.</div>
+      <a class="address-link" href="https://maps.google.com/?q=Smittys+Seafood+2000+W+Esplanade+Ave+Kenner+LA+70065" target="_blank">
+        <span class="pin">🦞</span>
+        <div><span class="addr-name">Smitty's Seafood</span><span class="addr-line">2000 W Esplanade Ave, Kenner, LA 70065 · (504) 468-1647</span></div>
+      </a>
+    </div>
+    <div class="event">
+      <div class="event-time">10:00 PM</div>
+      <div class="event-title">Room Check & Lights Out</div>
+    </div>
+  </div>
+
+  <div class="food-note">
+    <strong>$5 Food Budget (tip money)</strong> — Breakfast at hotel. Lunch is Pastalya outside at the trailer with Breakaway/Denham Venom. Dinner is Smitty's crawfish boil — bring at least $5 for a tip.
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- FRIDAY APRIL 3 – QUALS DAY 1 -->
+<!-- ════════════════════════════════════════ -->
+<div class="section" id="day3">
+  <div class="day-header"><span class="day-icon">🏆</span> Friday, April 3 – Qualification Day 1</div>
+  <div class="weather-strip">
+    <span class="temp">79° <small>/ 67°</small></span>
+    <span class="rain">🌧️ 60% chance of rain</span>
+  </div>
+
+  <div class="timeline">
+    <div class="event">
+      <div class="event-time">6:00 AM</div>
+      <div class="event-title">Room Check & Breakfast at Hotel</div>
+    </div>
+    <div class="event travel">
+      <div class="event-time">6:45 AM</div>
+      <div class="event-title">Head to Venue</div>
+    </div>
+    <div class="event competition">
+      <div class="event-time">8:00 AM</div>
+      <div class="event-title">Pits, Machine Shop, Registration & Inspection Open</div>
+    </div>
+    <div class="event competition">
+      <div class="event-time">8:30 – 8:50 AM</div>
+      <div class="event-title">Opening Ceremonies</div>
+    </div>
+    <div class="event competition">
+      <div class="event-time">8:50 AM – 12:00 PM</div>
+      <div class="event-title">Qualification Matches</div>
+    </div>
+    <div class="event meal">
+      <div class="event-time">12:00 – 1:00 PM</div>
+      <div class="event-title">Lunch Outside – Chick-Fil-A Boxes</div>
+      <div class="event-detail">Prepaid ($15). Extra chips, snacks, drinks at the trailer. Use your water bottles. Ice and 2-liters provided.</div>
+      <a class="address-link" href="https://maps.google.com/?q=Chick-fil-A+2236+Veterans+Blvd+Kenner+LA+70062" target="_blank">
+        <span class="pin">🐔</span>
+        <div><span class="addr-name">Chick-Fil-A (prepaid pickup)</span><span class="addr-line">2236 Veterans Blvd, Kenner, LA 70062 · (504) 469-2300</span></div>
+      </a>
+    </div>
+    <div class="event competition">
+      <div class="event-time">1:00 – 5:45 PM</div>
+      <div class="event-title">Qualification Matches Continue</div>
+    </div>
+    <div class="event competition">
+      <div class="event-time">5:45 – 6:15 PM</div>
+      <div class="event-title">Awards Ceremony</div>
+    </div>
+    <div class="event competition">
+      <div class="event-time">~6:30 PM</div>
+      <div class="event-title">Pits & Machine Shop Close</div>
+    </div>
+    <div class="event meal">
+      <div class="event-time">7:00 PM</div>
+      <div class="event-title">Dinner: Harbor Seafood & Oyster Bar</div>
+      <div class="event-detail">Budget: $20 on your own. Just across the street from the venue.</div>
+      <a class="address-link" href="https://maps.google.com/?q=Harbor+Seafood+Oyster+Bar+3201+Williams+Blvd+Kenner+LA+70065" target="_blank">
+        <span class="pin">🦪</span>
+        <div><span class="addr-name">Harbor Seafood & Oyster Bar</span><span class="addr-line">3201 Williams Blvd, Kenner, LA 70065 · (504) 443-6454</span></div>
+      </a>
+    </div>
+    <div class="event">
+      <div class="event-time">10:00 PM</div>
+      <div class="event-title">Room Check & Lights Out</div>
+    </div>
+  </div>
+
+  <div class="food-note">
+    <strong>$35 Food Budget</strong> — Breakfast at hotel. Lunch is prepaid Chick-Fil-A boxes at the trailer. Dinner is Harbor Seafood & Oyster Bar ($20 OYO).
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- SATURDAY APRIL 4 – QUALS DAY 2 / PLAYOFFS -->
+<!-- ════════════════════════════════════════ -->
+<div class="section" id="day4">
+  <div class="day-header"><span class="day-icon">🏅</span> Saturday, April 4 – Quals Day 2 & Playoffs</div>
+  <div class="weather-strip">
+    <span class="temp">78° <small>/ 66°</small></span>
+    <span class="rain">🌧️ 60% chance of rain</span>
+  </div>
+
+  <div class="timeline">
+    <div class="event">
+      <div class="event-time">6:00 AM</div>
+      <div class="event-title">Room Check, Breakfast & Check Out</div>
+      <div class="event-detail">Pack everything — we don't return to the hotel.</div>
+    </div>
+    <div class="event travel">
+      <div class="event-time">6:45 AM</div>
+      <div class="event-title">Head to Venue</div>
+    </div>
+    <div class="event competition">
+      <div class="event-time">8:00 AM</div>
+      <div class="event-title">Pits, Machine Shop, Registration & Inspection Open</div>
+    </div>
+    <div class="event competition">
+      <div class="event-time">8:30 – 8:50 AM</div>
+      <div class="event-title">Opening Ceremonies</div>
+    </div>
+    <div class="event competition">
+      <div class="event-time">8:50 AM – 12:00 PM</div>
+      <div class="event-title">Qualification Matches</div>
+    </div>
+    <div class="event competition">
+      <div class="event-time">~12:00 – 12:30 PM</div>
+      <div class="event-title">Alliance Selections</div>
+      <div class="event-detail">Begins 8 minutes after the last qualification match.</div>
+    </div>
+    <div class="event meal">
+      <div class="event-time">12:30 – 1:30 PM</div>
+      <div class="event-title">Lunch Outside – Chick-Fil-A Boxes</div>
+      <div class="event-detail">Prepaid ($15). Extra chips, snacks, drinks at the trailer.</div>
+    </div>
+    <div class="event competition">
+      <div class="event-time">1:30 – 5:00 PM</div>
+      <div class="event-title">Playoff Matches & Awards Ceremony</div>
+    </div>
+    <div class="event competition">
+      <div class="event-time">~5:00 PM</div>
+      <div class="event-title">Pits Close (30 min after Closing Ceremony)</div>
+    </div>
+    <div class="event">
+      <div class="event-time">5:30 PM</div>
+      <div class="event-title">Help Tear Down Field</div>
+    </div>
+    <div class="event travel">
+      <div class="event-time">7:00 PM</div>
+      <div class="event-title">Load Bus</div>
+    </div>
+    <div class="event meal">
+      <div class="event-time">7:30 PM</div>
+      <div class="event-title">Dinner (TBD)</div>
+      <div class="event-detail">Budget: $25 on your own. Location to be determined — somewhere in Kenner or on the road home.</div>
+    </div>
+    <div class="event travel">
+      <div class="event-time">Overnight</div>
+      <div class="event-title">Drive Home</div>
+    </div>
+    <div class="event">
+      <div class="event-time">~5:00 AM Sun 4/5</div>
+      <div class="event-title">Arrive Back at Bomb Shelter</div>
+      <a class="address-link" href="https://maps.google.com/?q=1439+College+Street+Mountain+Home+AR+72653" target="_blank">
+        <span class="pin">🏠</span>
+        <div><span class="addr-name">Bomb Shelter</span><span class="addr-line">1439 College St, Mountain Home, AR 72653</span></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="food-note">
+    <strong>$40 Food Budget</strong> — Breakfast at hotel. Lunch is prepaid Chick-Fil-A boxes at the trailer. Dinner is $25 OYO at TBD location. Chick-Fil-A prepay must be paid before we leave for Kenner.
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- BUDGET -->
+<!-- ════════════════════════════════════════ -->
+<div class="section" id="budget">
+  <div class="section-title">Food Budget Breakdown</div>
+
+  <div class="info-card">
+    <h3>Daily On-Your-Own</h3>
+    <div class="info-row"><span class="label">Wed 4/1 — Travel Day</span><span class="value">$30</span></div>
+    <div class="info-row"><span class="label">Thu 4/2 — Tip at Smitty's</span><span class="value">$5</span></div>
+    <div class="info-row"><span class="label">Fri 4/3 — Dinner at Harbor</span><span class="value">$35</span></div>
+    <div class="info-row"><span class="label">Sat 4/4 — Dinner TBD</span><span class="value">$40</span></div>
+    <div class="info-row" style="border-top:1px solid rgba(201,168,76,0.25);padding-top:0.5rem;"><span class="label" style="font-weight:600;color:#fff;">Subtotal OYO</span><span class="value gold">$110</span></div>
+  </div>
+
+  <div class="info-card">
+    <h3>Prepaid (Due Before Departure)</h3>
+    <div class="info-row"><span class="label">Soda & Ice</span><span class="value">$15</span></div>
+    <div class="info-row"><span class="label">Chick-Fil-A (Fri + Sat lunches)</span><span class="value">$30</span></div>
+    <div class="info-row" style="border-top:1px solid rgba(201,168,76,0.25);padding-top:0.5rem;"><span class="label" style="font-weight:600;color:#fff;">Subtotal Prepay</span><span class="value gold">$45</span></div>
+  </div>
+
+  <div class="info-card" style="border:1px solid rgba(201,168,76,0.3);background:rgba(201,168,76,0.06);">
+    <h3>Total</h3>
+    <div class="info-row"><span class="label" style="font-size:1rem;font-weight:600;color:#fff;">Total Food Costs</span><span class="value gold" style="font-size:1.3rem;font-family:'Oswald',sans-serif;">$155</span></div>
+  </div>
+
+  <div class="food-note" style="margin-top:1rem;">
+    <strong>Heads up:</strong> Bring extra cash for tips at restaurants. $5 minimum at Smitty's on Thursday. Friday and Saturday dinners are on-your-own so plan for tip on top of food cost.
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- PACKING -->
+<!-- ════════════════════════════════════════ -->
+<div class="section" id="packing">
+  <div class="section-title">What to Pack</div>
+
+  <div class="info-card">
+    <h3>Clothes & Gear (4 Days / 3 Nights)</h3>
+    <div class="pack-grid">
+      <div class="pack-item"><span class="pi">👕</span> Team shirts</div>
+      <div class="pack-item"><span class="pi">👖</span> Comfortable pants/shorts</div>
+      <div class="pack-item"><span class="pi">👟</span> Closed-toe shoes (pit req.)</div>
+      <div class="pack-item"><span class="pi">🧦</span> Extra socks</div>
+      <div class="pack-item"><span class="pi">🌧️</span> Rain jacket / poncho</div>
+      <div class="pack-item"><span class="pi">😎</span> Sunglasses</div>
+      <div class="pack-item"><span class="pi">🧴</span> Sunscreen</div>
+      <div class="pack-item"><span class="pi">🧢</span> Hat / cap</div>
+      <div class="pack-item"><span class="pi">🛏️</span> Pajamas</div>
+      <div class="pack-item"><span class="pi">🩴</span> Sandals (hotel only)</div>
+    </div>
+  </div>
+
+  <div class="info-card">
+    <h3>Essentials</h3>
+    <div class="pack-grid">
+      <div class="pack-item"><span class="pi">🔌</span> Phone charger</div>
+      <div class="pack-item"><span class="pi">🔋</span> Portable battery</div>
+      <div class="pack-item"><span class="pi">🪥</span> Toiletries</div>
+      <div class="pack-item"><span class="pi">💊</span> Medications</div>
+      <div class="pack-item"><span class="pi">🍶</span> Water bottle</div>
+      <div class="pack-item"><span class="pi">🎧</span> Headphones (bus)</div>
+      <div class="pack-item"><span class="pi">💵</span> Cash ($155+ total)</div>
+      <div class="pack-item"><span class="pi">🪪</span> Student ID</div>
+    </div>
+  </div>
+
+  <div class="info-card">
+    <h3>Bus Comfort (13+ hrs each way)</h3>
+    <div class="pack-grid">
+      <div class="pack-item"><span class="pi">🛌</span> Pillow</div>
+      <div class="pack-item"><span class="pi">🧣</span> Blanket</div>
+      <div class="pack-item"><span class="pi">🍫</span> Snacks</div>
+      <div class="pack-item"><span class="pi">📚</span> Entertainment</div>
+    </div>
+  </div>
+
+  <div class="food-note">
+    <strong>Weather reminder:</strong> Kenner will be 78–80°F and humid. Rain chances increase Fri–Sat (60%). Dress light but bring a rain jacket for outdoor lunch at the trailer. Closed-toe shoes are required in the pits at all times.
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- CONTACTS -->
+<!-- ════════════════════════════════════════ -->
+<div class="section" id="contacts">
+  <div class="section-title">Emergency Contacts</div>
+
+  <div class="contact-card">
+    <div class="contact-avatar">JR</div>
+    <div class="contact-info">
+      <div class="cname">J.R. Bergenstock</div>
+      <div class="cphone"><a href="tel:+18704054826">(870) 405-4826</a></div>
+    </div>
+  </div>
+
+  <div class="contact-card">
+    <div class="contact-avatar">BY</div>
+    <div class="contact-info">
+      <div class="cname">Bradford Young</div>
+      <div class="cphone"><a href="tel:+18704040102">(870) 404-0102</a></div>
+    </div>
+  </div>
+
+  <div class="section-title" style="margin-top:1.5rem;">Key Venues</div>
+
+  <div class="info-card">
+    <h3>Hotel</h3>
+    <a class="address-link" href="https://maps.google.com/?q=Holiday+Inn+Express+1801+32nd+Street+Kenner+LA+70062" target="_blank">
+      <span class="pin">🏨</span>
+      <div><span class="addr-name">Holiday Inn Express – New Orleans Airport</span><span class="addr-line">1801 32nd St, Kenner, LA 70062</span></div>
+    </a>
+    <div style="font-size:0.85rem;margin-top:0.25rem;">📞 <a href="tel:+15044439800" style="color:var(--rain-blue);text-decoration:none;">(504) 443-9800</a></div>
+  </div>
+
+  <div class="info-card">
+    <h3>Competition Venue</h3>
+    <a class="address-link" href="https://maps.google.com/?q=Pontchartrain+Convention+Civic+Center+4545+Williams+Blvd+Kenner+LA+70065" target="_blank">
+      <span class="pin">🏟️</span>
+      <div><span class="addr-name">Pontchartrain Convention & Civic Center</span><span class="addr-line">4545 Williams Blvd, Kenner, LA 70065</span></div>
+    </a>
+    <div style="font-size:0.85rem;margin-top:0.25rem;">📞 <a href="tel:+15044659985" style="color:var(--rain-blue);text-decoration:none;">(504) 465-9985</a></div>
+  </div>
+
+  <div class="info-card">
+    <h3>Restaurants</h3>
+    <a class="address-link" href="https://maps.google.com/?q=Smittys+Seafood+2000+W+Esplanade+Ave+Kenner+LA+70065" target="_blank">
+      <span class="pin">🦞</span>
+      <div><span class="addr-name">Smitty's Seafood (Thu dinner)</span><span class="addr-line">2000 W Esplanade Ave · (504) 468-1647</span></div>
+    </a>
+    <a class="address-link" href="https://maps.google.com/?q=Harbor+Seafood+Oyster+Bar+3201+Williams+Blvd+Kenner+LA+70065" target="_blank">
+      <span class="pin">🦪</span>
+      <div><span class="addr-name">Harbor Seafood & Oyster Bar (Fri dinner)</span><span class="addr-line">3201 Williams Blvd · (504) 443-6454</span></div>
+    </a>
+    <a class="address-link" href="https://maps.google.com/?q=Chick-fil-A+2236+Veterans+Blvd+Kenner+LA+70062" target="_blank">
+      <span class="pin">🐔</span>
+      <div><span class="addr-name">Chick-Fil-A (Fri & Sat lunch pickup)</span><span class="addr-line">2236 Veterans Blvd · (504) 469-2300</span></div>
+    </a>
+  </div>
+</div>
+
+<!-- ═══════ FOOTER ═══════ -->
+<div class="footer">
+  BOMB SQUAD · FRC Team 16 · Mountain Home, Arkansas<br>
+  Bayou Regional 2026 · Kenner, LA · April 1–4<br>
+  <span style="color:var(--gold);">Steel Sharpens Steel.</span>
+</div>
+
+<!-- ═══════ TAB SCRIPT ═══════ -->
+<script>
+  const tabs = document.querySelectorAll('.tab-btn');
+  const sections = document.querySelectorAll('.section');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      sections.forEach(s => s.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById(tab.dataset.tab).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>
