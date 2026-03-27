@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BombsAway — Bayou Qualification Report</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Source+Sans+3:wght@400;600;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0D0D1A;color:#E0E0E0;font-family:'Source Sans 3',sans-serif;font-size:15px}
+h1,h2,h3,.stat-val{font-family:'Oswald',sans-serif}
+a{color:#C9A84C;text-decoration:none}
+
+.header{background:#2A2957;padding:20px 24px;border-bottom:3px solid #C9A84C;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.header h1{color:#C9A84C;font-size:28px;letter-spacing:1px;transform:skewX(-16deg)}
+.header h1 span{color:#fff}
+.header .sub{color:#aaa;font-size:14px}
+.header .event-info{color:#fff;font-size:14px;text-align:right}
+
+.stats-bar{display:flex;gap:0;background:#1A1A2E;border-bottom:1px solid #333}
+.stat-box{flex:1;text-align:center;padding:16px 8px;border-right:1px solid #333}
+.stat-box:last-child{border-right:none}
+.stat-val{font-size:32px;color:#C9A84C;font-weight:700}
+.stat-label{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+
+.content{padding:20px 24px;max-width:1400px;margin:0 auto}
+
+.section{margin-bottom:28px}
+.section h2{color:#C9A84C;font-size:22px;margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid #333}
+
+.callout{background:#12122a;border-left:4px solid #C9A84C;padding:14px 18px;margin:16px 0;border-radius:0 6px 6px 0;font-size:15px;line-height:1.6}
+.callout.green{border-left-color:#4CAF50}
+.callout.red{border-left-color:#F44336}
+.callout.blue{border-left-color:#2196F3}
+.callout strong{color:#fff}
+
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{background:#2A2957;color:#C9A84C;padding:10px 12px;text-align:left;font-family:'Oswald',sans-serif;font-size:13px;text-transform:uppercase;position:sticky;top:0;z-index:5}
+th:hover{background:#353570;cursor:pointer}
+td{padding:8px 12px;border-bottom:1px solid #1a1a30}
+tr:hover{background:#1A1A2E}
+tr.us{background:rgba(42,41,87,0.3)}
+tr.us:hover{background:rgba(42,41,87,0.5)}
+tr.partner{background:rgba(201,168,76,0.06)}
+tr.qualified{background:rgba(76,175,80,0.08)}
+
+.team-num{font-family:'Oswald',sans-serif;font-size:20px;font-weight:700;color:#C9A84C}
+.team-name{font-size:13px;color:#aaa}
+.opr-val{font-family:'Oswald',sans-serif;font-weight:600;font-size:16px}
+.epa-val{font-family:'Oswald',sans-serif;font-weight:600;font-size:16px}
+.bar{height:6px;background:#222;border-radius:3px;overflow:hidden;min-width:80px}
+.bar-fill{height:100%;border-radius:3px}
+.record{font-weight:600}
+.win{color:#4CAF50}
+.lose{color:#F44336}
+.qual-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700}
+.qual-yes{background:#1b3a1b;color:#4CAF50}
+.qual-likely{background:#2a2a00;color:#C9A84C}
+.qual-possible{background:#2a1a00;color:#FF9800}
+.qual-no{background:#1a1a2e;color:#555}
+
+.duo-bar{display:flex;align-items:center;gap:4px;margin:2px 0}
+.duo-label{font-size:10px;color:#666;min-width:26px;font-family:'Oswald',sans-serif;font-weight:700}
+.duo-val{font-size:12px;font-weight:700;min-width:36px;text-align:right;font-family:'Oswald',sans-serif}
+
+.footer{text-align:center;color:#555;font-size:12px;padding:20px;border-top:1px solid #222;margin-top:24px}
+
+@media print{body{background:#fff;color:#000}th{background:#2A2957;-webkit-print-color-adjust:exact;print-color-adjust:exact}.team-num{color:#2A2957}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>BOMBS<span>AWAY</span> — BAYOU QUALIFICATION REPORT</h1>
+    <div class="sub">Data pulled March 25, 2026 from TBA + Statbotics | For Kevin & Strategy Team</div>
+  </div>
+  <div class="event-info">
+    <div><strong>Bayou Regional — April 1–4, 2026</strong></div>
+    <div>Pontchartrain Center, Kenner, LA</div>
+    <div>55 Teams · Event Code: 2026lake</div>
+  </div>
+</div>
+
+<div class="stats-bar" id="statsBar">
+  <div class="stat-box"><div class="stat-val">55</div><div class="stat-label">Teams</div></div>
+  <div class="stat-box"><div class="stat-val">33</div><div class="stat-label">Have OPR</div></div>
+  <div class="stat-box"><div class="stat-val">55</div><div class="stat-label">Have EPA</div></div>
+  <div class="stat-box"><div class="stat-val">3</div><div class="stat-label">Likely Qualified</div></div>
+  <div class="stat-box"><div class="stat-val">6</div><div class="stat-label">Bomb Squad Rank</div></div>
+  <div class="stat-box"><div class="stat-val">4</div><div class="stat-label">Breakaway Rank</div></div>
+</div>
+
+<div class="content">
+
+<!-- STATUS -->
+<div class="section">
+  <h2>🎯 WHERE WE STAND</h2>
+  <div class="callout">
+    <strong style="color:#C9A84C;">16 Bomb Squad</strong> — OPR 94.0 · EPA 97.1 · Record 8-4 · <strong>#6 at Bayou by OPR</strong><br>
+    Rank 5 at ARLI. Need a strong Bayou showing. Win the event = auto-qualify. Deep playoff run + good quals = competitive for points.
+  </div>
+  <div class="callout" style="border-left-color:#C9A84C;">
+    <strong style="color:#C9A84C;">3937 Breakaway</strong> — OPR 142.5 · EPA 144.5 · Record 10-2 · <strong>#4 at Bayou by OPR</strong><br>
+    Rank 3 at ARLI. Stronger position — top-4 finish at Bayou puts them in serious contention. Tod's crew is in the hunt.
+  </div>
+</div>
+
+<!-- ALREADY QUALIFIED -->
+<div class="section">
+  <h2>🏆 LIKELY ALREADY QUALIFIED (Event Winners with 2+ Events)</h2>
+  <div class="callout green">
+    <strong>4635 Botbusters</strong> — OPR 204.5 · EPA 166.2 · 20-0 · Won 2 events · 4 events played. Global top 20.<br>
+    <strong>8044 Denham Venom</strong> — OPR 191.7 · EPA 181.7 · 18-3 · Won 2 events · 4 events played. Global top 25.<br>
+    <strong>3478 LamBot</strong> — OPR 185.0 · EPA 149.8 · 10-0 · Won event · 3 events played. Auto-qualified via event win.
+  </div>
+  <p style="color:#888;font-size:13px;margin-top:8px;">These 3 teams are almost certainly going to Worlds. They're also the 3 biggest threats at Bayou.</p>
+</div>
+
+<!-- THE MATH -->
+<div class="section">
+  <h2>📊 THE QUALIFICATION MATH</h2>
+  <div class="callout blue">
+    <strong>How regional qualification works:</strong><br>
+    Teams earn points from: Qualification Performance + Alliance Selection + Playoff Advancement + Awards + Team Age.<br>
+    Your two best events count. Top ~50-60 of ~1,630 regional teams get invited.<br>
+    The cutline is typically around 130-140 combined points from 2 events.<br><br>
+    <strong>Shortcut:</strong> Win the event = automatic qualification, regardless of points.
+  </div>
+</div>
+
+<!-- FULL RANKINGS -->
+<div class="section">
+  <h2>📋 ALL 55 BAYOU TEAMS — RANKED BY OPR</h2>
+  <p style="color:#888;font-size:13px;margin-bottom:12px;">Updated OPR from TBA (best across all prior events) + real EPA from Statbotics. Click column headers to sort.</p>
+  
+  <table id="mainTable">
+    <thead>
+      <tr>
+        <th onclick="sortTable(0)">#</th>
+        <th onclick="sortTable(1)">Team</th>
+        <th onclick="sortTable(2)">OPR</th>
+        <th onclick="sortTable(3)">EPA</th>
+        <th onclick="sortTable(4)">Ev</th>
+        <th onclick="sortTable(5)">Record</th>
+        <th onclick="sortTable(6)">Win%</th>
+        <th>OPR / EPA Bars</th>
+        <th>Worlds?</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+  </table>
+</div>
+
+<!-- KEY MATCHUPS -->
+<div class="section">
+  <h2>⚔️ KEY MATCHUPS TO WATCH</h2>
+  <div class="callout red">
+    <strong>Top 5 Alliance Captain Race:</strong><br>
+    The top 8 seeds pick alliances. Being a captain or high pick is the fastest path to playoff points.<br>
+    #1 4635 Botbusters (204.5) — untouchable<br>
+    #2 8044 Denham Venom (191.7) — untouchable<br>
+    #3 3478 LamBot (185.0) — untouchable<br>
+    #4 3937 Breakaway (142.5) — <strong style="color:#C9A84C;">our partner, strong captain candidate</strong><br>
+    #5 4087 Voodoo Voltage (124.6) — the gatekeeper<br>
+    #6 16 Bomb Squad (94.0) — <strong style="color:#C9A84C;">we need to outperform 4087 or be a top pick</strong><br>
+    #7 2183 Tigerbots (90.1) — 3 events of experience<br>
+    #8 2992 S.S. Prometheus (87.1) — dark horse for 8th seed
+  </div>
+</div>
+
+<!-- EPA vs OPR DISAGREEMENTS -->
+<div class="section">
+  <h2>🔍 EPA vs OPR — WHERE THEY DISAGREE</h2>
+  <div class="callout">
+    <strong>EPA says better than OPR:</strong><br>
+    8044 Denham Venom: EPA 181.7 vs OPR 191.7 — close, both elite<br>
+    3937 Breakaway: EPA 144.5 vs OPR 142.5 — EPA slightly higher, both agree top 4<br>
+    16 Bomb Squad: EPA 97.1 vs OPR 94.0 — EPA slightly higher, both agree #6<br>
+    8808 SWLA Tech Pirates: EPA 77.4 vs OPR 68.1 — EPA says better than OPR shows<br>
+    1902 Exploding Bacon: EPA 61.3 vs OPR 44.7 — big gap, EPA thinks they're better<br><br>
+    <strong>OPR says better than EPA:</strong><br>
+    2183 Tigerbots: OPR 90.1 vs EPA 65.9 — OPR much higher. 3 events may be inflating OPR.<br>
+    3039 Wildcat Robotics: OPR 85.1 vs EPA 65.1 — same story, OPR from one strong event<br>
+    9309 Metal Mages: OPR -3.7 vs EPA 11.2 — both say weak, but EPA is less harsh
+  </div>
+</div>
+
+<!-- UPDATED DATA NOTE -->
+<div class="section">
+  <h2>📝 DATA NOTES</h2>
+  <div class="callout">
+    <strong>What changed from our earlier prescout:</strong><br>
+    • 55 teams now (was 54 — 10943 WJH RoboStangs added)<br>
+    • EPA is now REAL from Statbotics for ALL 55 teams (was estimates for 24)<br>
+    • Several teams now show 3-4 events played (Week 4 results are in)<br>
+    • 1902 Exploding Bacon played a 3rd event — EPA jumped to 61.3 (was 40.2)<br>
+    • 2992 S.S. Prometheus played a 3rd event — EPA jumped to 82.2 (was 78.1)<br>
+    • 3468 MAGNAtech EPA rose to 38.6 (was 26.2) — may be better than ARLI showed<br>
+    • FIRST API regional points endpoint returned 400 error — can't get official global rank yet<br><br>
+    <strong>Re-pull this data Monday 3/30</strong> — more Week 4 results will be in and numbers will shift.
+  </div>
+</div>
+
+</div>
+
+<div class="footer">
+  💣 BombsAway Scouting System · Team 16 Bomb Squad × Team 3937 Breakaway<br>
+  Data: The Blue Alliance API + Statbotics API · Pulled March 25, 2026
+</div>
+
+<script>
+const TEAMS = [
+  {n:4635,name:"PrepaTec - Botbusters",opr:204.5,epa:166.2,ev:4,w:20,l:0,qual:"likely"},
+  {n:8044,name:"Denham Venom",opr:191.7,epa:181.7,ev:4,w:18,l:3,qual:"likely"},
+  {n:3478,name:"PrepaTec - LamBot",opr:185.0,epa:149.8,ev:3,w:10,l:0,qual:"likely"},
+  {n:3937,name:"Breakaway",opr:142.5,epa:144.5,ev:3,w:10,l:2,qual:"possible",cls:"partner"},
+  {n:4087,name:"Voodoo Voltage",opr:124.6,epa:100.4,ev:3,w:7,l:2,qual:"possible"},
+  {n:16,name:"Bomb Squad",opr:94.0,epa:97.1,ev:2,w:8,l:4,qual:"possible",cls:"us"},
+  {n:2183,name:"Tigerbots",opr:90.1,epa:65.9,ev:3,w:11,l:8,qual:"no"},
+  {n:2992,name:"The S.S. Prometheus",opr:87.1,epa:82.2,ev:3,w:6,l:3,qual:"no"},
+  {n:3039,name:"Wildcat Robotics",opr:85.1,epa:65.1,ev:2,w:6,l:3,qual:"no"},
+  {n:8808,name:"SWLA Tech Pirates",opr:68.1,epa:77.4,ev:2,w:4,l:5,qual:"no"},
+  {n:5887,name:"PrepaTec IMPERATOR",opr:65.7,epa:48.1,ev:2,w:6,l:4,qual:"no"},
+  {n:3753,name:"BulahBots!",opr:60.6,epa:57.8,ev:2,w:7,l:2,qual:"no"},
+  {n:364,name:"Team Fusion 364",opr:57.8,epa:62.1,ev:2,w:7,l:2,qual:"no"},
+  {n:456,name:"Siege Robotics",opr:57.2,epa:59.0,ev:2,w:4,l:5,qual:"no"},
+  {n:3616,name:"Team Phenomena",opr:52.3,epa:52.1,ev:2,w:3,l:6,qual:"no"},
+  {n:1902,name:"Exploding Bacon",opr:44.7,epa:61.3,ev:3,w:6,l:2,qual:"no"},
+  {n:4336,name:"Ramageddon Robotics",opr:42.7,epa:44.8,ev:2,w:5,l:4,qual:"no"},
+  {n:9405,name:"RouxBots",opr:38.9,epa:42.7,ev:2,w:2,l:7,qual:"no"},
+  {n:7072,name:"O.G.R.E.",opr:37.0,epa:41.7,ev:2,w:4,l:4,qual:"no"},
+  {n:3468,name:"MAGNAtech",opr:29.1,epa:38.6,ev:2,w:5,l:7,qual:"no"},
+  {n:3284,name:"Camdenton LASER 3284",opr:26.6,epa:32.1,ev:4,w:9,l:14,qual:"no"},
+  {n:7094,name:"Alpha Omega",opr:26.6,epa:32.3,ev:2,w:4,l:5,qual:"no"},
+  {n:3824,name:"HVA RoHAWKtics",opr:24.0,epa:29.4,ev:2,w:6,l:4,qual:"no"},
+  {n:2221,name:"FHS Robodawgs",opr:22.9,epa:18.9,ev:2,w:4,l:5,qual:"no"},
+  {n:1421,name:"Team CHAOS",opr:19.5,epa:31.0,ev:2,w:3,l:6,qual:"no"},
+  {n:10217,name:"Catahoula Blue Dogs",opr:17.7,epa:34.8,ev:2,w:4,l:5,qual:"no"},
+  {n:10929,name:"Tarpon Robotics",opr:13.5,epa:27.8,ev:2,w:4,l:5,qual:"no"},
+  {n:10101,name:"Critical Hit",opr:5.6,epa:15.6,ev:2,w:5,l:4,qual:"no"},
+  {n:10943,name:"WJH RoboStangs",opr:4.6,epa:19.4,ev:2,w:4,l:5,qual:"no"},
+  {n:5863,name:"Hypercubed",opr:0.6,epa:8.3,ev:2,w:3,l:6,qual:"no"},
+  {n:9717,name:"Poultronix",opr:-0.4,epa:19.6,ev:2,w:4,l:5,qual:"no"},
+  {n:9309,name:"Metal Mages",opr:-3.7,epa:11.2,ev:2,w:7,l:2,qual:"no"},
+  {n:2080,name:"Torbotics",opr:-18.6,epa:15.2,ev:2,w:4,l:5,qual:"no"},
+  {n:1818,name:"Team Talos",opr:null,epa:14.2,ev:1,w:0,l:0,qual:"no"},
+  {n:5705,name:"DESERT EAGLES",opr:null,epa:26.3,ev:2,w:0,l:0,qual:"no"},
+  {n:5965,name:"Power Struck Girls",opr:null,epa:9.6,ev:1,w:0,l:0,qual:"no"},
+  {n:6068,name:"Delta Overload",opr:null,epa:25.7,ev:1,w:0,l:0,qual:"no"},
+  {n:6489,name:"Bronco Bolts",opr:null,epa:29.6,ev:1,w:0,l:0,qual:"no"},
+  {n:7288,name:"NOMMA D3V1LB0TS",opr:null,epa:7.8,ev:1,w:0,l:0,qual:"no"},
+  {n:9313,name:"ROBOhana",opr:null,epa:19.5,ev:2,w:0,l:0,qual:"no"},
+  {n:9456,name:"Nunez Robotics",opr:null,epa:18.4,ev:1,w:0,l:0,qual:"no"},
+  {n:9660,name:"Delgado Dolphinbots",opr:null,epa:17.0,ev:1,w:0,l:0,qual:"no"},
+  {n:9699,name:"Bayou Crusaders",opr:null,epa:21.4,ev:1,w:0,l:0,qual:"no"},
+  {n:9708,name:"Supersonic Circuit Breakers",opr:null,epa:12.6,ev:1,w:0,l:0,qual:"no"},
+  {n:9761,name:"LSMSA Robotics",opr:null,epa:13.9,ev:1,w:0,l:0,qual:"no"},
+  {n:9768,name:"ROBOKNIGHTS",opr:null,epa:23.9,ev:1,w:0,l:0,qual:"no"},
+  {n:9787,name:"Fathom Robotics",opr:null,epa:32.1,ev:1,w:0,l:0,qual:"no"},
+  {n:10446,name:"Circuitron",opr:null,epa:14.1,ev:1,w:0,l:0,qual:"no"},
+  {n:10497,name:"Bayou Bots",opr:null,epa:31.9,ev:1,w:0,l:0,qual:"no"},
+  {n:10550,name:"35 Soaring Roneagles",opr:null,epa:22.0,ev:1,w:0,l:0,qual:"no"},
+  {n:11221,name:"Edna Karr Robotics",opr:null,epa:23.7,ev:1,w:0,l:0,qual:"no"},
+  {n:11260,name:"Ursuline Robotics",opr:null,epa:23.7,ev:1,w:0,l:0,qual:"no"},
+  {n:11276,name:"Kenner BruhBots",opr:null,epa:23.7,ev:1,w:0,l:0,qual:"no"},
+  {n:11321,name:"Purple Knight Robotics",opr:null,epa:23.7,ev:1,w:0,l:0,qual:"no"},
+  {n:11342,name:"StingVille Robotics",opr:null,epa:23.7,ev:1,w:0,l:0,qual:"no"},
+];
+
+const MAX_OPR = 210;
+const MAX_EPA = 190;
+
+function barColor(val, max) {
+  if (val > 150) return '#FFD700';
+  if (val > 100) return '#4CAF50';
+  if (val > 50) return '#C9A84C';
+  if (val > 25) return '#FF9800';
+  if (val > 0) return '#666';
+  return '#F44336';
+}
+
+function qualBadge(q) {
+  if (q === 'likely') return '<span class="qual-badge qual-yes">LIKELY QUALIFIED</span>';
+  if (q === 'possible') return '<span class="qual-badge qual-likely">IN CONTENTION</span>';
+  return '<span class="qual-badge qual-no">—</span>';
+}
+
+let sortCol = 0, sortDir = -1;
+
+function renderTable() {
+  const sorted = [...TEAMS];
+  sorted.sort((a, b) => {
+    let va, vb;
+    switch(sortCol) {
+      case 0: va = TEAMS.indexOf(a); vb = TEAMS.indexOf(b); break;
+      case 1: va = a.n; vb = b.n; break;
+      case 2: va = a.opr ?? -999; vb = b.opr ?? -999; break;
+      case 3: va = a.epa ?? -999; vb = b.epa ?? -999; break;
+      case 4: va = a.ev; vb = b.ev; break;
+      case 5: va = a.w - a.l; vb = b.w - b.l; break;
+      case 6: va = a.w + a.l > 0 ? a.w / (a.w + a.l) : -1; vb = b.w + b.l > 0 ? b.w / (b.w + b.l) : -1; break;
+      default: va = 0; vb = 0;
+    }
+    return sortDir * (va > vb ? 1 : va < vb ? -1 : 0);
+  });
+
+  let html = '';
+  sorted.forEach((t, i) => {
+    const cls = t.cls || '';
+    const oprStr = t.opr !== null ? t.opr.toFixed(1) : '—';
+    const epaStr = t.epa !== null ? t.epa.toFixed(1) : '—';
+    const record = (t.w + t.l > 0) ? `${t.w}-${t.l}` : '—';
+    const winPct = (t.w + t.l > 0) ? Math.round(t.w / (t.w + t.l) * 100) + '%' : '—';
+    const winClass = (t.w + t.l > 0 && t.w > t.l) ? 'win' : (t.w + t.l > 0 && t.l > t.w) ? 'lose' : '';
+
+    let bars = '';
+    if (t.opr !== null && t.opr > 0) {
+      const pct = Math.min(100, t.opr / MAX_OPR * 100);
+      const c = barColor(t.opr);
+      bars += `<div class="duo-bar"><span class="duo-label">OPR</span><div class="bar" style="flex:1"><div class="bar-fill" style="width:${pct}%;background:${c}"></div></div><span class="duo-val" style="color:${c}">${t.opr.toFixed(1)}</span></div>`;
+    }
+    if (t.epa !== null && t.epa > 0) {
+      const pct = Math.min(100, t.epa / MAX_EPA * 100);
+      const c = barColor(t.epa);
+      bars += `<div class="duo-bar"><span class="duo-label">EPA</span><div class="bar" style="flex:1"><div class="bar-fill" style="width:${pct}%;background:${c}"></div></div><span class="duo-val" style="color:${c}">${t.epa.toFixed(1)}</span></div>`;
+    }
+
+    html += `<tr class="${cls} ${t.qual === 'likely' ? 'qualified' : ''}">
+      <td style="font-family:Oswald;font-size:16px;color:#555;">${i+1}</td>
+      <td><span class="team-num">${t.n}</span> <span class="team-name">${t.name}</span></td>
+      <td class="opr-val" style="color:${t.opr !== null ? barColor(t.opr) : '#333'}">${oprStr}</td>
+      <td class="epa-val" style="color:${t.epa !== null ? barColor(t.epa) : '#333'}">${epaStr}</td>
+      <td>${t.ev}</td>
+      <td class="record ${winClass}">${record}</td>
+      <td class="${winClass}">${winPct}</td>
+      <td style="min-width:200px">${bars}</td>
+      <td>${qualBadge(t.qual)}</td>
+    </tr>`;
+  });
+  document.getElementById('tableBody').innerHTML = html;
+}
+
+function sortTable(col) {
+  if (sortCol === col) sortDir *= -1;
+  else { sortCol = col; sortDir = -1; }
+  renderTable();
+}
+
+renderTable();
+</script>
+</body>
+</html>
