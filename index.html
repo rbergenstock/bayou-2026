@@ -425,11 +425,12 @@
 
   <div class="info-card">
     <h3>Weather Outlook – Kenner, LA</h3>
-    <div class="info-row"><span class="label">Wed 4/1</span><span class="value">79°/68° · 40% storms</span></div>
-    <div class="info-row"><span class="label">Thu 4/2</span><span class="value">79°/68° · 40% storms</span></div>
-    <div class="info-row"><span class="label">Fri 4/3</span><span class="value">79°/67° · 60% rain</span></div>
-    <div class="info-row"><span class="label">Sat 4/4</span><span class="value">78°/66° · 60% rain</span></div>
-    <p style="font-size:0.78rem;color:var(--text-dim);margin-top:0.5rem;">Hot and humid. Expect afternoon showers, especially Fri–Sat. Pack light layers, rain gear, and a water bottle. Sunscreen is a must for outdoor lunches.</p>
+    <div class="info-row"><span class="label">Wed 4/1</span><span class="value" id="wx-overview-0">79°/68° · 40% storms</span></div>
+    <div class="info-row"><span class="label">Thu 4/2</span><span class="value" id="wx-overview-1">79°/68° · 40% storms</span></div>
+    <div class="info-row"><span class="label">Fri 4/3</span><span class="value" id="wx-overview-2">79°/67° · 60% rain</span></div>
+    <div class="info-row"><span class="label">Sat 4/4</span><span class="value" id="wx-overview-3">78°/66° · 60% rain</span></div>
+    <p id="wx-summary" style="font-size:0.78rem;color:var(--text-dim);margin-top:0.5rem;">Hot and humid. Expect afternoon showers, especially Fri–Sat. Pack light layers, rain gear, and a water bottle. Sunscreen is a must for outdoor lunches.</p>
+    <p id="wx-updated" style="font-size:0.68rem;color:var(--text-dim);margin-top:0.4rem;opacity:0.6;"></p>
   </div>
 
   <div class="info-card">
@@ -450,7 +451,7 @@
 <!-- ════════════════════════════════════════ -->
 <div class="section" id="day1">
   <div class="day-header"><span class="day-icon">🚌</span> Wednesday, April 1 – Travel Day</div>
-  <div class="weather-strip">
+  <div class="weather-strip" id="wx-day-0">
     <span class="temp">79° <small>/ 68°</small></span>
     <span class="rain">⛈ 40% afternoon storms</span>
   </div>
@@ -532,7 +533,7 @@
 <!-- ════════════════════════════════════════ -->
 <div class="section" id="day2">
   <div class="day-header"><span class="day-icon">🔧</span> Thursday, April 2 – Practice Day</div>
-  <div class="weather-strip">
+  <div class="weather-strip" id="wx-day-1">
     <span class="temp">79° <small>/ 68°</small></span>
     <span class="rain">⛈ 40% afternoon storms</span>
   </div>
@@ -596,7 +597,7 @@
 <!-- ════════════════════════════════════════ -->
 <div class="section" id="day3">
   <div class="day-header"><span class="day-icon">🏆</span> Friday, April 3 – Qualification Day 1</div>
-  <div class="weather-strip">
+  <div class="weather-strip" id="wx-day-2">
     <span class="temp">79° <small>/ 67°</small></span>
     <span class="rain">🌧️ 60% chance of rain</span>
   </div>
@@ -668,7 +669,7 @@
 <!-- ════════════════════════════════════════ -->
 <div class="section" id="day4">
   <div class="day-header"><span class="day-icon">🏅</span> Saturday, April 4 – Quals Day 2 & Playoffs</div>
-  <div class="weather-strip">
+  <div class="weather-strip" id="wx-day-3">
     <span class="temp">78° <small>/ 66°</small></span>
     <span class="rain">🌧️ 60% chance of rain</span>
   </div>
@@ -908,6 +909,88 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   });
+
+  // ═══════ LIVE WEATHER ═══════
+  // Fetches forecast from Open-Meteo (free, no API key) for Kenner, LA
+  // Falls back to the static numbers already in the HTML if fetch fails
+  (async function loadWeather() {
+    const DATES = ['2026-04-01','2026-04-02','2026-04-03','2026-04-04'];
+    const DAYS  = ['Wed 4/1','Thu 4/2','Fri 4/3','Sat 4/4'];
+    const url = 'https://api.open-meteo.com/v1/forecast'
+      + '?latitude=30.01&longitude=-90.24'
+      + '&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weather_code'
+      + '&temperature_unit=fahrenheit'
+      + '&start_date=2026-04-01&end_date=2026-04-04'
+      + '&timezone=America/Chicago';
+
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('API returned ' + res.status);
+      const data = await res.json();
+      const d = data.daily;
+
+      // Map weather codes to icons & descriptions
+      function wxLabel(code, precip) {
+        if (precip >= 60) return '🌧️ ' + precip + '% rain';
+        if (precip >= 40) return '⛈ ' + precip + '% storms';
+        if (precip >= 20) return '🌦️ ' + precip + '% showers';
+        if (code >= 61)   return '🌧️ ' + precip + '% rain';
+        if (code >= 51)   return '🌦️ ' + precip + '% drizzle';
+        if (code >= 3)    return '⛅ ' + precip + '% clouds';
+        if (code >= 1)    return '🌤️ Mostly clear';
+        return '☀️ Clear';
+      }
+
+      function summaryText(highs, lows, precips) {
+        const maxHi = Math.round(Math.max(...highs));
+        const minLo = Math.round(Math.min(...lows));
+        const maxRain = Math.max(...precips);
+        let summary = 'Highs around ' + maxHi + '°F, lows around ' + minLo + '°F. ';
+        if (maxRain >= 60) summary += 'Significant rain chances — pack a rain jacket and keep gear covered at the trailer.';
+        else if (maxRain >= 30) summary += 'Some rain possible — bring a rain jacket just in case.';
+        else summary += 'Looking mostly dry — sunscreen and water are your priorities.';
+        return summary;
+      }
+
+      // Update overview rows
+      for (let i = 0; i < 4; i++) {
+        const hi = Math.round(d.temperature_2m_max[i]);
+        const lo = Math.round(d.temperature_2m_min[i]);
+        const precip = d.precipitation_probability_max[i];
+        const code = d.weather_code[i];
+        const label = wxLabel(code, precip);
+
+        const overviewEl = document.getElementById('wx-overview-' + i);
+        if (overviewEl) overviewEl.textContent = hi + '°/' + lo + '° · ' + label.replace(/^[^\s]+ /, '');
+
+        // Update per-day weather strips
+        const stripEl = document.getElementById('wx-day-' + i);
+        if (stripEl) {
+          stripEl.innerHTML =
+            '<span class="temp">' + hi + '° <small>/ ' + lo + '°</small></span>' +
+            '<span class="rain">' + label + '</span>';
+        }
+      }
+
+      // Update summary
+      const summaryEl = document.getElementById('wx-summary');
+      if (summaryEl) summaryEl.textContent = summaryText(
+        d.temperature_2m_max, d.temperature_2m_min, d.precipitation_probability_max
+      );
+
+      // Show last-updated timestamp
+      const updEl = document.getElementById('wx-updated');
+      if (updEl) updEl.textContent = '🔄 Weather updated live · ' + new Date().toLocaleString('en-US', {
+        month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZoneName: 'short'
+      });
+
+    } catch (err) {
+      // Forecast may not be available yet (>16 days out) — static values remain
+      const updEl = document.getElementById('wx-updated');
+      if (updEl) updEl.textContent = '📅 Live forecast not yet available — will update automatically as trip approaches.';
+      console.log('Weather fetch info:', err.message);
+    }
+  })();
 </script>
 </body>
 </html>
