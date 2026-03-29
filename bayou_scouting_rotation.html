@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bomb Squad – Bayou Scouting Rotation</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#2A2957;--gold:#C9A84C;--bg:#0f0f1e;--card:#1a1a30;--text:#e8e6f0;--dim:#9a97b0;--green:#4caf50;--orange:#ff9800;--red:#e04040;--media-purple:#9b59b6;--break-gray:#555}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--text);line-height:1.4;font-size:14px}
+
+.page{max-width:900px;margin:0 auto;padding:1rem}
+
+.header{background:var(--blue);padding:1.25rem;border-bottom:3px solid var(--gold);text-align:center;border-radius:8px 8px 0 0;margin-bottom:1rem}
+.header h1{font-family:'Oswald',sans-serif;font-weight:700;font-size:1.6rem;color:#fff;text-transform:uppercase;letter-spacing:0.04em;transform:skewX(-4deg)}
+.header h1 span{color:var(--gold)}
+.header p{font-size:0.8rem;color:var(--dim);margin-top:0.25rem}
+
+.day-title{font-family:'Oswald',sans-serif;font-weight:700;font-size:1.3rem;color:var(--gold);text-transform:uppercase;letter-spacing:0.04em;margin:1.5rem 0 0.5rem;padding-bottom:0.3rem;border-bottom:2px solid rgba(201,168,76,0.3)}
+
+.block-title{font-family:'Oswald',sans-serif;font-weight:600;font-size:1rem;color:#fff;margin:1rem 0 0.4rem;display:flex;align-items:center;gap:0.5rem}
+.block-title .time-range{font-weight:400;color:var(--dim);font-size:0.85rem}
+
+/* Roster */
+.roster{display:flex;flex-wrap:wrap;gap:0.4rem;margin:0.75rem 0}
+.roster-tag{font-size:0.72rem;padding:0.2rem 0.5rem;border-radius:10px;font-weight:600;font-family:'Oswald',sans-serif;letter-spacing:0.03em}
+.roster-scout{background:#1b3a1b;color:var(--green);border:1px solid rgba(76,175,80,0.3)}
+.roster-media{background:#2d1f3d;color:var(--media-purple);border:1px solid rgba(155,89,182,0.3)}
+.roster-mentor{background:#3a2800;color:var(--orange);border:1px solid rgba(255,152,0,0.3)}
+
+/* Tables */
+table{width:100%;border-collapse:collapse;margin:0.5rem 0 1rem;font-size:0.78rem}
+th{background:var(--blue);color:var(--gold);padding:6px 8px;text-align:center;font-family:'Oswald',sans-serif;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;white-space:nowrap}
+th:first-child{text-align:left}
+td{padding:5px 8px;border-bottom:1px solid rgba(255,255,255,0.06);text-align:center;vertical-align:middle}
+td:first-child{text-align:left;font-family:'Oswald',sans-serif;font-weight:500;color:var(--gold);white-space:nowrap;font-size:0.75rem}
+tr:nth-child(even){background:rgba(255,255,255,0.02)}
+
+.cell-scout{background:rgba(76,175,80,0.12);color:var(--green);font-weight:700;font-size:0.72rem;border-radius:3px}
+.cell-media{background:rgba(155,89,182,0.15);color:var(--media-purple);font-weight:700;font-size:0.72rem;border-radius:3px}
+.cell-break{color:var(--break-gray);font-size:0.68rem}
+.cell-mentor{background:rgba(255,152,0,0.1);color:var(--orange);font-weight:700;font-size:0.72rem;border-radius:3px}
+
+/* Pit scouting */
+.pit-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:0.6rem;margin:0.75rem 0}
+.pit-card{background:var(--card);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:0.75rem}
+.pit-card h4{font-family:'Oswald',sans-serif;font-size:0.85rem;color:var(--gold);margin-bottom:0.3rem}
+.pit-card .members{font-size:0.8rem;color:#fff;margin-bottom:0.3rem}
+.pit-card .teams{font-size:0.72rem;color:var(--dim);line-height:1.5}
+
+/* Summary card */
+.summary-card{background:var(--card);border:1px solid rgba(201,168,76,0.15);border-radius:8px;padding:0.85rem;margin:0.75rem 0}
+.summary-card h3{font-family:'Oswald',sans-serif;font-size:0.9rem;color:var(--gold);margin-bottom:0.4rem;text-transform:uppercase}
+.summary-row{display:flex;justify-content:space-between;padding:0.2rem 0;font-size:0.78rem;border-bottom:1px solid rgba(255,255,255,0.04)}
+.summary-row:last-child{border-bottom:none}
+.summary-row .sname{font-weight:600;color:#fff}
+.summary-row .scount{color:var(--green)}
+.summary-row .mcount{color:var(--media-purple)}
+.summary-row .bcount{color:var(--break-gray)}
+
+.note{background:rgba(201,168,76,0.08);border-left:3px solid var(--gold);padding:0.5rem 0.75rem;margin:0.75rem 0;font-size:0.78rem;color:var(--dim);border-radius:0 6px 6px 0}
+.note strong{color:var(--gold)}
+
+.legend{display:flex;gap:1rem;flex-wrap:wrap;margin:0.5rem 0;font-size:0.72rem}
+.legend-item{display:flex;align-items:center;gap:0.3rem}
+.legend-dot{width:10px;height:10px;border-radius:2px;display:inline-block}
+
+.footer{text-align:center;padding:1rem;font-size:0.65rem;color:var(--dim);border-top:1px solid rgba(255,255,255,0.05);margin-top:2rem}
+
+.page-break{page-break-before:always}
+
+@media print{
+  body{background:#fff;color:#000;font-size:11px}
+  .page{padding:0.5rem;max-width:100%}
+  .header{background:var(--blue)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  th{background:var(--blue)!important;color:var(--gold)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .cell-scout,.cell-media,.cell-mentor,.cell-break{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .pit-card,.summary-card,.note{break-inside:avoid}
+  table{font-size:9px}
+  td,th{padding:3px 5px}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="header">
+  <h1><span>Bomb Squad</span> – Bayou Scouting Rotation</h1>
+  <p>Bayou Regional · April 1–4, 2026 · Pontchartrain Center, Kenner, LA · 54 Teams</p>
+</div>
+
+<!-- ═══════ ROSTER ═══════ -->
+<div class="block-title">Personnel</div>
+<div class="roster">
+  <span class="roster-tag roster-scout">Aldyn</span>
+  <span class="roster-tag roster-scout">Retro</span>
+  <span class="roster-tag roster-scout">Pacecar</span>
+  <span class="roster-tag roster-scout">Lydia</span>
+  <span class="roster-tag roster-scout">Jackson</span>
+  <span class="roster-tag roster-scout">Sam</span>
+  <span class="roster-tag roster-scout">Lexie ★</span>
+  <span class="roster-tag roster-media">Haevynne (M/S)</span>
+  <span class="roster-tag roster-media">T-Dog (M/S)</span>
+  <span class="roster-tag roster-media">Zack (M/S)</span>
+  <span class="roster-tag roster-mentor">Mr. B (Lead Tablet)</span>
+  <span class="roster-tag roster-mentor">Mr. Young</span>
+  <span class="roster-tag roster-mentor">Paul</span>
+  <span class="roster-tag roster-mentor">Kristen</span>
+  <span class="roster-tag roster-mentor">Jeremy</span>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><span class="legend-dot" style="background:var(--green);"></span> Scout</div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--media-purple);"></span> Media</div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--break-gray);"></span> Break</div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--orange);"></span> Mentor Sub</div>
+</div>
+
+<div class="note"><strong>Rules:</strong> 6 scouts on the field at all times during matches (one per robot). Media/Scout students alternate 1 media shift per 4 rotations. Mentors sub in as needed (max 2 at a time). Mr. B runs the lead tablet and can jump on a seat when short.</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- THURSDAY APRIL 2 -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="day-title">🔧 Thursday, April 2 – Practice Day</div>
+
+<!-- PIT SCOUTING -->
+<div class="block-title">Pit Scouting <span class="time-range">8:30 AM – 11:00 AM</span></div>
+<div class="note"><strong>Assignment:</strong> 5 pairs cover all 54 teams. Visit each pit, fill out the pit scout form on the tablet. Note their drivetrain, scoring capability, auto routine, and climb. Take a photo of the robot. Return to home base when done — early finishers get free time until lunch.</div>
+
+<div class="pit-grid">
+  <div class="pit-card">
+    <h4>Group A — 11 Teams</h4>
+    <div class="members">Aldyn + Haevynne</div>
+    <div class="teams">Teams 1–11 on the pit map</div>
+  </div>
+  <div class="pit-card">
+    <h4>Group B — 11 Teams</h4>
+    <div class="members">Retro + T-Dog</div>
+    <div class="teams">Teams 12–22 on the pit map</div>
+  </div>
+  <div class="pit-card">
+    <h4>Group C — 11 Teams</h4>
+    <div class="members">Pacecar + Zack</div>
+    <div class="teams">Teams 23–33 on the pit map</div>
+  </div>
+  <div class="pit-card">
+    <h4>Group D — 11 Teams</h4>
+    <div class="members">Lydia + Jackson</div>
+    <div class="teams">Teams 34–44 on the pit map</div>
+  </div>
+  <div class="pit-card">
+    <h4>Group E — 10 Teams</h4>
+    <div class="members">Sam + Lexie</div>
+    <div class="teams">Teams 45–54 on the pit map</div>
+  </div>
+</div>
+
+<div class="note"><strong>11:00 AM – 12:00 PM:</strong> Lunch outside — Pastalya with Denham Venom at the trailer.</div>
+
+<!-- PRACTICE MATCHES -->
+<div class="block-title">Practice Match Scouting — Block 1 <span class="time-range">12:00 – 3:00 PM</span></div>
+<table>
+  <tr>
+    <th>Shift</th><th>Aldyn</th><th>Retro</th><th>Pacecar</th><th>Lydia</th><th>Jackson</th><th>Sam</th><th>Lexie</th><th>Haevynne</th><th>T-Dog</th><th>Zack</th>
+  </tr>
+  <tr>
+    <td>12:00–12:45</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-break">break</td><td class="cell-break">break</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-break">break</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-media">MEDIA</td>
+  </tr>
+  <tr>
+    <td>12:45–1:30</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td><td class="cell-break">break</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-break">break</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-media">MEDIA</td><td class="cell-break">break</td>
+    <td class="cell-scout">SCOUT</td>
+  </tr>
+  <tr>
+    <td>1:30–2:15</td>
+    <td class="cell-break">break</td><td class="cell-break">break</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-media">MEDIA</td>
+    <td class="cell-break">break</td>
+  </tr>
+  <tr>
+    <td>2:15–3:00</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-break">break</td><td class="cell-break">break</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-break">break</td>
+    <td class="cell-break">break</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-scout">SCOUT</td>
+  </tr>
+</table>
+
+<div class="block-title">Practice Match Scouting — Block 2 <span class="time-range">3:00 – 6:00 PM</span></div>
+<table>
+  <tr>
+    <th>Shift</th><th>Aldyn</th><th>Retro</th><th>Pacecar</th><th>Lydia</th><th>Jackson</th><th>Sam</th><th>Lexie</th><th>Haevynne</th><th>T-Dog</th><th>Zack</th>
+  </tr>
+  <tr>
+    <td>3:00–3:45</td>
+    <td class="cell-break">break</td><td class="cell-break">break</td><td class="cell-break">break</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-media">MEDIA</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-scout">SCOUT</td>
+  </tr>
+  <tr>
+    <td>3:45–4:30</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-break">break</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-break">break</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-media">MEDIA</td>
+    <td class="cell-break">break</td>
+  </tr>
+  <tr>
+    <td>4:30–5:15</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-break">break</td><td class="cell-break">break</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-break">break</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-media">MEDIA</td>
+  </tr>
+  <tr>
+    <td>5:15–6:00</td>
+    <td class="cell-break">break</td><td class="cell-scout">SCOUT</td><td class="cell-break">break</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-break">break</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-break">break</td>
+    <td class="cell-scout">SCOUT</td>
+  </tr>
+</table>
+
+<div class="summary-card">
+  <h3>Thursday Match Scouting Totals (8 shifts)</h3>
+  <div class="summary-row"><span class="sname">Aldyn</span><span><span class="scount">5 scout</span> · <span class="bcount">3 break</span></span></div>
+  <div class="summary-row"><span class="sname">Retro</span><span><span class="scount">5 scout</span> · <span class="bcount">3 break</span></span></div>
+  <div class="summary-row"><span class="sname">Pacecar</span><span><span class="scount">5 scout</span> · <span class="bcount">3 break</span></span></div>
+  <div class="summary-row"><span class="sname">Lydia</span><span><span class="scount">5 scout</span> · <span class="bcount">3 break</span></span></div>
+  <div class="summary-row"><span class="sname">Jackson</span><span><span class="scount">5 scout</span> · <span class="bcount">3 break</span></span></div>
+  <div class="summary-row"><span class="sname">Sam</span><span><span class="scount">6 scout</span> · <span class="bcount">2 break</span></span></div>
+  <div class="summary-row"><span class="sname">Lexie</span><span><span class="scount">5 scout</span> · <span class="bcount">3 break</span></span></div>
+  <div class="summary-row"><span class="sname">Haevynne</span><span><span class="scount">4 scout</span> · <span class="mcount">2 media</span> · <span class="bcount">2 break</span></span></div>
+  <div class="summary-row"><span class="sname">T-Dog</span><span><span class="scount">4 scout</span> · <span class="mcount">2 media</span> · <span class="bcount">2 break</span></span></div>
+  <div class="summary-row"><span class="sname">Zack</span><span><span class="scount">4 scout</span> · <span class="mcount">2 media</span> · <span class="bcount">2 break</span></span></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- FRIDAY APRIL 3 -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="page-break"></div>
+<div class="day-title">🏆 Friday, April 3 – Qualification Day 1</div>
+
+<div class="block-title">AM Quals — Block 1 <span class="time-range">8:50 AM – 12:00 PM</span></div>
+<table>
+  <tr>
+    <th>Shift</th><th>Aldyn</th><th>Retro</th><th>Pacecar</th><th>Lydia</th><th>Jackson</th><th>Sam</th><th>Lexie</th><th>Haevynne</th><th>T-Dog</th><th>Zack</th>
+  </tr>
+  <tr>
+    <td>8:50–9:35</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td><td class="cell-break">break</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-break">break</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-break">break</td>
+    <td class="cell-media">MEDIA</td>
+  </tr>
+  <tr>
+    <td>9:35–10:20</td>
+    <td class="cell-break">break</td><td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-break">break</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-media">MEDIA</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-break">break</td>
+  </tr>
+  <tr>
+    <td>10:20–11:05</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-break">break</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-break">break</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-break">break</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-media">MEDIA</td>
+    <td class="cell-scout">SCOUT</td>
+  </tr>
+  <tr>
+    <td>11:05–12:00</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-break">break</td>
+    <td class="cell-break">break</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-break">break</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-break">break</td>
+  </tr>
+</table>
+
+<div class="note"><strong>12:00 – 1:00 PM:</strong> Lunch — Chick-Fil-A boxes outside at the trailer. Everyone off.</div>
+
+<div class="block-title">PM Quals — Block 2 <span class="time-range">1:00 – 5:45 PM</span></div>
+<table>
+  <tr>
+    <th>Shift</th><th>Aldyn</th><th>Retro</th><th>Pacecar</th><th>Lydia</th><th>Jackson</th><th>Sam</th><th>Lexie</th><th>Haevynne</th><th>T-Dog</th><th>Zack</th>
+  </tr>
+  <tr>
+    <td>1:00–1:50</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-break">break</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-break">break</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-media">MEDIA</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-break">break</td>
+  </tr>
+  <tr>
+    <td>1:50–2:40</td>
+    <td class="cell-break">break</td><td class="cell-scout">SCOUT</td><td class="cell-break">break</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-break">break</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-media">MEDIA</td>
+    <td class="cell-scout">SCOUT</td>
+  </tr>
+  <tr>
+    <td>2:40–3:30</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-break">break</td>
+    <td class="cell-break">break</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-break">break</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-media">MEDIA</td>
+  </tr>
+  <tr>
+    <td>3:30–4:20</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td><td class="cell-break">break</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-break">break</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-break">break</td>
+    <td class="cell-break">break</td>
+  </tr>
+  <tr>
+    <td>4:20–5:10</td>
+    <td class="cell-break">break</td><td class="cell-break">break</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-break">break</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-break">break</td>
+  </tr>
+  <tr>
+    <td>5:10–5:45</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-break">break</td>
+    <td class="cell-break">break</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-break">break</td><td class="cell-break">break</td>
+    <td class="cell-scout">SCOUT</td>
+  </tr>
+</table>
+
+<div class="note"><strong>5:45–6:15 PM:</strong> Awards Ceremony — all scouts off. <strong>6:15 PM:</strong> If Mr. B needs help reviewing data, media students help prep for Friday night analysis session.</div>
+
+<div class="summary-card">
+  <h3>Friday Totals (10 shifts)</h3>
+  <div class="summary-row"><span class="sname">Aldyn</span><span><span class="scount">7 scout</span> · <span class="bcount">3 break</span></span></div>
+  <div class="summary-row"><span class="sname">Retro</span><span><span class="scount">7 scout</span> · <span class="bcount">3 break</span></span></div>
+  <div class="summary-row"><span class="sname">Pacecar</span><span><span class="scount">7 scout</span> · <span class="bcount">3 break</span></span></div>
+  <div class="summary-row"><span class="sname">Lydia</span><span><span class="scount">7 scout</span> · <span class="bcount">3 break</span></span></div>
+  <div class="summary-row"><span class="sname">Jackson</span><span><span class="scount">6 scout</span> · <span class="bcount">4 break</span></span></div>
+  <div class="summary-row"><span class="sname">Sam</span><span><span class="scount">6 scout</span> · <span class="bcount">4 break</span></span></div>
+  <div class="summary-row"><span class="sname">Lexie</span><span><span class="scount">7 scout</span> · <span class="bcount">3 break</span></span></div>
+  <div class="summary-row"><span class="sname">Haevynne</span><span><span class="scount">5 scout</span> · <span class="mcount">2 media</span> · <span class="bcount">3 break</span></span></div>
+  <div class="summary-row"><span class="sname">T-Dog</span><span><span class="scount">5 scout</span> · <span class="mcount">2 media</span> · <span class="bcount">3 break</span></span></div>
+  <div class="summary-row"><span class="sname">Zack</span><span><span class="scount">3 scout</span> · <span class="mcount">2 media</span> · <span class="bcount">5 break</span></span></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SATURDAY APRIL 4 -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="page-break"></div>
+<div class="day-title">🏅 Saturday, April 4 – Quals Day 2 & Playoffs</div>
+
+<div class="block-title">AM Quals — Final Matches <span class="time-range">8:50 AM – 12:00 PM</span></div>
+<table>
+  <tr>
+    <th>Shift</th><th>Aldyn</th><th>Retro</th><th>Pacecar</th><th>Lydia</th><th>Jackson</th><th>Sam</th><th>Lexie</th><th>Haevynne</th><th>T-Dog</th><th>Zack</th>
+  </tr>
+  <tr>
+    <td>8:50–9:35</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-break">break</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-break">break</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-media">MEDIA</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-break">break</td>
+  </tr>
+  <tr>
+    <td>9:35–10:20</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td><td class="cell-break">break</td>
+    <td class="cell-break">break</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-media">MEDIA</td>
+    <td class="cell-break">break</td>
+  </tr>
+  <tr>
+    <td>10:20–11:05</td>
+    <td class="cell-break">break</td><td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-break">break</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-break">break</td>
+    <td class="cell-break">break</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-scout">SCOUT</td>
+  </tr>
+  <tr>
+    <td>11:05–12:00</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-break">break</td>
+    <td class="cell-break">break</td><td class="cell-scout">SCOUT</td>
+    <td class="cell-scout">SCOUT</td><td class="cell-break">break</td>
+    <td class="cell-media">MEDIA</td>
+  </tr>
+</table>
+
+<div class="note"><strong>~12:00–12:30 PM:</strong> Alliance Selections — All hands on deck in the stands. Mr. B runs OneRing for pick strategy. No scouting during alliance selections.</div>
+
+<div class="note"><strong>12:30–1:30 PM:</strong> Lunch — Chick-Fil-A boxes at the trailer.</div>
+
+<div class="block-title">Playoffs <span class="time-range">1:30 – 5:00 PM</span></div>
+<div class="note"><strong>Playoff scouting is optional.</strong> If Bomb Squad is in the playoff bracket, the full team focuses on support. If we're eliminated, media covers the remaining matches and scouts can enjoy the competition. Mr. B will make the call at alliance selection.</div>
+
+<div class="summary-card">
+  <h3>Saturday Totals (4 AM shifts + playoffs TBD)</h3>
+  <div class="summary-row"><span class="sname">Aldyn</span><span><span class="scount">3 scout</span> · <span class="bcount">1 break</span></span></div>
+  <div class="summary-row"><span class="sname">Retro</span><span><span class="scount">3 scout</span> · <span class="bcount">1 break</span></span></div>
+  <div class="summary-row"><span class="sname">Pacecar</span><span><span class="scount">3 scout</span> · <span class="bcount">1 break</span></span></div>
+  <div class="summary-row"><span class="sname">Lydia</span><span><span class="scount">3 scout</span> · <span class="bcount">1 break</span></span></div>
+  <div class="summary-row"><span class="sname">Jackson</span><span><span class="scount">2 scout</span> · <span class="bcount">2 break</span></span></div>
+  <div class="summary-row"><span class="sname">Sam</span><span><span class="scount">2 scout</span> · <span class="bcount">2 break</span></span></div>
+  <div class="summary-row"><span class="sname">Lexie</span><span><span class="scount">3 scout</span> · <span class="bcount">1 break</span></span></div>
+  <div class="summary-row"><span class="sname">Haevynne</span><span><span class="scount">2 scout</span> · <span class="mcount">1 media</span> · <span class="bcount">1 break</span></span></div>
+  <div class="summary-row"><span class="sname">T-Dog</span><span><span class="scount">2 scout</span> · <span class="mcount">1 media</span> · <span class="bcount">1 break</span></span></div>
+  <div class="summary-row"><span class="sname">Zack</span><span><span class="scount">1 scout</span> · <span class="mcount">1 media</span> · <span class="bcount">2 break</span></span></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- GRAND TOTALS -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="page-break"></div>
+<div class="day-title">📊 Grand Totals — Full Event</div>
+
+<div class="summary-card">
+  <h3>Scouting Shifts Across All 3 Days (Thu + Fri + Sat AM)</h3>
+  <div class="summary-row"><span class="sname">Aldyn</span><span><span class="scount">15 scout</span> · <span class="bcount">7 break</span></span></div>
+  <div class="summary-row"><span class="sname">Retro</span><span><span class="scount">15 scout</span> · <span class="bcount">7 break</span></span></div>
+  <div class="summary-row"><span class="sname">Pacecar</span><span><span class="scount">15 scout</span> · <span class="bcount">7 break</span></span></div>
+  <div class="summary-row"><span class="sname">Lydia</span><span><span class="scount">15 scout</span> · <span class="bcount">7 break</span></span></div>
+  <div class="summary-row"><span class="sname">Jackson</span><span><span class="scount">13 scout</span> · <span class="bcount">9 break</span></span></div>
+  <div class="summary-row"><span class="sname">Sam</span><span><span class="scount">14 scout</span> · <span class="bcount">8 break</span></span></div>
+  <div class="summary-row"><span class="sname">Lexie</span><span><span class="scount">15 scout</span> · <span class="bcount">7 break</span></span></div>
+  <div class="summary-row"><span class="sname">Haevynne</span><span><span class="scount">11 scout</span> · <span class="mcount">5 media</span> · <span class="bcount">6 break</span></span></div>
+  <div class="summary-row"><span class="sname">T-Dog</span><span><span class="scount">11 scout</span> · <span class="mcount">5 media</span> · <span class="bcount">6 break</span></span></div>
+  <div class="summary-row"><span class="sname">Zack</span><span><span class="scount">8 scout</span> · <span class="mcount">5 media</span> · <span class="bcount">9 break</span></span></div>
+</div>
+
+<div class="note"><strong>Mentor backup plan:</strong> If anyone gets sick, needs an extended break, or has a conflict, Mr. B calls in a mentor. Mr. Young, Paul, Kristen, and Jeremy are all available to sub in — max 2 mentors scouting at once. Mr. B is on the lead tablet all day and can jump onto a scout seat if we're short for a single match.</div>
+
+<div class="note"><strong>Media coverage priorities:</strong> Opening ceremonies, team in the pits working on the robot, match action shots (especially our matches), alliance selection reactions, awards ceremonies, team candids. T-Dog, Haevynne, and Zack rotate so there's always one person on media during matches.</div>
+
+<div class="footer">
+  💣 Bomb Squad · FRC Team 16 · Mountain Home, AR<br>
+  Bayou Regional 2026 · Kenner, LA · April 1–4<br>
+  <span style="color:var(--gold);">Steel Sharpens Steel.</span>
+</div>
+
+</div>
+</body>
+</html>
