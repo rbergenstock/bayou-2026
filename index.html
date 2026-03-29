@@ -190,6 +190,66 @@
   }
 
   /* ─── WEATHER DETAIL PANEL ─── */
+  .wx-loc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .wx-loc-btn {
+    background: linear-gradient(135deg, rgba(92,160,211,0.1), rgba(201,168,76,0.06));
+    border: 1px solid rgba(92,160,211,0.2);
+    border-radius: 10px;
+    padding: 0.75rem 0.7rem 0.6rem;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    text-align: center;
+  }
+  .wx-loc-btn:active { background: rgba(92,160,211,0.2); border-color: var(--gold); }
+  .wx-loc-label {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.25rem;
+  }
+  .wx-loc-icon { font-size: 1.3rem; margin-bottom: 0.15rem; }
+  .wx-loc-temp {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: #fff;
+    line-height: 1.1;
+  }
+  .wx-loc-temp small {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    font-weight: 400;
+  }
+  .wx-loc-desc {
+    font-size: 0.7rem;
+    color: var(--rain-blue);
+    font-weight: 500;
+    margin-top: 0.15rem;
+  }
+  .wx-loc-tap {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    opacity: 0.6;
+    margin-top: 0.3rem;
+    text-transform: uppercase;
+  }
+
+  .wx-loc-detail {
+    display: none;
+    animation: wxFadeIn 0.25s ease;
+  }
+  .wx-loc-detail.active { display: block; }
+
   .wx-detail {
     display: none;
     animation: wxFadeIn 0.25s ease;
@@ -568,14 +628,35 @@
   </div>
 
   <div class="info-card">
-    <h3>Weather Outlook – Kenner, LA</h3>
-    <div class="info-row"><span class="label">Wed 4/1</span><span class="value" id="wx-overview-0">79°/68° · 40% storms</span></div>
-    <div class="info-row"><span class="label">Thu 4/2</span><span class="value" id="wx-overview-1">79°/68° · 40% storms</span></div>
-    <div class="info-row"><span class="label">Fri 4/3</span><span class="value" id="wx-overview-2">79°/67° · 60% rain</span></div>
-    <div class="info-row"><span class="label">Sat 4/4</span><span class="value" id="wx-overview-3">78°/66° · 60% rain</span></div>
-    <p id="wx-summary" style="font-size:0.78rem;color:var(--text-dim);margin-top:0.5rem;">Hot and humid. Expect afternoon showers, especially Fri–Sat. Pack light layers, rain gear, and a water bottle. Sunscreen is a must for outdoor lunches.</p>
-    <p id="wx-updated" style="font-size:0.68rem;color:var(--text-dim);margin-top:0.4rem;opacity:0.6;"></p>
+    <h3>Weather</h3>
+    <div class="wx-loc-grid">
+      <div class="wx-loc-btn" id="wx-loc-mh" onclick="openLocWeather('mh')">
+        <div class="wx-loc-label">🏠 Mountain Home</div>
+        <div class="wx-loc-icon" id="wx-mh-icon">🌤️</div>
+        <div class="wx-loc-temp" id="wx-mh-temp">--° <small>/ --°</small></div>
+        <div class="wx-loc-desc" id="wx-mh-desc">Loading...</div>
+        <div class="wx-loc-tap">Tap ›</div>
+      </div>
+      <div class="wx-loc-btn" id="wx-loc-kn" onclick="openLocWeather('kn')">
+        <div class="wx-loc-label">🏟️ Kenner, LA</div>
+        <div class="wx-loc-icon" id="wx-kn-icon">🌤️</div>
+        <div class="wx-loc-temp" id="wx-kn-temp">--° <small>/ --°</small></div>
+        <div class="wx-loc-desc" id="wx-kn-desc">Loading...</div>
+        <div class="wx-loc-tap">Tap ›</div>
+      </div>
+      <div class="wx-loc-btn" id="wx-loc-gps" onclick="openGpsWeather('overview')">
+        <div class="wx-loc-label">📍 My Location</div>
+        <div class="wx-loc-icon" id="wx-gps-icon">📍</div>
+        <div class="wx-loc-temp" id="wx-gps-temp">--°</div>
+        <div class="wx-loc-desc" id="wx-gps-desc">Tap to locate</div>
+        <div class="wx-loc-tap">Tap ›</div>
+      </div>
+    </div>
+    <p id="wx-updated" style="font-size:0.68rem;color:var(--text-dim);margin-top:0.25rem;opacity:0.6;"></p>
   </div>
+  <div class="wx-loc-detail" id="wx-loc-detail-mh"></div>
+  <div class="wx-loc-detail" id="wx-loc-detail-kn"></div>
+  <div class="wx-loc-detail" id="wx-loc-detail-gps"></div>
 
   <div class="info-card">
     <h3>Quick Budget Summary</h3>
@@ -595,11 +676,12 @@
 <!-- ════════════════════════════════════════ -->
 <div class="section" id="day1">
   <div class="day-header"><span class="day-icon">🚌</span> Wednesday, April 1 – Travel Day</div>
-  <div class="weather-strip" id="wx-day-0">
-    <span class="temp">79° <small>/ 68°</small></span>
-    <span class="rain">⛈ 40% afternoon storms</span>
+  <div class="wx-loc-grid" id="wx-grid-0">
+    <div class="wx-loc-btn" id="wx-d0-mh" onclick="openDayWx(0,'mh')"><div class="wx-loc-label">🏠 Mtn Home</div><div class="wx-loc-icon" id="wx-d0-mh-icon">🌤️</div><div class="wx-loc-temp" id="wx-d0-mh-temp">--°</div><div class="wx-loc-desc" id="wx-d0-mh-desc">...</div><div class="wx-loc-tap">Tap ›</div></div>
+    <div class="wx-loc-btn" id="wx-d0-kn" onclick="openDayWx(0,'kn')"><div class="wx-loc-label">🏟️ Kenner</div><div class="wx-loc-icon" id="wx-d0-kn-icon">🌤️</div><div class="wx-loc-temp" id="wx-d0-kn-temp">--°</div><div class="wx-loc-desc" id="wx-d0-kn-desc">...</div><div class="wx-loc-tap">Tap ›</div></div>
+    <div class="wx-loc-btn" id="wx-d0-gps" onclick="openGpsWeather('day0')"><div class="wx-loc-label">📍 My Loc</div><div class="wx-loc-icon">📍</div><div class="wx-loc-temp" id="wx-d0-gps-temp">--°</div><div class="wx-loc-desc" id="wx-d0-gps-desc">Tap</div><div class="wx-loc-tap">Tap ›</div></div>
   </div>
-  <div class="wx-detail" id="wx-detail-0"></div>
+  <div class="wx-detail" id="wx-day-detail-0"></div>
 
   <div class="timeline">
     <div class="event travel">
@@ -678,11 +760,12 @@
 <!-- ════════════════════════════════════════ -->
 <div class="section" id="day2">
   <div class="day-header"><span class="day-icon">🔧</span> Thursday, April 2 – Practice Day</div>
-  <div class="weather-strip" id="wx-day-1">
-    <span class="temp">79° <small>/ 68°</small></span>
-    <span class="rain">⛈ 40% afternoon storms</span>
+  <div class="wx-loc-grid" id="wx-grid-1">
+    <div class="wx-loc-btn" id="wx-d1-mh" onclick="openDayWx(1,'mh')"><div class="wx-loc-label">🏠 Mtn Home</div><div class="wx-loc-icon" id="wx-d1-mh-icon">🌤️</div><div class="wx-loc-temp" id="wx-d1-mh-temp">--°</div><div class="wx-loc-desc" id="wx-d1-mh-desc">...</div><div class="wx-loc-tap">Tap ›</div></div>
+    <div class="wx-loc-btn" id="wx-d1-kn" onclick="openDayWx(1,'kn')"><div class="wx-loc-label">🏟️ Kenner</div><div class="wx-loc-icon" id="wx-d1-kn-icon">🌤️</div><div class="wx-loc-temp" id="wx-d1-kn-temp">--°</div><div class="wx-loc-desc" id="wx-d1-kn-desc">...</div><div class="wx-loc-tap">Tap ›</div></div>
+    <div class="wx-loc-btn" id="wx-d1-gps" onclick="openGpsWeather('day1')"><div class="wx-loc-label">📍 My Loc</div><div class="wx-loc-icon">📍</div><div class="wx-loc-temp" id="wx-d1-gps-temp">--°</div><div class="wx-loc-desc" id="wx-d1-gps-desc">Tap</div><div class="wx-loc-tap">Tap ›</div></div>
   </div>
-  <div class="wx-detail" id="wx-detail-1"></div>
+  <div class="wx-detail" id="wx-day-detail-1"></div>
 
   <div class="timeline">
     <div class="event">
@@ -743,11 +826,12 @@
 <!-- ════════════════════════════════════════ -->
 <div class="section" id="day3">
   <div class="day-header"><span class="day-icon">🏆</span> Friday, April 3 – Qualification Day 1</div>
-  <div class="weather-strip" id="wx-day-2">
-    <span class="temp">79° <small>/ 67°</small></span>
-    <span class="rain">🌧️ 60% chance of rain</span>
+  <div class="wx-loc-grid" id="wx-grid-2">
+    <div class="wx-loc-btn" id="wx-d2-mh" onclick="openDayWx(2,'mh')"><div class="wx-loc-label">🏠 Mtn Home</div><div class="wx-loc-icon" id="wx-d2-mh-icon">🌤️</div><div class="wx-loc-temp" id="wx-d2-mh-temp">--°</div><div class="wx-loc-desc" id="wx-d2-mh-desc">...</div><div class="wx-loc-tap">Tap ›</div></div>
+    <div class="wx-loc-btn" id="wx-d2-kn" onclick="openDayWx(2,'kn')"><div class="wx-loc-label">🏟️ Kenner</div><div class="wx-loc-icon" id="wx-d2-kn-icon">🌤️</div><div class="wx-loc-temp" id="wx-d2-kn-temp">--°</div><div class="wx-loc-desc" id="wx-d2-kn-desc">...</div><div class="wx-loc-tap">Tap ›</div></div>
+    <div class="wx-loc-btn" id="wx-d2-gps" onclick="openGpsWeather('day2')"><div class="wx-loc-label">📍 My Loc</div><div class="wx-loc-icon">📍</div><div class="wx-loc-temp" id="wx-d2-gps-temp">--°</div><div class="wx-loc-desc" id="wx-d2-gps-desc">Tap</div><div class="wx-loc-tap">Tap ›</div></div>
   </div>
-  <div class="wx-detail" id="wx-detail-2"></div>
+  <div class="wx-detail" id="wx-day-detail-2"></div>
 
   <div class="timeline">
     <div class="event">
@@ -816,11 +900,12 @@
 <!-- ════════════════════════════════════════ -->
 <div class="section" id="day4">
   <div class="day-header"><span class="day-icon">🏅</span> Saturday, April 4 – Quals Day 2 & Playoffs</div>
-  <div class="weather-strip" id="wx-day-3">
-    <span class="temp">78° <small>/ 66°</small></span>
-    <span class="rain">🌧️ 60% chance of rain</span>
+  <div class="wx-loc-grid" id="wx-grid-3">
+    <div class="wx-loc-btn" id="wx-d3-mh" onclick="openDayWx(3,'mh')"><div class="wx-loc-label">🏠 Mtn Home</div><div class="wx-loc-icon" id="wx-d3-mh-icon">🌤️</div><div class="wx-loc-temp" id="wx-d3-mh-temp">--°</div><div class="wx-loc-desc" id="wx-d3-mh-desc">...</div><div class="wx-loc-tap">Tap ›</div></div>
+    <div class="wx-loc-btn" id="wx-d3-kn" onclick="openDayWx(3,'kn')"><div class="wx-loc-label">🏟️ Kenner</div><div class="wx-loc-icon" id="wx-d3-kn-icon">🌤️</div><div class="wx-loc-temp" id="wx-d3-kn-temp">--°</div><div class="wx-loc-desc" id="wx-d3-kn-desc">...</div><div class="wx-loc-tap">Tap ›</div></div>
+    <div class="wx-loc-btn" id="wx-d3-gps" onclick="openGpsWeather('day3')"><div class="wx-loc-label">📍 My Loc</div><div class="wx-loc-icon">📍</div><div class="wx-loc-temp" id="wx-d3-gps-temp">--°</div><div class="wx-loc-desc" id="wx-d3-gps-desc">Tap</div><div class="wx-loc-tap">Tap ›</div></div>
   </div>
-  <div class="wx-detail" id="wx-detail-3"></div>
+  <div class="wx-detail" id="wx-day-detail-3"></div>
 
   <div class="timeline">
     <div class="event">
@@ -1055,41 +1140,181 @@
       tab.classList.add('active');
       document.getElementById(tab.dataset.tab).classList.add('active');
       // Close any open weather detail when switching tabs
-      for (let i = 0; i < 4; i++) closeWxDetail(i);
+      for (let i = 0; i < 4; i++) closeDayWx(i);
+      closeLocWeather('mh'); closeLocWeather('kn'); closeLocWeather('gps');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   });
 
+  // ── LOCATION WEATHER (Overview tab buttons) ──
+  function openLocWeather(loc) {
+    const overview = document.getElementById('overview');
+    Array.from(overview.children).forEach(el => {
+      if (el.classList.contains('section-title') || el.id === 'wx-loc-detail-' + loc) return;
+      el.style.display = 'none';
+    });
+    const detail = document.getElementById('wx-loc-detail-' + loc);
+    if (detail) { detail.classList.add('active'); }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function closeLocWeather(loc) {
+    const overview = document.getElementById('overview');
+    if (!overview) return;
+    Array.from(overview.children).forEach(el => { el.style.display = ''; });
+    const detail = document.getElementById('wx-loc-detail-' + loc);
+    if (detail) { detail.classList.remove('active'); }
+  }
+
   // ── WEATHER TAP-TO-DETAIL ──
   const DAY_LABELS = ['Wednesday, April 1', 'Thursday, April 2', 'Friday, April 3', 'Saturday, April 4'];
   const DATES = ['2026-04-01','2026-04-02','2026-04-03','2026-04-04'];
+  const DAY_SECTIONS = ['day1','day2','day3','day4'];
 
-  // Wire up weather strip clicks
-  for (let i = 0; i < 4; i++) {
-    const strip = document.getElementById('wx-day-' + i);
-    if (strip) strip.addEventListener('click', () => openWxDetail(i));
-  }
+  // Store fetched data globally so GPS and detail builders can access it
+  const wxCache = { mh: null, kn: null, gps: null };
 
-  function openWxDetail(idx) {
-    const section = document.getElementById('wx-day-' + idx).closest('.section');
-    // Hide everything except day-header and wx-detail
+  // ── Per-day weather detail open/close ──
+  function openDayWx(dayIdx, loc) {
+    const sectionId = DAY_SECTIONS[dayIdx];
+    const section = document.getElementById(sectionId);
+    const detailEl = document.getElementById('wx-day-detail-' + dayIdx);
+    if (!section || !detailEl) return;
+
+    const data = wxCache[loc];
+    if (!data) { alert('Weather data not loaded yet. Try again in a moment.'); return; }
+
+    const d = data.daily;
+    const h = data.hourly || null;
+    const now = new Date();
+    const eventDate = new Date(DATES[dayIdx] + 'T12:00:00');
+    const daysOut = Math.max(0, Math.round((eventDate - now) / 86400000));
+    const locName = loc === 'mh' ? 'Mountain Home, AR' : loc === 'kn' ? 'Kenner, LA' : (gpsLocationName || 'My Location');
+
+    detailEl.innerHTML = buildSingleDayDetailHTML(dayIdx, locName, d, h, daysOut, sectionId);
+
     Array.from(section.children).forEach(el => {
-      if (el.classList.contains('day-header') || el.classList.contains('wx-detail')) return;
+      if (el.classList.contains('day-header') || el.id === 'wx-day-detail-' + dayIdx) return;
       el.style.display = 'none';
     });
-    const detail = document.getElementById('wx-detail-' + idx);
-    detail.classList.add('active');
+    detailEl.classList.add('active');
     window.scrollTo({ top: section.offsetTop - 50, behavior: 'smooth' });
   }
 
-  function closeWxDetail(idx) {
-    const section = document.getElementById('wx-day-' + idx)?.closest('.section');
+  function closeDayWx(dayIdx) {
+    const sectionId = DAY_SECTIONS[dayIdx];
+    const section = document.getElementById(sectionId);
     if (!section) return;
-    Array.from(section.children).forEach(el => {
-      el.style.display = '';
-    });
-    const detail = document.getElementById('wx-detail-' + idx);
-    if (detail) { detail.classList.remove('active'); }
+    Array.from(section.children).forEach(el => { el.style.display = ''; });
+    const detailEl = document.getElementById('wx-day-detail-' + dayIdx);
+    if (detailEl) detailEl.classList.remove('active');
+  }
+
+  // ── GPS WEATHER ──
+  let gpsLocationName = '';
+
+  async function reverseGeocode(lat, lon) {
+    try {
+      const res = await fetch('https://nominatim.openstreetmap.org/reverse?lat=' + lat + '&lon=' + lon + '&format=json&zoom=10');
+      const data = await res.json();
+      const addr = data.address || {};
+      const city = addr.city || addr.town || addr.village || addr.county || '';
+      const state = addr.state ? (addr.state.length > 3 ? addr.state.replace(/^(.{2}).*/, '$1').toUpperCase() : addr.state) : '';
+      if (city && state) return city + ', ' + state;
+      if (city) return city;
+      if (data.display_name) return data.display_name.split(',').slice(0, 2).join(',');
+      return lat + ', ' + lon;
+    } catch (e) {
+      return lat + ', ' + lon;
+    }
+  }
+
+  async function openGpsWeather(context) {
+    if (!navigator.geolocation) { alert('GPS not available on this device.'); return; }
+
+    // Show loading state on all GPS labels
+    const allGpsLabels = document.querySelectorAll('#wx-loc-gps .wx-loc-label, #wx-d0-gps .wx-loc-label, #wx-d1-gps .wx-loc-label, #wx-d2-gps .wx-loc-label, #wx-d3-gps .wx-loc-label');
+    allGpsLabels.forEach(el => el.textContent = '📍 Locating...');
+
+    navigator.geolocation.getCurrentPosition(async (pos) => {
+      const lat = pos.coords.latitude.toFixed(4);
+      const lon = pos.coords.longitude.toFixed(4);
+
+      // Reverse geocode to get city name
+      gpsLocationName = await reverseGeocode(lat, lon);
+
+      // Update all GPS button labels with the location name
+      const overviewLabel = document.querySelector('#wx-loc-gps .wx-loc-label');
+      if (overviewLabel) overviewLabel.textContent = '📍 ' + gpsLocationName;
+      for (let i = 0; i < 4; i++) {
+        const dayLabel = document.querySelector('#wx-d' + i + '-gps .wx-loc-label');
+        if (dayLabel) dayLabel.textContent = '📍 ' + (gpsLocationName.split(',')[0] || 'Here');
+      }
+
+      try {
+        const url = 'https://api.open-meteo.com/v1/forecast'
+          + '?latitude=' + lat + '&longitude=' + lon
+          + '&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum,weather_code,wind_speed_10m_max,wind_gusts_10m_max,uv_index_max,sunrise,sunset'
+          + '&hourly=temperature_2m,apparent_temperature,precipitation_probability,weather_code,relative_humidity_2m,wind_speed_10m,wind_direction_10m'
+          + '&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch'
+          + '&start_date=2026-04-01&end_date=2026-04-04'
+          + '&timezone=America/Chicago';
+        const res = await fetch(url);
+        const data = await res.json();
+        wxCache.gps = data;
+
+        // Update all GPS buttons with per-day data
+        const d = data.daily;
+        for (let i = 0; i < 4; i++) {
+          const hi = Math.round(d.temperature_2m_max[i]);
+          const lo = Math.round(d.temperature_2m_min[i]);
+          const code = d.weather_code[i];
+          const icon = wxIcon(code, true);
+          const precip = d.precipitation_probability_max[i];
+          const el_icon = document.querySelector('#wx-d' + i + '-gps .wx-loc-icon');
+          const el_temp = document.getElementById('wx-d' + i + '-gps-temp');
+          const el_desc = document.getElementById('wx-d' + i + '-gps-desc');
+          if (el_icon) el_icon.textContent = icon;
+          if (el_temp) el_temp.innerHTML = hi + '° <small>/ ' + lo + '°</small>';
+          if (el_desc) el_desc.textContent = wxStripLabel(code, precip);
+          const btn = document.getElementById('wx-d' + i + '-gps');
+          if (btn) btn.setAttribute('onclick', "openDayWx(" + i + ",'gps')");
+        }
+
+        // Update overview GPS button
+        const hi0 = Math.round(d.temperature_2m_max[0]);
+        const lo0 = Math.round(d.temperature_2m_min[0]);
+        const code0 = d.weather_code[0];
+        const precip0 = d.precipitation_probability_max[0];
+        const gpsIcon = document.getElementById('wx-gps-icon');
+        const gpsTemp = document.getElementById('wx-gps-temp');
+        const gpsDesc = document.getElementById('wx-gps-desc');
+        if (gpsIcon) gpsIcon.textContent = wxIcon(code0, true);
+        if (gpsTemp) gpsTemp.innerHTML = hi0 + '° <small>/ ' + lo0 + '°</small>';
+        if (gpsDesc) gpsDesc.textContent = wxStripLabel(code0, precip0);
+
+        // Build overview GPS detail panel
+        const gpsDetail = document.getElementById('wx-loc-detail-gps');
+        if (gpsDetail) gpsDetail.innerHTML = buildLocDetailHTML('gps', gpsLocationName, d, data.hourly);
+
+        // Also update the locName used in per-day detail views
+        LOCATIONS.gps = { name: gpsLocationName, lat: parseFloat(lat), lon: parseFloat(lon) };
+
+        // Now open the detail for the requested context
+        if (context === 'overview') {
+          openLocWeather('gps');
+        } else {
+          const dayIdx = parseInt(context.replace('day',''));
+          openDayWx(dayIdx, 'gps');
+        }
+      } catch (err) {
+        allGpsLabels.forEach(el => el.textContent = '📍 Error');
+        console.error('GPS weather error:', err);
+      }
+    }, (err) => {
+      allGpsLabels.forEach(el => el.textContent = '📍 My Location');
+      alert('Location access denied. Enable location in your browser settings to use this feature.');
+    }, { enableHighAccuracy: false, timeout: 10000 });
   }
 
   // ── WEATHER CODE HELPERS ──
@@ -1135,11 +1360,11 @@
 
   function wxStripLabel(code, precip) {
     const icon = wxIcon(code, true);
-    if (precip >= 60) return icon + ' ' + precip + '% rain';
-    if (precip >= 40) return icon + ' ' + precip + '% storms';
-    if (precip >= 20) return icon + ' ' + precip + '% showers';
-    if (code >= 3) return icon + ' ' + precip + '% clouds';
-    if (code >= 1) return icon + ' Mostly clear';
+    if (precip >= 60) return icon + ' ' + precip + '%';
+    if (precip >= 40) return icon + ' ' + precip + '%';
+    if (precip >= 20) return icon + ' ' + precip + '%';
+    if (code >= 3) return icon + ' Cloudy';
+    if (code >= 1) return icon + ' Clear';
     return icon + ' Clear';
   }
 
@@ -1148,7 +1373,7 @@
     return dirs[Math.round(deg / 22.5) % 16];
   }
 
-  // ── NARRATIVE BUILDER — progressive detail ──
+  // ── NARRATIVE BUILDER ──
   function buildNarrative(daily, hourly, dayIdx, daysOut) {
     const hi = Math.round(daily.temperature_2m_max[dayIdx]);
     const lo = Math.round(daily.temperature_2m_min[dayIdx]);
@@ -1156,257 +1381,222 @@
     const code = daily.weather_code[dayIdx];
     const desc = wxDesc(code);
     const dayName = DAY_LABELS[dayIdx];
-
     let narrative = '';
-
     if (daysOut > 10) {
-      // Far out — basic summary
       narrative = dayName + ' is looking like ' + desc.toLowerCase() + ' with highs near ' + hi + '°F and lows around ' + lo + '°F. ';
-      if (precip >= 50) narrative += 'There\'s a solid chance of rain (' + precip + '%), so plan for wet weather. Rain gear recommended.';
-      else if (precip >= 25) narrative += 'Some chance of rain (' + precip + '%). Keep a rain jacket handy.';
-      else narrative += 'Rain chances are low (' + precip + '%). Should be comfortable for outdoor time at the trailer.';
-      narrative += ' This is an extended forecast — details will sharpen as we get closer.';
+      if (precip >= 50) narrative += 'Solid chance of rain (' + precip + '%). Rain gear recommended.';
+      else if (precip >= 25) narrative += 'Some chance of rain (' + precip + '%).';
+      else narrative += 'Rain chances are low (' + precip + '%).';
+      narrative += ' Extended forecast — details will sharpen closer to the event.';
     } else if (daysOut > 3) {
-      // Medium range — more confident
-      narrative = dayName + ': expect ' + desc.toLowerCase() + ' conditions. High ' + hi + '°F, low ' + lo + '°F. ';
-      if (precip >= 60) narrative += 'Rain is likely (' + precip + '% chance). Expect wet conditions — definitely pack a rain jacket and be prepared for soggy outdoor lunch at the trailer.';
-      else if (precip >= 30) narrative += 'There\'s a reasonable chance of showers (' + precip + '%). Could go either way — have rain gear accessible.';
-      else narrative += 'Looking mostly dry (' + precip + '% rain chance). Good conditions for the outdoor trailer setup.';
-      narrative += ' Humidity will make it feel warmer than the numbers suggest — stay hydrated.';
+      narrative = dayName + ': expect ' + desc.toLowerCase() + '. High ' + hi + '°F, low ' + lo + '°F. ';
+      if (precip >= 60) narrative += 'Rain is likely (' + precip + '%). Pack a rain jacket.';
+      else if (precip >= 30) narrative += 'Reasonable chance of showers (' + precip + '%).';
+      else narrative += 'Looking mostly dry (' + precip + '%).';
+      narrative += ' Humidity will make it feel warmer — stay hydrated.';
     } else {
-      // Close range — confident, detailed
       narrative = dayName + ': ' + desc + '. High of ' + hi + '°F, low of ' + lo + '°F. ';
-      if (precip >= 70) narrative += 'Rain is very likely (' + precip + '%). Plan to keep electronics and gear covered. May need to move lunch inside or under the pop-up.';
-      else if (precip >= 40) narrative += 'Good chance of rain (' + precip + '%), likely in the afternoon. Morning should be fine, but have a backup plan for outdoor lunch.';
-      else if (precip >= 15) narrative += 'Slight chance of a passing shower (' + precip + '%). Shouldn\'t be a major factor, but a light rain jacket doesn\'t hurt.';
-      else narrative += 'Dry and ' + (hi >= 80 ? 'hot' : 'warm') + '. Sunscreen and water are your priorities.';
-
-      // Add wind info from daily data if available
+      if (precip >= 70) narrative += 'Rain very likely (' + precip + '%). Keep electronics covered.';
+      else if (precip >= 40) narrative += 'Good chance of rain (' + precip + '%), likely afternoon.';
+      else if (precip >= 15) narrative += 'Slight chance of a passing shower (' + precip + '%).';
+      else narrative += 'Dry and ' + (hi >= 80 ? 'hot' : 'warm') + '. Sunscreen and water.';
       if (daily.wind_speed_10m_max) {
         const wind = Math.round(daily.wind_speed_10m_max[dayIdx]);
         const gust = daily.wind_gusts_10m_max ? Math.round(daily.wind_gusts_10m_max[dayIdx]) : null;
         narrative += ' Winds up to ' + wind + ' mph';
-        if (gust && gust > wind + 5) narrative += ' with gusts to ' + gust + ' mph';
+        if (gust && gust > wind + 5) narrative += ', gusts to ' + gust;
         narrative += '.';
       }
     }
     return narrative;
   }
 
-  // ── BUILD DETAIL PANEL HTML ──
-  function buildDetailHTML(daily, hourly, dayIdx, daysOut) {
+  // ── BUILD SINGLE DAY DETAIL (per-day tab button tap) ──
+  function buildSingleDayDetailHTML(dayIdx, locName, daily, hourly, daysOut, sectionId) {
     const hi = Math.round(daily.temperature_2m_max[dayIdx]);
     const lo = Math.round(daily.temperature_2m_min[dayIdx]);
     const precip = daily.precipitation_probability_max[dayIdx];
     const code = daily.weather_code[dayIdx];
     const icon = wxIcon(code, true);
-    const desc = wxDesc(code);
-    const narrative = buildNarrative(daily, hourly, dayIdx, daysOut);
 
-    let html = '';
-    html += '<button class="wx-back-btn" onclick="closeWxDetail(' + dayIdx + ')">‹ Back to Schedule</button>';
-    html += '<div class="wx-detail-header">' + icon + ' Weather: ' + DAY_LABELS[dayIdx] + '</div>';
+    let html = '<button class="wx-back-btn" onclick="closeDayWx(' + dayIdx + ')">‹ Back to Schedule</button>';
+    html += '<div class="wx-detail-header">' + icon + ' ' + locName + ' — ' + DAY_LABELS[dayIdx] + '</div>';
 
-    // ── Narrative card ──
     html += '<div class="wx-detail-card"><h4>Forecast</h4>';
-    html += '<p class="wx-desc">' + narrative + '</p>';
-    html += '</div>';
+    html += '<p class="wx-desc">' + buildNarrative(daily, hourly, dayIdx, daysOut) + '</p></div>';
 
-    // ── Stats grid ──
-    html += '<div class="wx-detail-card"><h4>At a Glance</h4>';
-    html += '<div class="wx-stat-grid">';
+    html += '<div class="wx-detail-card"><h4>At a Glance</h4><div class="wx-stat-grid">';
     html += '<div class="wx-stat"><div class="wx-stat-icon">🌡️</div><span class="wx-stat-val">' + hi + '°</span><span class="wx-stat-label">High</span></div>';
     html += '<div class="wx-stat"><div class="wx-stat-icon">🌙</div><span class="wx-stat-val">' + lo + '°</span><span class="wx-stat-label">Low</span></div>';
-    html += '<div class="wx-stat"><div class="wx-stat-icon">🌧️</div><span class="wx-stat-val">' + precip + '%</span><span class="wx-stat-label">Rain Chance</span></div>';
-
-    if (daily.wind_speed_10m_max) {
-      const wind = Math.round(daily.wind_speed_10m_max[dayIdx]);
-      html += '<div class="wx-stat"><div class="wx-stat-icon">💨</div><span class="wx-stat-val">' + wind + ' mph</span><span class="wx-stat-label">Wind</span></div>';
-    }
-    if (daily.uv_index_max) {
-      const uv = daily.uv_index_max[dayIdx].toFixed(1);
-      const uvWarn = daily.uv_index_max[dayIdx] >= 6 ? ' ⚠️' : '';
-      html += '<div class="wx-stat"><div class="wx-stat-icon">☀️</div><span class="wx-stat-val">' + uv + uvWarn + '</span><span class="wx-stat-label">UV Index</span></div>';
-    }
-    if (daily.precipitation_sum) {
-      const rain = daily.precipitation_sum[dayIdx].toFixed(1);
-      html += '<div class="wx-stat"><div class="wx-stat-icon">💧</div><span class="wx-stat-val">' + rain + '"</span><span class="wx-stat-label">Precip</span></div>';
-    }
-    if (daily.sunrise) {
-      const rise = new Date(daily.sunrise[dayIdx]).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-      html += '<div class="wx-stat"><div class="wx-stat-icon">🌅</div><span class="wx-stat-val">' + rise + '</span><span class="wx-stat-label">Sunrise</span></div>';
-    }
-    if (daily.sunset) {
-      const set = new Date(daily.sunset[dayIdx]).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-      html += '<div class="wx-stat"><div class="wx-stat-icon">🌇</div><span class="wx-stat-val">' + set + '</span><span class="wx-stat-label">Sunset</span></div>';
-    }
+    html += '<div class="wx-stat"><div class="wx-stat-icon">🌧️</div><span class="wx-stat-val">' + precip + '%</span><span class="wx-stat-label">Rain</span></div>';
+    if (daily.wind_speed_10m_max) html += '<div class="wx-stat"><div class="wx-stat-icon">💨</div><span class="wx-stat-val">' + Math.round(daily.wind_speed_10m_max[dayIdx]) + ' mph</span><span class="wx-stat-label">Wind</span></div>';
+    if (daily.uv_index_max) html += '<div class="wx-stat"><div class="wx-stat-icon">☀️</div><span class="wx-stat-val">' + daily.uv_index_max[dayIdx].toFixed(1) + '</span><span class="wx-stat-label">UV</span></div>';
+    if (daily.sunrise) html += '<div class="wx-stat"><div class="wx-stat-icon">🌅</div><span class="wx-stat-val">' + new Date(daily.sunrise[dayIdx]).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}) + '</span><span class="wx-stat-label">Sunrise</span></div>';
     html += '</div></div>';
 
-    // ── Hourly strip (only if within ~7 days and we have hourly data) ──
+    // Hourly
     if (hourly && daysOut <= 7) {
       const dateStr = DATES[dayIdx];
-      // Find hourly entries for this date (6 AM to 10 PM for useful hours)
-      const hourlySlots = [];
+      const slots = [];
       for (let h = 0; h < hourly.time.length; h++) {
-        const t = hourly.time[h];
-        if (t.startsWith(dateStr)) {
-          const hour = parseInt(t.split('T')[1].split(':')[0]);
-          if (hour >= 5 && hour <= 22) {
-            hourlySlots.push({
-              hour: hour,
-              time: new Date(t).toLocaleTimeString('en-US', { hour: 'numeric' }),
-              temp: Math.round(hourly.temperature_2m[h]),
-              precip: hourly.precipitation_probability[h],
-              code: hourly.weather_code[h],
-              humidity: hourly.relative_humidity_2m ? hourly.relative_humidity_2m[h] : null,
-              wind: hourly.wind_speed_10m ? Math.round(hourly.wind_speed_10m[h]) : null,
-              windDir: hourly.wind_direction_10m ? windDir(hourly.wind_direction_10m[h]) : null,
-              feelsLike: hourly.apparent_temperature ? Math.round(hourly.apparent_temperature[h]) : null
-            });
-          }
+        if (hourly.time[h].startsWith(dateStr)) {
+          const hr = parseInt(hourly.time[h].split('T')[1]);
+          if (hr >= 5 && hr <= 22) slots.push({
+            hour: hr, time: new Date(hourly.time[h]).toLocaleTimeString('en-US',{hour:'numeric'}),
+            temp: Math.round(hourly.temperature_2m[h]), precip: hourly.precipitation_probability[h],
+            code: hourly.weather_code[h], wind: hourly.wind_speed_10m ? Math.round(hourly.wind_speed_10m[h]) : null,
+            feelsLike: hourly.apparent_temperature ? Math.round(hourly.apparent_temperature[h]) : null
+          });
         }
       }
-
-      if (hourlySlots.length > 0) {
-        html += '<div class="wx-detail-card"><h4>Hour by Hour</h4>';
-        html += '<div class="wx-hourly-scroll">';
-        hourlySlots.forEach(s => {
-          const isDay = s.hour >= 7 && s.hour <= 19;
-          const ic = wxIcon(s.code, isDay);
-          html += '<div class="wx-hour-cell">';
-          html += '<div class="wx-hour-time">' + s.time + '</div>';
-          html += '<div class="wx-hour-icon">' + ic + '</div>';
-          html += '<div class="wx-hour-temp">' + s.temp + '°</div>';
+      if (slots.length) {
+        html += '<div class="wx-detail-card"><h4>Hour by Hour</h4><div class="wx-hourly-scroll">';
+        slots.forEach(s => {
+          html += '<div class="wx-hour-cell"><div class="wx-hour-time">' + s.time + '</div><div class="wx-hour-icon">' + wxIcon(s.code, s.hour>=7&&s.hour<=19) + '</div><div class="wx-hour-temp">' + s.temp + '°</div>';
           if (s.precip > 0) html += '<div class="wx-hour-rain">💧' + s.precip + '%</div>';
-          if (s.wind !== null) html += '<div class="wx-hour-rain" style="color:var(--text-dim);">' + s.wind + 'mph</div>';
+          if (s.wind) html += '<div class="wx-hour-rain" style="color:var(--text-dim);">' + s.wind + 'mph</div>';
           html += '</div>';
         });
         html += '</div>';
-
-        // Feels-like note
-        const peakHeat = hourlySlots.reduce((max, s) => s.feelsLike > max ? s.feelsLike : max, 0);
-        if (peakHeat > hi + 3) {
-          html += '<p class="wx-range-note">🥵 Feels like up to ' + peakHeat + '°F with humidity — stay hydrated!</p>';
-        }
-
+        const peak = slots.reduce((m,s) => s.feelsLike > m ? s.feelsLike : m, 0);
+        if (peak > hi + 3) html += '<p class="wx-range-note">🥵 Feels like up to ' + peak + '°F with humidity</p>';
         html += '</div>';
       }
-    } else if (daysOut > 7) {
-      html += '<div class="wx-detail-card">';
-      html += '<p class="wx-range-note">📅 Hourly breakdown will appear when we\'re within 7 days of the event. Check back as the trip approaches!</p>';
-      html += '</div>';
     }
 
-    // ── What to wear card ──
-    html += '<div class="wx-detail-card"><h4>What to Wear</h4><p class="wx-desc">';
-    if (hi >= 85) html += '🔥 It\'s going to be hot. Lightest clothes you\'ve got — shorts, t-shirt, hat. ';
-    else if (hi >= 75) html += '👕 Warm and humid. T-shirt and shorts weather, but bring a light layer for AC inside the venue. ';
-    else if (hi >= 65) html += '🧥 Mild. T-shirt with a light jacket or hoodie for morning and evening. ';
-    else html += '🧥 Cool for Louisiana. Layers recommended — hoodie or light jacket. ';
-
-    if (precip >= 50) html += '🌧️ Definitely bring a rain jacket — you\'ll need it.';
-    else if (precip >= 25) html += '🌂 Toss a rain jacket in your bag just in case.';
-    else html += '☀️ Rain gear probably not needed, but sunscreen is.';
-    html += '</p></div>';
-
-    // Range confidence indicator
     let confidence;
-    if (daysOut <= 2) confidence = '🟢 Highly accurate — conditions are locked in.';
-    else if (daysOut <= 5) confidence = '🟡 Reliable — may shift slightly in details.';
-    else if (daysOut <= 10) confidence = '🟠 Moderate confidence — general pattern is set, details may change.';
-    else confidence = '🔴 Extended range — treat as a general outlook, not a guarantee.';
-    html += '<p class="wx-range-note" style="margin-top:0.25rem;">' + confidence + '</p>';
+    if (daysOut <= 2) confidence = '🟢 Highly accurate';
+    else if (daysOut <= 5) confidence = '🟡 Reliable';
+    else if (daysOut <= 10) confidence = '🟠 Moderate confidence';
+    else confidence = '🔴 Extended range';
+    html += '<p class="wx-range-note">' + confidence + '</p>';
+    html += '<button class="wx-back-btn" onclick="closeDayWx(' + dayIdx + ')" style="margin-top:1rem;">‹ Back to Schedule</button>';
+    return html;
+  }
 
-    html += '<button class="wx-back-btn" onclick="closeWxDetail(' + dayIdx + ')" style="margin-top:1rem;">‹ Back to Schedule</button>';
+  // ── BUILD LOCATION DETAIL PANEL (overview — all 4 days for one location) ──
+  function buildLocDetailHTML(loc, locName, daily, hourly) {
+    const now = new Date();
+    let html = '<button class="wx-back-btn" onclick="closeLocWeather(\'' + loc + '\')">‹ Back to Overview</button>';
+    html += '<div class="wx-detail-header">📍 ' + locName + ' — April 1–4</div>';
+    for (let i = 0; i < daily.time.length && i < 4; i++) {
+      const hi = Math.round(daily.temperature_2m_max[i]);
+      const lo = Math.round(daily.temperature_2m_min[i]);
+      const precip = daily.precipitation_probability_max[i];
+      const code = daily.weather_code[i];
+      const icon = wxIcon(code, true);
+      const eventDate = new Date(DATES[i] + 'T12:00:00');
+      const daysOut = Math.max(0, Math.round((eventDate - now) / 86400000));
+
+      html += '<div class="wx-detail-card"><h4>' + icon + ' ' + DAY_LABELS[i] + '</h4>';
+      html += '<p class="wx-desc">' + buildNarrative(daily, hourly, i, daysOut) + '</p>';
+      html += '<div class="wx-stat-grid" style="margin-top:0.5rem;">';
+      html += '<div class="wx-stat"><div class="wx-stat-icon">🌡️</div><span class="wx-stat-val">' + hi + '°</span><span class="wx-stat-label">High</span></div>';
+      html += '<div class="wx-stat"><div class="wx-stat-icon">🌙</div><span class="wx-stat-val">' + lo + '°</span><span class="wx-stat-label">Low</span></div>';
+      html += '<div class="wx-stat"><div class="wx-stat-icon">🌧️</div><span class="wx-stat-val">' + precip + '%</span><span class="wx-stat-label">Rain</span></div>';
+      if (daily.wind_speed_10m_max) html += '<div class="wx-stat"><div class="wx-stat-icon">💨</div><span class="wx-stat-val">' + Math.round(daily.wind_speed_10m_max[i]) + ' mph</span><span class="wx-stat-label">Wind</span></div>';
+      html += '</div>';
+
+      if (hourly && daysOut <= 7) {
+        const dateStr = DATES[i]; const slots = [];
+        for (let h = 0; h < hourly.time.length; h++) {
+          if (hourly.time[h].startsWith(dateStr)) {
+            const hr = parseInt(hourly.time[h].split('T')[1]);
+            if (hr >= 5 && hr <= 22) slots.push({ hour:hr, time: new Date(hourly.time[h]).toLocaleTimeString('en-US',{hour:'numeric'}), temp: Math.round(hourly.temperature_2m[h]), precip: hourly.precipitation_probability[h], code: hourly.weather_code[h], wind: hourly.wind_speed_10m ? Math.round(hourly.wind_speed_10m[h]) : null, feelsLike: hourly.apparent_temperature ? Math.round(hourly.apparent_temperature[h]) : null });
+          }
+        }
+        if (slots.length) {
+          html += '<div style="margin-top:0.5rem;"><div class="wx-hourly-scroll">';
+          slots.forEach(s => { html += '<div class="wx-hour-cell"><div class="wx-hour-time">' + s.time + '</div><div class="wx-hour-icon">' + wxIcon(s.code, s.hour>=7&&s.hour<=19) + '</div><div class="wx-hour-temp">' + s.temp + '°</div>'; if (s.precip>0) html+='<div class="wx-hour-rain">💧'+s.precip+'%</div>'; if (s.wind) html+='<div class="wx-hour-rain" style="color:var(--text-dim);">'+s.wind+'mph</div>'; html+='</div>'; });
+          html += '</div>';
+          const peak = slots.reduce((m,s) => s.feelsLike>m?s.feelsLike:m, 0);
+          if (peak > hi+3) html += '<p class="wx-range-note">🥵 Feels like up to '+peak+'°F</p>';
+          html += '</div>';
+        }
+      }
+      html += '</div>';
+    }
+    html += '<button class="wx-back-btn" onclick="closeLocWeather(\'' + loc + '\')" style="margin-top:1rem;">‹ Back to Overview</button>';
     return html;
   }
 
   // ═══════ LIVE WEATHER FETCH ═══════
-  (async function loadWeather() {
+  const LOCATIONS = {
+    mh: { name: 'Mountain Home, AR', lat: 36.3345, lon: -92.3843 },
+    kn: { name: 'Kenner, LA', lat: 30.01, lon: -90.24 }
+  };
+
+  async function fetchLocWx(lat, lon) {
     const url = 'https://api.open-meteo.com/v1/forecast'
-      + '?latitude=30.01&longitude=-90.24'
-      + '&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum,weather_code,wind_speed_10m_max,wind_gusts_10m_max,wind_direction_10m_dominant,uv_index_max,sunrise,sunset'
+      + '?latitude=' + lat + '&longitude=' + lon
+      + '&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum,weather_code,wind_speed_10m_max,wind_gusts_10m_max,uv_index_max,sunrise,sunset'
       + '&hourly=temperature_2m,apparent_temperature,precipitation_probability,weather_code,relative_humidity_2m,wind_speed_10m,wind_direction_10m'
       + '&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch'
       + '&start_date=2026-04-01&end_date=2026-04-04'
       + '&timezone=America/Chicago';
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('API ' + res.status);
+    return await res.json();
+  }
 
+  function updateDayButtons(loc, data) {
+    const d = data.daily;
+    for (let i = 0; i < 4; i++) {
+      const hi = Math.round(d.temperature_2m_max[i]);
+      const lo = Math.round(d.temperature_2m_min[i]);
+      const code = d.weather_code[i];
+      const precip = d.precipitation_probability_max[i];
+      const icon = wxIcon(code, true);
+      const iconEl = document.getElementById('wx-d' + i + '-' + loc + '-icon');
+      const tempEl = document.getElementById('wx-d' + i + '-' + loc + '-temp');
+      const descEl = document.getElementById('wx-d' + i + '-' + loc + '-desc');
+      if (iconEl) iconEl.textContent = icon;
+      if (tempEl) tempEl.innerHTML = hi + '° <small>/ ' + lo + '°</small>';
+      if (descEl) descEl.textContent = wxStripLabel(code, precip);
+    }
+  }
+
+  (async function loadWeather() {
     try {
-      const res = await fetch(url);
-      if (!res.ok) throw new Error('API returned ' + res.status);
-      const data = await res.json();
-      const d = data.daily;
-      const h = data.hourly || null;
-      const now = new Date();
+      const [mhData, knData] = await Promise.all([
+        fetchLocWx(LOCATIONS.mh.lat, LOCATIONS.mh.lon),
+        fetchLocWx(LOCATIONS.kn.lat, LOCATIONS.kn.lon)
+      ]);
+      wxCache.mh = mhData;
+      wxCache.kn = knData;
 
-      for (let i = 0; i < 4; i++) {
-        const eventDate = new Date(DATES[i] + 'T12:00:00');
-        const daysOut = Math.max(0, Math.round((eventDate - now) / 86400000));
-        const hi = Math.round(d.temperature_2m_max[i]);
-        const lo = Math.round(d.temperature_2m_min[i]);
-        const precip = d.precipitation_probability_max[i];
-        const code = d.weather_code[i];
-        const label = wxStripLabel(code, precip);
+      // Update overview buttons (show Wed data as preview)
+      for (const [loc, data] of [['mh', mhData], ['kn', knData]]) {
+        const d = data.daily;
+        const hi = Math.round(d.temperature_2m_max[0]);
+        const lo = Math.round(d.temperature_2m_min[0]);
+        const code = d.weather_code[0];
+        const precip = d.precipitation_probability_max[0];
+        const iconEl = document.getElementById('wx-' + loc + '-icon');
+        const tempEl = document.getElementById('wx-' + loc + '-temp');
+        const descEl = document.getElementById('wx-' + loc + '-desc');
+        if (iconEl) iconEl.textContent = wxIcon(code, true);
+        if (tempEl) tempEl.innerHTML = hi + '° <small>/ ' + lo + '°</small>';
+        if (descEl) descEl.textContent = wxStripLabel(code, precip);
 
-        // Update overview rows
-        const overviewEl = document.getElementById('wx-overview-' + i);
-        if (overviewEl) overviewEl.textContent = hi + '°/' + lo + '° · ' + label.replace(/^[^\s]+ /, '');
+        // Build overview detail panels
+        const detailEl = document.getElementById('wx-loc-detail-' + loc);
+        if (detailEl) detailEl.innerHTML = buildLocDetailHTML(loc, LOCATIONS[loc].name, d, data.hourly);
 
-        // Update per-day weather strips
-        const stripEl = document.getElementById('wx-day-' + i);
-        if (stripEl) {
-          stripEl.innerHTML =
-            '<span class="temp">' + hi + '° <small>/ ' + lo + '°</small></span>' +
-            '<span class="rain">' + label + '</span>';
-        }
-
-        // Build detail panel
-        const detailEl = document.getElementById('wx-detail-' + i);
-        if (detailEl) detailEl.innerHTML = buildDetailHTML(d, h, i, daysOut);
-      }
-
-      // Update overview summary
-      const summaryEl = document.getElementById('wx-summary');
-      if (summaryEl) {
-        const maxHi = Math.round(Math.max(...d.temperature_2m_max));
-        const minLo = Math.round(Math.min(...d.temperature_2m_min));
-        const maxRain = Math.max(...d.precipitation_probability_max);
-        let txt = 'Highs around ' + maxHi + '°F, lows around ' + minLo + '°F. ';
-        if (maxRain >= 60) txt += 'Significant rain chances — pack a rain jacket and keep gear covered at the trailer.';
-        else if (maxRain >= 30) txt += 'Some rain possible — bring a rain jacket just in case.';
-        else txt += 'Looking mostly dry — sunscreen and water are your priorities.';
-        summaryEl.textContent = txt;
+        // Update per-day buttons
+        updateDayButtons(loc, data);
       }
 
       const updEl = document.getElementById('wx-updated');
-      if (updEl) updEl.textContent = '🔄 Live forecast · Updated ' + new Date().toLocaleString('en-US', {
-        month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZoneName: 'short'
-      }) + ' · Tap any day\'s weather bar for full details';
+      if (updEl) updEl.textContent = '🔄 Live · ' + new Date().toLocaleString('en-US', {
+        month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit'
+      });
 
     } catch (err) {
-      // Forecast not available yet — build basic detail panels from static fallback data
-      const fallback = [
-        { hi: 79, lo: 68, precip: 40, code: 95 },
-        { hi: 79, lo: 68, precip: 40, code: 95 },
-        { hi: 79, lo: 67, precip: 60, code: 61 },
-        { hi: 78, lo: 66, precip: 60, code: 61 }
-      ];
-      const now = new Date();
-      for (let i = 0; i < 4; i++) {
-        const eventDate = new Date(DATES[i] + 'T12:00:00');
-        const daysOut = Math.max(0, Math.round((eventDate - now) / 86400000));
-        const fb = fallback[i];
-        const fakeDaily = {
-          temperature_2m_max: fallback.map(f => f.hi),
-          temperature_2m_min: fallback.map(f => f.lo),
-          precipitation_probability_max: fallback.map(f => f.precip),
-          weather_code: fallback.map(f => f.code)
-        };
-        const detailEl = document.getElementById('wx-detail-' + i);
-        if (detailEl) detailEl.innerHTML = buildDetailHTML(fakeDaily, null, i, Math.max(daysOut, 11));
-      }
+      document.getElementById('wx-mh-desc').textContent = 'Unavailable';
+      document.getElementById('wx-kn-desc').textContent = 'Unavailable';
       const updEl = document.getElementById('wx-updated');
-      if (updEl) updEl.textContent = '📅 Live forecast updates begin ~2 weeks before the trip. Tap any day\'s weather bar for current outlook.';
+      if (updEl) updEl.textContent = '📅 Forecast unavailable — check back later.';
       console.log('Weather fetch info:', err.message);
     }
   })();
