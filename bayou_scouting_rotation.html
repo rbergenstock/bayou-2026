@@ -10,7 +10,7 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--text);line-height:1.4;font-size:14px}
 
-.page{max-width:900px;margin:0 auto;padding:1rem}
+.page{max-width:900px;margin:0 auto;padding:2.5rem 1rem 1rem}
 
 .header{background:var(--blue);padding:1.25rem;border-bottom:3px solid var(--gold);text-align:center;border-radius:8px 8px 0 0;margin-bottom:1rem}
 .header h1{font-family:'Oswald',sans-serif;font-weight:700;font-size:1.6rem;color:#fff;text-transform:uppercase;letter-spacing:0.04em;transform:skewX(-4deg)}
@@ -70,7 +70,32 @@ tr:nth-child(even){background:rgba(255,255,255,0.02)}
 
 .page-break{page-break-before:always}
 
+.back-to-schedule{
+  position:fixed;
+  top:10px;
+  left:10px;
+  z-index:1000;
+  display:inline-flex;
+  align-items:center;
+  gap:0.25rem;
+  font-family:'Oswald',sans-serif;
+  font-size:0.75rem;
+  font-weight:600;
+  letter-spacing:0.04em;
+  text-transform:uppercase;
+  text-decoration:none;
+  color:var(--gold);
+  background:var(--blue);
+  border:1px solid rgba(201,168,76,0.4);
+  border-radius:6px;
+  padding:0.4rem 0.7rem;
+  box-shadow:0 2px 8px rgba(0,0,0,0.5);
+  transition:background 0.2s;
+}
+.back-to-schedule:active{background:rgba(201,168,76,0.15)}
+
 @media print{
+  .back-to-schedule{display:none}
   body{background:#fff;color:#000;font-size:11px}
   .page{padding:0.5rem;max-width:100%}
   .header{background:var(--blue)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -83,6 +108,20 @@ tr:nth-child(even){background:rgba(255,255,255,0.02)}
 </style>
 </head>
 <body>
+
+<a id="backBtn" href="index.html" class="back-to-schedule">‹ Schedule</a>
+<script>
+  // Read ?from= parameter and set the back button to return to the correct tab
+  (function() {
+    const params = new URLSearchParams(window.location.search);
+    const from = params.get('from');
+    const btn = document.getElementById('backBtn');
+    if (from && from !== 'overview') {
+      btn.href = 'index.html#' + from;
+    }
+  })();
+</script>
+
 <div class="page">
 
 <div class="header">
