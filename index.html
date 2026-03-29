@@ -670,7 +670,7 @@
     <p style="font-size:0.85rem;color:var(--text-dim);">Charter bus via <strong style="color:#fff;">Village Travel</strong>. Driver exchange at the Love's Truck Stop in West Memphis on the way down. Return trip is overnight Saturday–Sunday.</p>
   </div>
 
-  <a href="bayou_scouting_rotation.html" class="address-link" style="margin-top:0.5rem;">
+  <a href="bayou_scouting_rotation.html?from=overview" class="address-link" style="margin-top:0.5rem;">
     <span class="pin">🎯</span>
     <div><span class="addr-name">Scouting Guide & Rotation Schedule</span><span class="addr-line">Tips, app instructions, pit assignments, and your shift schedule for Thu–Sat</span></div>
   </a>
@@ -788,7 +788,7 @@
     <div class="event competition">
       <div class="event-time">8:30 AM</div>
       <div class="event-title">Pits, Machine Shop, Registration & Inspection Open</div>
-      <div class="event-detail"><a href="bayou_scouting_rotation.html#thursday" target="_blank">🎯 View Pit Scouting Assignments & Practice Match Rotation →</a></div>
+      <div class="event-detail"><a href="bayou_scouting_rotation.html?from=day2#thursday">🎯 View Pit Scouting Assignments & Practice Match Rotation →</a></div>
     </div>
     <div class="event competition">
       <div class="event-time">9:00 – 11:00 AM</div>
@@ -859,7 +859,7 @@
     <div class="event competition">
       <div class="event-time">8:50 AM – 12:00 PM</div>
       <div class="event-title">Qualification Matches</div>
-      <div class="event-detail"><a href="bayou_scouting_rotation.html#friday" target="_blank">🎯 View Friday Scouting Rotation →</a></div>
+      <div class="event-detail"><a href="bayou_scouting_rotation.html?from=day3#friday">🎯 View Friday Scouting Rotation →</a></div>
     </div>
     <div class="event meal">
       <div class="event-time">12:00 – 1:00 PM</div>
@@ -935,7 +935,7 @@
     <div class="event competition">
       <div class="event-time">8:50 AM – 12:00 PM</div>
       <div class="event-title">Qualification Matches</div>
-      <div class="event-detail"><a href="bayou_scouting_rotation.html#saturday" target="_blank">🎯 View Saturday Scouting Rotation →</a></div>
+      <div class="event-detail"><a href="bayou_scouting_rotation.html?from=day4#saturday">🎯 View Saturday Scouting Rotation →</a></div>
     </div>
     <div class="event competition">
       <div class="event-time">~12:00 – 12:30 PM</div>
@@ -1153,6 +1153,19 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   });
+
+  // ── Open the right tab if returning from scouting page via hash ──
+  (function checkHash() {
+    const hash = window.location.hash.replace('#','');
+    if (hash && document.getElementById(hash)) {
+      tabs.forEach(t => t.classList.remove('active'));
+      sections.forEach(s => s.classList.remove('active'));
+      document.getElementById(hash).classList.add('active');
+      const matchingTab = document.querySelector('[data-tab="' + hash + '"]');
+      if (matchingTab) matchingTab.classList.add('active');
+      window.location.hash = '';
+    }
+  })();
 
   // ── LOCATION WEATHER (Overview tab buttons) ──
   function openLocWeather(loc) {
