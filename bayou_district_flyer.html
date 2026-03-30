@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bomb Squad at Bayou Regional 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Source Sans 3',sans-serif;background:#0a0a18;color:#e0e0e0;line-height:1.6}
+.flyer{max-width:640px;margin:0 auto;overflow:hidden}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#1a1a3e 0%,#2A2957 40%,#3d3d75 100%);padding:2.5rem 2rem 2rem;text-align:center;position:relative;overflow:hidden;border-bottom:4px solid #C9A84C}
+.hero::before{content:'';position:absolute;top:-50%;right:-30%;width:80%;height:200%;background:radial-gradient(ellipse,rgba(201,168,76,0.08),transparent 70%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:60px;background:linear-gradient(transparent,rgba(10,10,24,0.4));pointer-events:none}
+.hero-tag{display:inline-block;background:#C9A84C;color:#1a1a3e;font-family:'Oswald',sans-serif;font-weight:700;font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;padding:0.25rem 0.85rem;border-radius:2px;margin-bottom:1rem}
+.hero h1{font-family:'Oswald',sans-serif;font-weight:800;font-size:2.8rem;color:#fff;text-transform:uppercase;letter-spacing:0.03em;line-height:1.05;transform:skewX(-4deg);margin-bottom:0.25rem}
+.hero h1 span{color:#C9A84C}
+.hero h2{font-family:'Oswald',sans-serif;font-weight:400;font-size:1.3rem;color:#C9A84C;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.5rem}
+.hero .dates{font-size:1rem;color:rgba(255,255,255,0.8);font-weight:500}
+.hero .venue{font-size:0.85rem;color:rgba(255,255,255,0.5);margin-top:0.2rem}
+
+/* STAT BAR */
+.stat-bar{display:flex;background:#12122a;border-bottom:1px solid rgba(201,168,76,0.2)}
+.stat{flex:1;text-align:center;padding:1rem 0.5rem;border-right:1px solid rgba(255,255,255,0.05)}
+.stat:last-child{border-right:none}
+.stat-num{font-family:'Oswald',sans-serif;font-weight:800;font-size:1.8rem;color:#C9A84C;line-height:1}
+.stat-label{font-size:0.65rem;color:#888;text-transform:uppercase;letter-spacing:0.1em;margin-top:0.2rem;font-family:'Oswald',sans-serif}
+
+/* CONTENT */
+.content{padding:1.75rem 2rem}
+.content p{font-size:0.95rem;color:#ccc;line-height:1.7;margin-bottom:1rem}
+.content p strong{color:#fff}
+.content p .gold{color:#C9A84C;font-weight:700}
+
+/* COUNTRIES */
+.intl-section{padding:0 2rem 1.5rem}
+.intl-title{font-family:'Oswald',sans-serif;font-weight:700;font-size:1rem;color:#C9A84C;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.75rem;text-align:center}
+.flags{display:flex;justify-content:center;gap:1.5rem;margin-bottom:1rem}
+.flag-group{text-align:center}
+.flag-emoji{font-size:2rem;display:block;margin-bottom:0.25rem}
+.flag-label{font-family:'Oswald',sans-serif;font-size:0.7rem;color:#888;text-transform:uppercase;letter-spacing:0.08em}
+.flag-count{font-family:'Oswald',sans-serif;font-size:1.1rem;color:#fff;font-weight:700}
+
+.states{display:flex;flex-wrap:wrap;justify-content:center;gap:0.4rem;margin-top:0.5rem}
+.state-tag{font-family:'Oswald',sans-serif;font-size:0.65rem;font-weight:600;letter-spacing:0.04em;padding:0.2rem 0.55rem;border-radius:10px;background:rgba(201,168,76,0.1);color:#C9A84C;border:1px solid rgba(201,168,76,0.2)}
+
+/* CTA */
+.cta{text-align:center;padding:1.5rem 2rem;background:linear-gradient(180deg,transparent,rgba(201,168,76,0.05))}
+.cta-text{font-family:'Oswald',sans-serif;font-size:1.1rem;color:#fff;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.5rem}
+.cta-btn{display:inline-block;background:#C9A84C;color:#1a1a3e;font-family:'Oswald',sans-serif;font-weight:700;font-size:1rem;text-transform:uppercase;letter-spacing:0.1em;padding:0.75rem 2rem;border-radius:6px;text-decoration:none;transition:background 0.2s}
+.cta-btn:hover{background:#e0c775}
+.cta-sub{font-size:0.78rem;color:#888;margin-top:0.6rem}
+
+/* SCHEDULE PREVIEW */
+.schedule{padding:1rem 2rem 1.5rem}
+.schedule-title{font-family:'Oswald',sans-serif;font-weight:700;font-size:0.9rem;color:#C9A84C;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.6rem;text-align:center}
+.sched-row{display:flex;gap:0.75rem;margin-bottom:0.4rem;font-size:0.82rem;align-items:baseline}
+.sched-day{font-family:'Oswald',sans-serif;font-weight:700;color:#C9A84C;min-width:55px;font-size:0.75rem;text-transform:uppercase}
+.sched-desc{color:#aaa;flex:1}
+.sched-desc strong{color:#fff}
+
+/* FOOTER */
+.footer{text-align:center;padding:1.5rem 2rem;border-top:1px solid rgba(255,255,255,0.05);background:#0a0a14}
+.footer-logo{font-family:'Oswald',sans-serif;font-weight:700;font-size:1rem;color:#C9A84C;letter-spacing:0.06em;transform:skewX(-8deg);display:inline-block;margin-bottom:0.35rem}
+.footer-logo span{color:#fff}
+.footer p{font-size:0.7rem;color:#555}
+.footer .tagline{color:#C9A84C;font-family:'Oswald',sans-serif;font-size:0.75rem;letter-spacing:0.08em;margin-top:0.35rem}
+
+@media(max-width:480px){
+  .hero h1{font-size:2rem}
+  .stat-num{font-size:1.4rem}
+  .content,.intl-section,.schedule,.cta{padding-left:1.25rem;padding-right:1.25rem}
+  .flags{gap:1rem}
+}
+@media print{
+  body{background:#fff;color:#000}
+  .hero{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .stat-bar{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+
+<div class="flyer">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-tag">Mountain Home High School · FRC Team 16</div>
+    <h2>Bomb Squad Competes at the</h2>
+    <h1>2026 <span>Bayou</span> Regional</h1>
+    <div class="dates">April 1 – 4, 2026</div>
+    <div class="venue">Pontchartrain Convention Center · Kenner, Louisiana</div>
+  </div>
+
+  <!-- STATS BAR -->
+  <div class="stat-bar">
+    <div class="stat"><div class="stat-num">56</div><div class="stat-label">Teams</div></div>
+    <div class="stat"><div class="stat-num">2</div><div class="stat-label">Countries</div></div>
+    <div class="stat"><div class="stat-num">7</div><div class="stat-label">US States</div></div>
+    <div class="stat"><div class="stat-num">4</div><div class="stat-label">Mexican States</div></div>
+  </div>
+
+  <!-- BODY -->
+  <div class="content">
+    <p>This weekend, <strong>13 Mountain Home students</strong> will represent our district on an international stage as <span class="gold">Bomb Squad, FRC Team 16</span> competes at the <strong>FIRST Robotics Competition Bayou Regional</strong> in Kenner, Louisiana — just outside New Orleans.</p>
+    <p>Our students will go head-to-head with <strong>55 other teams from across the United States and Mexico</strong>, competing in a high-energy, alliance-based robotics tournament. They've spent months designing, building, and programming their competition robot, and now it's time to put it on the field.</p>
+    <p>Bomb Squad is one of only <strong>two Arkansas teams</strong> at this regional — alongside our partner team, <strong>Breakaway (Team 3937)</strong> from Mountain Home. Two teams, one town, representing the Natural State in Louisiana.</p>
+  </div>
+
+  <!-- INTERNATIONAL FIELD -->
+  <div class="intl-section">
+    <div class="intl-title">An International Field of Competition</div>
+    <div class="flags">
+      <div class="flag-group">
+        <span class="flag-emoji">🇺🇸</span>
+        <div class="flag-count">52</div>
+        <div class="flag-label">US Teams</div>
+      </div>
+      <div class="flag-group">
+        <span class="flag-emoji">🇲🇽</span>
+        <div class="flag-count">4</div>
+        <div class="flag-label">Mexico Teams</div>
+      </div>
+    </div>
+    <div class="states">
+      <span class="state-tag">Louisiana (35)</span>
+      <span class="state-tag">Mississippi (7)</span>
+      <span class="state-tag">Florida (4)</span>
+      <span class="state-tag">Arkansas (2)</span>
+      <span class="state-tag">Alabama (2)</span>
+      <span class="state-tag">Missouri (1)</span>
+      <span class="state-tag">Tennessee (1)</span>
+      <span class="state-tag">Nuevo León</span>
+      <span class="state-tag">San Luis Potosí</span>
+      <span class="state-tag">Puebla</span>
+      <span class="state-tag">Coahuila</span>
+    </div>
+  </div>
+
+  <!-- SCHEDULE -->
+  <div class="schedule">
+    <div class="schedule-title">Competition Schedule</div>
+    <div class="sched-row"><span class="sched-day">Wed 4/1</span><span class="sched-desc">Travel day — depart Mountain Home at 3:00 AM</span></div>
+    <div class="sched-row"><span class="sched-day">Thu 4/2</span><span class="sched-desc">Pit setup, robot inspection, <strong>practice matches</strong></span></div>
+    <div class="sched-row"><span class="sched-day">Fri 4/3</span><span class="sched-desc"><strong>Qualification matches all day</strong> — streamed live!</span></div>
+    <div class="sched-row"><span class="sched-day">Sat 4/4</span><span class="sched-desc"><strong>Final qualifications, alliance selection, playoffs & awards</strong></span></div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta">
+    <div class="cta-text">📺 Watch Our Matches Live</div>
+    <a href="https://frcteam16.org" class="cta-btn">frcteam16.org</a>
+    <div class="cta-sub">Match schedule, live scores, and match replay videos<br>available Friday and Saturday starting at 8:50 AM CT</div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-logo">BOMB <span>SQUAD</span></div>
+    <p>FRC Team 16 · Mountain Home High School · Mountain Home, Arkansas</p>
+    <div class="tagline">Steel Sharpens Steel.</div>
+  </div>
+
+</div>
+</body>
+</html>
